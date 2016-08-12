@@ -43,7 +43,7 @@ public final class ConstraintValidators {
      */
     public static Collection<ConstraintValidator<?>> findValidators(final Annotation... annotations) {
         final Collection<ConstraintValidator<?>> validators =
-            new ArrayList<>();
+            new ArrayList<ConstraintValidator<?>>();
         for (final Annotation annotation : annotations) {
             final Class<? extends Annotation> type = annotation.annotationType();
             if (type.isAnnotationPresent(Constraint.class)) {

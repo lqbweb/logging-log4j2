@@ -90,7 +90,7 @@ public class TcpSocketServer<T extends InputStream> extends AbstractSocketServer
         }
     }
 
-    private final ConcurrentMap<Long, SocketHandler> handlers = new ConcurrentHashMap<>();
+    private final ConcurrentMap<Long, SocketHandler> handlers = new ConcurrentHashMap<Long, SocketHandler>();
 
     private final ServerSocket serverSocket;
 
@@ -137,7 +137,7 @@ public class TcpSocketServer<T extends InputStream> extends AbstractSocketServer
      */
     public static TcpSocketServer<InputStream> createJsonSocketServer(final int port) throws IOException {
         LOGGER.entry("createJsonSocketServer", port);
-        final TcpSocketServer<InputStream> socketServer = new TcpSocketServer<>(port, new JsonInputStreamLogEventBridge());
+        final TcpSocketServer<InputStream> socketServer = new TcpSocketServer<InputStream>(port, new JsonInputStreamLogEventBridge());
         return LOGGER.exit(socketServer);
     }
 
@@ -152,7 +152,7 @@ public class TcpSocketServer<T extends InputStream> extends AbstractSocketServer
      */
     public static TcpSocketServer<ObjectInputStream> createSerializedSocketServer(final int port) throws IOException {
         LOGGER.entry(port);
-        final TcpSocketServer<ObjectInputStream> socketServer = new TcpSocketServer<>(port, new ObjectInputStreamLogEventBridge());
+        final TcpSocketServer<ObjectInputStream> socketServer = new TcpSocketServer<ObjectInputStream>(port, new ObjectInputStreamLogEventBridge());
         return LOGGER.exit(socketServer);
     }
 
@@ -167,7 +167,7 @@ public class TcpSocketServer<T extends InputStream> extends AbstractSocketServer
      */
     public static TcpSocketServer<InputStream> createXmlSocketServer(final int port) throws IOException {
         LOGGER.entry(port);
-        final TcpSocketServer<InputStream> socketServer = new TcpSocketServer<>(port, new XmlInputStreamLogEventBridge());
+        final TcpSocketServer<InputStream> socketServer = new TcpSocketServer<InputStream>(port, new XmlInputStreamLogEventBridge());
         return LOGGER.exit(socketServer);
     }
 

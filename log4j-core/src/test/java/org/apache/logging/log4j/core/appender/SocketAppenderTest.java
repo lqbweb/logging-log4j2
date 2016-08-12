@@ -59,7 +59,7 @@ public class SocketAppenderTest {
     private static final int DYN_PORT = AvailablePortFinder.getNextAvailable();
     private static final int ERROR_PORT = AvailablePortFinder.getNextAvailable();
 
-    private static BlockingQueue<LogEvent> list = new ArrayBlockingQueue<>(10);
+    private static BlockingQueue<LogEvent> list = new ArrayBlockingQueue<LogEvent>(10);
 
     private static TCPSocketServer tcpServer;
     private static UDPSocketServer udpServer;

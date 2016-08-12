@@ -79,7 +79,7 @@ public final class CompositeFilter extends AbstractLifeCycle implements Iterable
         // This is not a great implementation but simpler than copying Apache Commons
         // Lang ArrayUtils.removeElement() and associated bits (MutableInt),
         // which is OK since removing a filter should not be on the critical path.
-        final List<Filter> filterList = new ArrayList<>(Arrays.asList(this.filters));
+        final List<Filter> filterList = new ArrayList<Filter>(Arrays.asList(this.filters));
         if (filter instanceof CompositeFilter) {
             for (final Filter currentFilter : ((CompositeFilter) filter).filters) {
                 filterList.remove(currentFilter);
@@ -92,7 +92,7 @@ public final class CompositeFilter extends AbstractLifeCycle implements Iterable
 
     @Override
     public Iterator<Filter> iterator() {
-        return new ObjectArrayIterator<>(filters);
+        return new ObjectArrayIterator<Filter>(filters);
     }
 
     /**

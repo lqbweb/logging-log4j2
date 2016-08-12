@@ -32,9 +32,9 @@ import java.util.Objects;
 public class StringBuilderEncoder implements Encoder<StringBuilder> {
 
     private static final int DEFAULT_BYTE_BUFFER_SIZE = 8 * 1024;
-    private final ThreadLocal<CharBuffer> charBufferThreadLocal = new ThreadLocal<>();
-    private final ThreadLocal<ByteBuffer> byteBufferThreadLocal = new ThreadLocal<>();
-    private final ThreadLocal<CharsetEncoder> charsetEncoderThreadLocal = new ThreadLocal<>();
+    private final ThreadLocal<CharBuffer> charBufferThreadLocal = new ThreadLocal<CharBuffer>();
+    private final ThreadLocal<ByteBuffer> byteBufferThreadLocal = new ThreadLocal<ByteBuffer>();
+    private final ThreadLocal<CharsetEncoder> charsetEncoderThreadLocal = new ThreadLocal<CharsetEncoder>();
     private final Charset charset;
     private final int charBufferSize;
     private final int byteBufferSize;

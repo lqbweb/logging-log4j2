@@ -50,10 +50,12 @@ public class XmlCompactFileAppenderTest {
         CoreLoggerContexts.stopLoggerContext(false, file); // stop async thread
 
         String line1;
-        try (final BufferedReader reader = new BufferedReader(new FileReader(file))) {
+        final BufferedReader reader = new BufferedReader(new FileReader(file));
+        try {
             line1 = reader.readLine();
         } finally {
             file.delete();
+            reader.close();
         }
         assertNotNull("line1", line1);
         final String msg1 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";

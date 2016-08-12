@@ -138,7 +138,7 @@ public class AppenderControlArraySetTest {
         for (final AppenderControl ctl : controls) {
             set.add(ctl);
         }
-        final Map<String, Appender> expected = new HashMap<>();
+        final Map<String, Appender> expected = new HashMap<String, Appender>();
         for (final AppenderControl ctl : controls) {
             expected.put(ctl.getAppenderName(), ctl.getAppender());
         }

@@ -68,7 +68,7 @@ public class InterpolatorTest {
 
     @Test
     public void testLookup() {
-        final Map<String, String> map = new HashMap<>();
+        final Map<String, String> map = new HashMap<String, String>();
         map.put(TESTKEY, TESTVAL);
         final StrLookup lookup = new Interpolator(new MapLookup(map));
         ThreadContext.put(TESTKEY, TESTVAL);

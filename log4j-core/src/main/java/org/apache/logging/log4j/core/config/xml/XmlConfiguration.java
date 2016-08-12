@@ -70,7 +70,7 @@ public class XmlConfiguration extends AbstractConfiguration implements Reconfigu
     private static final String[] VERBOSE_CLASSES = new String[] {ResolverUtil.class.getName()};
     private static final String LOG4J_XSD = "Log4j-config.xsd";
 
-    private final List<Status> status = new ArrayList<>();
+    private final List<Status> status = new ArrayList<Status>();
     private Element rootElement;
     private boolean strict;
     private String schemaResource;
@@ -143,7 +143,7 @@ public class XmlConfiguration extends AbstractConfiguration implements Reconfigu
                 }
             }
             statusConfig.initialize();
-        } catch (final SAXException | IOException | ParserConfigurationException e) {
+        } catch (final Exception e) {
             LOGGER.error("Error parsing " + configSource.getLocation(), e);
         }
         if (strict && schemaResource != null && buffer != null) {
@@ -208,7 +208,10 @@ public class XmlConfiguration extends AbstractConfiguration implements Reconfigu
             factory.setXIncludeAware(true);
         } catch (final UnsupportedOperationException e) {
             LOGGER.warn("The DocumentBuilderFactory [{}] does not support XInclude: {}", factory, e);
-        } catch (@SuppressWarnings("ErrorNotRethrown") final AbstractMethodError | NoSuchMethodError err) {
+        } catch (@SuppressWarnings("ErrorNotRethrown") final AbstractMethodError err) {
+            LOGGER.warn("The DocumentBuilderFactory [{}] is out of date and does not support XInclude: {}", factory,
+                    err);
+        } catch (@SuppressWarnings("ErrorNotRethrown") final NoSuchMethodError err) {
             LOGGER.warn("The DocumentBuilderFactory [{}] is out of date and does not support XInclude: {}", factory,
                     err);
         }

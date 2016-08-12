@@ -41,7 +41,7 @@ public class RollingRandomAccessFileManager extends RollingFileManager {
     private static final RollingRandomAccessFileManagerFactory FACTORY = new RollingRandomAccessFileManagerFactory();
 
     private RandomAccessFile randomAccessFile;
-    private final ThreadLocal<Boolean> isEndOfBatch = new ThreadLocal<>();
+    private final ThreadLocal<Boolean> isEndOfBatch = new ThreadLocal<Boolean>();
 
     public RollingRandomAccessFileManager(final RandomAccessFile raf, final String fileName, final String pattern,
             final OutputStream os, final boolean append, final boolean immediateFlush, final int bufferSize,

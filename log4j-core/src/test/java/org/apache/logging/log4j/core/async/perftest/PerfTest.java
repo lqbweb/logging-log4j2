@@ -162,9 +162,12 @@ public class PerfTest {
         println(result);
 
         if (file != null) {
-            try (final FileWriter writer = new FileWriter(file, true)) {
+            final FileWriter writer = new FileWriter(file, true);
+            try {
                 writer.write(result);
                 writer.write(System.lineSeparator());
+            } finally {
+                writer.close();
             }
         }
     }

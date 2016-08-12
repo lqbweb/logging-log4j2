@@ -133,8 +133,8 @@ public class ResponseTimeTest {
 
         // Warmup: run as many iterations of 50,000 calls to logger.log as we can in 1 minute
         final long WARMUP_DURATION_MILLIS = TimeUnit.MINUTES.toMillis(1);
-        final List<Histogram> warmupServiceTmHistograms = new ArrayList<>(threadCount);
-        final List<Histogram> warmupResponseTmHistograms = new ArrayList<>(threadCount);
+        final List<Histogram> warmupServiceTmHistograms = new ArrayList<Histogram>(threadCount);
+        final List<Histogram> warmupResponseTmHistograms = new ArrayList<Histogram>(threadCount);
 
         final int WARMUP_COUNT = 50000 / threadCount;
         runLatencyTest(logger, WARMUP_DURATION_MILLIS, WARMUP_COUNT, loadMessagesPerSec, idleStrategy,
@@ -147,8 +147,8 @@ public class ResponseTimeTest {
         System.out.println("-----------------Starting measured run. load=" + loadMessagesPerSec);
 
         final long start = System.currentTimeMillis();
-        final List<Histogram> serviceTmHistograms = new ArrayList<>(threadCount);
-        final List<Histogram> responseTmHistograms = new ArrayList<>(threadCount);
+        final List<Histogram> serviceTmHistograms = new ArrayList<Histogram>(threadCount);
+        final List<Histogram> responseTmHistograms = new ArrayList<Histogram>(threadCount);
         PrintingAsyncQueueFullPolicy.ringbufferFull.set(0);
 
         // Actual test: run as many iterations of 1,000,000 calls to logger.log as we can in 4 minutes.
@@ -174,8 +174,11 @@ public class ResponseTimeTest {
 
     private static void writeToFile(final String suffix, final Histogram hist, final int thousandMsgPerSec,
             final double scale) throws IOException {
-        try (PrintStream pout = new PrintStream(new FileOutputStream(thousandMsgPerSec + "k" + suffix))) {
+        PrintStream pout = new PrintStream(new FileOutputStream(thousandMsgPerSec + "k" + suffix));
+        try {
             hist.outputPercentileDistribution(pout, scale);
+        } finally {
+            pout.close();
         }
     }
 

@@ -74,9 +74,9 @@ public final class BurstFilter extends AbstractFilter {
 
     private final long burstInterval;
 
-    private final DelayQueue<LogDelay> history = new DelayQueue<>();
+    private final DelayQueue<LogDelay> history = new DelayQueue<LogDelay>();
 
-    private final Queue<LogDelay> available = new ConcurrentLinkedQueue<>();
+    private final Queue<LogDelay> available = new ConcurrentLinkedQueue<LogDelay>();
 
     static LogDelay createLogDelay(final long expireTime) {
         return new LogDelay(expireTime);

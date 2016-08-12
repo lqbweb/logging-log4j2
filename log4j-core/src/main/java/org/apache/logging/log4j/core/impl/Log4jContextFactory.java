@@ -258,7 +258,7 @@ public class Log4jContextFactory implements LoggerContextFactory, ShutdownCallba
         if (ctx.getState() == LifeCycle.State.INITIALIZED) {
             if ((configLocations != null && !configLocations.isEmpty())) {
                 ContextAnchor.THREAD_CONTEXT.set(ctx);
-                final List<AbstractConfiguration> configurations = new ArrayList<>(configLocations.size());
+                final List<AbstractConfiguration> configurations = new ArrayList<AbstractConfiguration>(configLocations.size());
                 for (final URI configLocation : configLocations) {
                     final Configuration currentReadConfiguration = ConfigurationFactory.getInstance()
                             .getConfiguration(name, configLocation);

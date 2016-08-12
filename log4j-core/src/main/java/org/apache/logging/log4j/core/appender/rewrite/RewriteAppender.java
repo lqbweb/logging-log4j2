@@ -40,7 +40,7 @@ import org.apache.logging.log4j.core.util.Booleans;
 public final class RewriteAppender extends AbstractAppender {
 
     private final Configuration config;
-    private final ConcurrentMap<String, AppenderControl> appenders = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, AppenderControl> appenders = new ConcurrentHashMap<String, AppenderControl>();
     private final RewritePolicy rewritePolicy;
     private final AppenderRef[] appenderRefs;
 

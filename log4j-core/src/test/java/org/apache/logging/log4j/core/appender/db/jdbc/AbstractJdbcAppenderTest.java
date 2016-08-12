@@ -58,8 +58,11 @@ public abstract class AbstractJdbcAppenderTest {
 
     protected void setUp(final String tableName, final String configFileName) throws SQLException {
         this.connection = this.newConnection();
-        try (final Statement statement = this.connection.createStatement()) {
+        final Statement statement = this.connection.createStatement();
+        try {
             statement.executeUpdate(this.toCreateTableSqlString(tableName));
+        } finally {
+            statement.close();
         }
         System.setProperty(ConfigurationFactory.CONFIGURATION_FILE_PROPERTY,
                 "org/apache/logging/log4j/core/appender/db/jdbc/" + configFileName);

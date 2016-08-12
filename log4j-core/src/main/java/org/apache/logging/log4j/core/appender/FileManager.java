@@ -153,7 +153,7 @@ public class FileManager extends OutputStreamManager {
      */
     @Override
     public Map<String, String> getContentFormat() {
-        final Map<String, String> result = new HashMap<>(super.getContentFormat());
+        final Map<String, String> result = new HashMap<String,String>(super.getContentFormat());
         result.put("fileURI", advertiseURI);
         return result;
     }

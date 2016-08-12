@@ -373,7 +373,7 @@ public class RingBufferLogEvent implements LogEvent, ReusableMessage, CharSequen
         }
 
         final Map<String, String> map = contextMap == null ? new HashMap<String, String>()
-                : new HashMap<>(contextMap);
+                : new HashMap<String, String>(contextMap);
 
         for (final Map.Entry<Property, Boolean> entry : properties.entrySet()) {
             final Property prop = entry.getKey();

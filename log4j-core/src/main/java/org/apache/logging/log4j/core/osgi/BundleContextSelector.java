@@ -18,7 +18,6 @@ package org.apache.logging.log4j.core.osgi;
 
 import java.lang.ref.WeakReference;
 import java.net.URI;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.apache.logging.log4j.core.LoggerContext;
@@ -60,20 +59,26 @@ public class BundleContextSelector extends ClassLoaderContextSelector {
         return lc == null ? getDefault() : lc;
     }
 
+    private static <T> T requireNonNull(T obj, String message) {
+        if (obj == null)
+            throw new NullPointerException(message);
+        return obj;
+    }
+
     private static LoggerContext locateContext(final Bundle bundle, final URI configLocation) {
-        final String name = Objects.requireNonNull(bundle, "No Bundle provided").getSymbolicName();
+        final String name = requireNonNull(bundle, "No Bundle provided").getSymbolicName();
         final AtomicReference<WeakReference<LoggerContext>> ref = CONTEXT_MAP.get(name);
         if (ref == null) {
             final LoggerContext context = new LoggerContext(name, bundle, configLocation);
             CONTEXT_MAP.putIfAbsent(name,
-                new AtomicReference<>(new WeakReference<>(context)));
+                new AtomicReference<WeakReference<LoggerContext>>(new WeakReference<LoggerContext>(context)));
             return CONTEXT_MAP.get(name).get().get();
         }
         final WeakReference<LoggerContext> r = ref.get();
         final LoggerContext ctx = r.get();
         if (ctx == null) {
             final LoggerContext context = new LoggerContext(name, bundle, configLocation);
-            ref.compareAndSet(r, new WeakReference<>(context));
+            ref.compareAndSet(r, new WeakReference<LoggerContext>(context));
             return ref.get().get();
         }
         final URI oldConfigLocation = ctx.getConfigLocation();

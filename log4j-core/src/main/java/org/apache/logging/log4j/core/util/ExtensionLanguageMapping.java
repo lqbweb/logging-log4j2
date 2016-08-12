@@ -59,7 +59,7 @@ public enum ExtensionLanguageMapping {
     }
 
     public static List<ExtensionLanguageMapping> getByLanguage(final String language) {
-        final List<ExtensionLanguageMapping> list = new ArrayList<>();
+        final List<ExtensionLanguageMapping> list = new ArrayList<ExtensionLanguageMapping>();
         for (final ExtensionLanguageMapping mapping : values()) {
             if (mapping.language.equals(language)) {
                 list.add(mapping);

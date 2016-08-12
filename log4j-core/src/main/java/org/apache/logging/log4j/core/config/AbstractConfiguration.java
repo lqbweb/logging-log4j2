@@ -16,24 +16,6 @@
  */
 package org.apache.logging.log4j.core.config;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.Appender;
 import org.apache.logging.log4j.core.Filter;
@@ -57,13 +39,17 @@ import org.apache.logging.log4j.core.net.Advertiser;
 import org.apache.logging.log4j.core.script.AbstractScript;
 import org.apache.logging.log4j.core.script.ScriptManager;
 import org.apache.logging.log4j.core.script.ScriptRef;
-import org.apache.logging.log4j.core.util.Constants;
-import org.apache.logging.log4j.core.util.DummyNanoClock;
-import org.apache.logging.log4j.core.util.Loader;
-import org.apache.logging.log4j.core.util.NameUtil;
-import org.apache.logging.log4j.core.util.NanoClock;
-import org.apache.logging.log4j.core.util.WatchManager;
+import org.apache.logging.log4j.core.util.*;
 import org.apache.logging.log4j.util.PropertiesUtil;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Serializable;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * The base Configuration. Many configuration implementations will extend this class.
@@ -80,12 +66,12 @@ public abstract class AbstractConfiguration extends AbstractFilterable implement
     /**
      * Listeners for configuration changes.
      */
-    protected final List<ConfigurationListener> listeners = new CopyOnWriteArrayList<>();
+    protected final List<ConfigurationListener> listeners = new CopyOnWriteArrayList<ConfigurationListener>();
 
     /**
      * Packages found in configuration "packages" attribute.
      */
-    protected final List<String> pluginPackages = new ArrayList<>();
+    protected final List<String> pluginPackages = new ArrayList<String>();
 
     /**
      * The plugin manager.
@@ -109,14 +95,14 @@ public abstract class AbstractConfiguration extends AbstractFilterable implement
     private Node advertiserNode = null;
     private Object advertisement;
     private String name;
-    private ConcurrentMap<String, Appender> appenders = new ConcurrentHashMap<>();
-    private ConcurrentMap<String, LoggerConfig> loggerConfigs = new ConcurrentHashMap<>();
+    private ConcurrentMap<String, Appender> appenders = new ConcurrentHashMap<String, Appender>();
+    private ConcurrentMap<String, LoggerConfig> loggerConfigs = new ConcurrentHashMap<String, LoggerConfig>();
     private List<CustomLevelConfig> customLevels = Collections.emptyList();
-    private final ConcurrentMap<String, String> properties = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, String> properties = new ConcurrentHashMap<String, String>();
     private final StrLookup tempLookup = new Interpolator(properties);
     private final StrSubstitutor subst = new StrSubstitutor(tempLookup);
     private LoggerConfig root = new LoggerConfig();
-    private final ConcurrentMap<String, Object> componentMap = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, Object> componentMap = new ConcurrentHashMap<String, Object>();
     private final ConfigurationSource configurationSource;
     private final ConfigurationScheduler configurationScheduler = new ConfigurationScheduler();
     private final WatchManager watchManager = new WatchManager(configurationScheduler);
@@ -127,7 +113,7 @@ public abstract class AbstractConfiguration extends AbstractFilterable implement
      * Constructor.
      */
     protected AbstractConfiguration(final ConfigurationSource configurationSource) {
-        this.configurationSource = Objects.requireNonNull(configurationSource, "configurationSource is null");
+        this.configurationSource = requireNonNull(configurationSource, "configurationSource is null");
         componentMap.put(Configuration.CONTEXT_PROPERTIES, properties);
         pluginManager = new PluginManager(Node.CATEGORY);
         rootNode = new Node();
@@ -238,7 +224,7 @@ public abstract class AbstractConfiguration extends AbstractFilterable implement
         if (hasAsyncLoggers()) {
         	asyncLoggerConfigDisruptor.start();
         }
-        final Set<LoggerConfig> alreadyStarted = new HashSet<>();
+        final Set<LoggerConfig> alreadyStarted = new HashSet<LoggerConfig>();
         for (final LoggerConfig logger : loggerConfigs.values()) {
             logger.start();
             alreadyStarted.add(logger);
@@ -363,7 +349,7 @@ public abstract class AbstractConfiguration extends AbstractFilterable implement
     }
 
     private List<Appender> getAsyncAppenders(final Appender[] all) {
-        final List<Appender> result = new ArrayList<>();
+        final List<Appender> result = new ArrayList<Appender>();
         for (int i = all.length - 1; i >= 0; --i) {
             if (all[i] instanceof AsyncAppender) {
                 result.add(all[i]);
@@ -504,7 +490,7 @@ public abstract class AbstractConfiguration extends AbstractFilterable implement
             } else if (child.getName().equalsIgnoreCase("CustomLevels")) {
                 customLevels = child.getObject(CustomLevels.class).getCustomLevels();
             } else if (child.isInstanceOf(CustomLevelConfig.class)) {
-                final List<CustomLevelConfig> copy = new ArrayList<>(customLevels);
+                final List<CustomLevelConfig> copy = new ArrayList<CustomLevelConfig>(customLevels);
                 copy.add(child.getObject(CustomLevelConfig.class));
                 customLevels = copy;
             } else {
@@ -919,7 +905,7 @@ public abstract class AbstractConfiguration extends AbstractFilterable implement
     }
 
     private static Map<String, ?> createPluginMap(final Node node) {
-        final Map<String, Object> map = new LinkedHashMap<>();
+        final Map<String, Object> map = new LinkedHashMap<String, Object>();
         for (final Node child : node.getChildren()) {
             final Object object = child.getObject();
             map.put(child.getName(), object);
@@ -929,7 +915,7 @@ public abstract class AbstractConfiguration extends AbstractFilterable implement
 
     private static Collection<?> createPluginCollection(final Node node) {
         final List<Node> children = node.getChildren();
-        final Collection<Object> list = new ArrayList<>(children.size());
+        final Collection<Object> list = new ArrayList<Object>(children.size());
         for (final Node child : children) {
             final Object object = child.getObject();
             list.add(object);
@@ -983,8 +969,14 @@ public abstract class AbstractConfiguration extends AbstractFilterable implement
         return nanoClock;
     }
 
+    private static <T> T requireNonNull(T obj, String message) {
+        if (obj == null)
+            throw new NullPointerException(message);
+        return obj;
+    }
+
     @Override
     public void setNanoClock(final NanoClock nanoClock) {
-        this.nanoClock = Objects.requireNonNull(nanoClock, "nanoClock");
+        this.nanoClock = requireNonNull(nanoClock, "nanoClock");
     }
 }

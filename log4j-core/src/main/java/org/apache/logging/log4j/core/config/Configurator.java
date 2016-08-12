@@ -117,7 +117,7 @@ public final class Configurator {
         if (configLocation.contains(",")) {
             final String[] parts = configLocation.split(",");
             String scheme = null;
-            final List<URI> uris = new ArrayList<>(parts.length);
+            final List<URI> uris = new ArrayList<URI>(parts.length);
             for (final String part : parts) {
                 final URI uri = NetUtils.toURI(scheme != null ? scheme + ":" + part.trim() : part.trim());
                 if (scheme == null && uri.getScheme() != null) {

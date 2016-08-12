@@ -99,7 +99,7 @@ public class JmsAppenderIT {
         private JmsQueueConsumer(final int messageCount) {
             this.messageCount = messageCount;
             this.countDownLatch = new CountDownLatch(messageCount);
-            this.events = new ArrayList<>(messageCount);
+            this.events = new ArrayList<LogEvent>(messageCount);
         }
 
         @Override

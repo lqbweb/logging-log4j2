@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class SLF4JLoggerContext implements LoggerContext {
-    private final LoggerRegistry<ExtendedLogger> loggerRegistry = new LoggerRegistry<>();
+    private final LoggerRegistry<ExtendedLogger> loggerRegistry = new LoggerRegistry<ExtendedLogger>();
 
     @Override
     public Object getExternalContext() {

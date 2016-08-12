@@ -39,7 +39,7 @@ public class CleanFiles extends ExternalResource {
     }
 
     public CleanFiles(final String... fileNames) {
-        this.files = new ArrayList<>(fileNames.length);
+        this.files = new ArrayList<File>(fileNames.length);
         for (final String fileName : fileNames) {
             this.files.add(new File(fileName));
         }

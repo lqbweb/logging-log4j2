@@ -32,7 +32,7 @@ import org.apache.logging.log4j.util.PerformanceSensitive;
  */
 @PerformanceSensitive
 public class AppenderControlArraySet {
-    private final AtomicReference<AppenderControl[]> appenderArray = new AtomicReference<>(new AppenderControl[0]);
+    private final AtomicReference<AppenderControl[]> appenderArray = new AtomicReference<AppenderControl[]>(new AppenderControl[0]);
 
     /**
      * Adds an AppenderControl to this set. If this set already contains the element, the call leaves the set unchanged
@@ -95,7 +95,7 @@ public class AppenderControlArraySet {
      * @return a Map with the Appender name as the key and the Appender as the value.
      */
     public Map<String, Appender> asMap() {
-        final Map<String, Appender> result = new HashMap<>();
+        final Map<String, Appender> result = new HashMap<String, Appender>();
         for (final AppenderControl appenderControl : appenderArray.get()) {
             result.put(appenderControl.getAppenderName(), appenderControl.getAppender());
         }

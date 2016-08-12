@@ -39,7 +39,7 @@ public class Interpolator extends AbstractConfigurationAwareLookup {
     /** Constant for the prefix separator. */
     private static final char PREFIX_SEPARATOR = ':';
 
-    private final Map<String, StrLookup> lookups = new HashMap<>();
+    private final Map<String, StrLookup> lookups = new HashMap<String, StrLookup>();
 
     private final StrLookup defaultLookup;
 

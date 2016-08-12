@@ -53,13 +53,15 @@ public class XmlFileAppenderTest {
         String line1;
         String line2;
         String line3;
-        try (final BufferedReader reader = new BufferedReader(new FileReader(file))) {
+        final BufferedReader reader = new BufferedReader(new FileReader(file));
+        try {
             reader.readLine(); // first line is empty, so ignore it
             line1 = reader.readLine();
             line2 = reader.readLine();
             line3 = reader.readLine();
         } finally {
             file.delete();
+            reader.close();
         }
         assertNotNull("line1", line1);
 

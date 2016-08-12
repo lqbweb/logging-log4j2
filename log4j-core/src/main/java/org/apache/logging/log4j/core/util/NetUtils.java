@@ -93,8 +93,10 @@ public final class NetUtils {
             try {
                 final URL url = new URL(path);
                 return new URI(url.getProtocol(), url.getHost(), url.getPath(), null);
-            } catch (MalformedURLException | URISyntaxException nestedEx) {
+            } catch (MalformedURLException nestedEx) {
                 return new File(path).toURI();
+            } catch ( URISyntaxException nestedEx) {
+            return new File(path).toURI();
             }
         }
     }

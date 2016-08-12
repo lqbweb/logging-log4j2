@@ -404,7 +404,7 @@ public Log4jLogEvent(final String loggerName, final Marker marker, final String 
         if (properties == null || properties.isEmpty()) {
             return contextMap; // may be ThreadContext.EMPTY_MAP but not null
         }
-        final Map<String, String> map = new HashMap<>(contextMap);
+        final Map<String, String> map = new HashMap<String, String>(contextMap);
 
         for (final Property prop : properties) {
             if (!map.containsKey(prop.getName())) {

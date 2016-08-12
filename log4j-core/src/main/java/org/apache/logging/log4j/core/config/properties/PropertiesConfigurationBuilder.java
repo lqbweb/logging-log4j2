@@ -78,7 +78,7 @@ public class PropertiesConfigurationBuilder extends ConfigurationBuilderFactory
 
     @Override
     public PropertiesConfiguration build() {
-        final Map<String, String> rootProps = new HashMap<>();
+        final Map<String, String> rootProps = new HashMap<String, String>();
         for (final String key : rootProperties.stringPropertyNames()) {
             if (!key.contains(".")) {
                 builder.addRootProperty(key, rootProperties.getProperty(key));

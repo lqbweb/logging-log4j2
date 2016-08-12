@@ -116,9 +116,9 @@ public final class JeroMqAppender extends AbstractAppender {
         }
         List<String> endpoints;
         if (properties == null) {
-            endpoints = new ArrayList<>(0);
+            endpoints = new ArrayList<String>(0);
         } else {
-            endpoints = new ArrayList<>(properties.length);
+            endpoints = new ArrayList<String>(properties.length);
             for (final Property property : properties) {
                 if ("endpoint".equalsIgnoreCase(property.getName())) {
                     final String value = property.getValue();

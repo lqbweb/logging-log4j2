@@ -112,7 +112,7 @@ public final class StructuredDataFilter extends MapFilter {
             LOGGER.error("keys and values must be specified for the StructuredDataFilter");
             return null;
         }
-        final Map<String, List<String>> map = new HashMap<>();
+        final Map<String, List<String>> map = new HashMap<String, List<String>>();
         for (final KeyValuePair pair : pairs) {
             final String key = pair.getKey();
             if (key == null) {
@@ -128,7 +128,7 @@ public final class StructuredDataFilter extends MapFilter {
             if (list != null) {
                 list.add(value);
             } else {
-                list = new ArrayList<>();
+                list = new ArrayList<String>();
                 list.add(value);
                 map.put(pair.getKey(), list);
             }

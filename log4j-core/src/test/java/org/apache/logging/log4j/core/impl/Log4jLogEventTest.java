@@ -237,7 +237,7 @@ public class Log4jLogEventTest {
 
     @Test
     public void testBuilderCorrectlyCopiesAllEventAttributes() {
-        final Map<String, String> contextMap = new HashMap<>();
+        final Map<String, String> contextMap = new HashMap<String, String>();
         contextMap.put("A", "B");
         final ContextStack contextStack = ThreadContext.getImmutableStack();
         final Exception exception = new Exception("test");
@@ -286,7 +286,7 @@ public class Log4jLogEventTest {
 
     @Test
     public void testBuilderCorrectlyCopiesMutableLogEvent() throws Exception {
-        final Map<String, String> contextMap = new HashMap<>();
+        final Map<String, String> contextMap = new HashMap<String, String>();
         contextMap.put("A", "B");
         final ContextStack contextStack = ThreadContext.getImmutableStack();
         final Exception exception = new Exception("test");
@@ -353,7 +353,7 @@ public class Log4jLogEventTest {
 
     @Test
     public void testEquals() {
-        final Map<String, String> contextMap = new HashMap<>();
+        final Map<String, String> contextMap = new HashMap<String, String>();
         contextMap.put("A", "B");
         ThreadContext.push("first");
         final ContextStack contextStack = ThreadContext.getImmutableStack();

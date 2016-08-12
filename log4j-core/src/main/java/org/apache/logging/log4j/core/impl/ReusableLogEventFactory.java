@@ -37,7 +37,7 @@ public class ReusableLogEventFactory implements LogEventFactory {
     private static final ThreadNameCachingStrategy THREAD_NAME_CACHING_STRATEGY = ThreadNameCachingStrategy.create();
     private static final Clock CLOCK = ClockFactory.getClock();
 
-    private static ThreadLocal<MutableLogEvent> mutableLogEventThreadLocal = new ThreadLocal<>();
+    private static ThreadLocal<MutableLogEvent> mutableLogEventThreadLocal = new ThreadLocal<MutableLogEvent>();
     /**
      * Creates a log event.
      *

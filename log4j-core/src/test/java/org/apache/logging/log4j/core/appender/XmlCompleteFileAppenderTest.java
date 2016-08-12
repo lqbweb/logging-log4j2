@@ -54,7 +54,8 @@ public class XmlCompleteFileAppenderTest {
         String line2;
         String line3;
         String line4;
-        try (final BufferedReader reader = new BufferedReader(new FileReader(file))) {
+        final BufferedReader reader = new BufferedReader(new FileReader(file));
+        try {
             line1 = reader.readLine();
             line2 = reader.readLine();
             reader.readLine(); // ignore the empty line after the <Events> root
@@ -62,6 +63,7 @@ public class XmlCompleteFileAppenderTest {
             line4 = reader.readLine();
         } finally {
             file.delete();
+            reader.close();
         }
         assertNotNull("line1", line1);
         final String msg1 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
@@ -113,8 +115,8 @@ public class XmlCompleteFileAppenderTest {
         CoreLoggerContexts.stopLoggerContext(false, file); // stop async thread
 
         final String[] lines = new String[9];
-
-        try (final BufferedReader reader = new BufferedReader(new FileReader(file))) {
+        final BufferedReader reader = new BufferedReader(new FileReader(file));
+        try {
 
             int usefulLinesIndex = 0;
             String readLine;
@@ -127,6 +129,7 @@ public class XmlCompleteFileAppenderTest {
             }
         } finally {
             file.delete();
+            reader.close();
         }
 
         String currentLine = lines[0];

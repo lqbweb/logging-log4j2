@@ -61,7 +61,7 @@ public class WatchManagerTest {
             Path source = Paths.get(sourceFile.toURI());
             Files.copy(source, targetStream);
             final File targetFile = new File(testFile);
-            final BlockingQueue<File> queue = new LinkedBlockingQueue<>();
+            final BlockingQueue<File> queue = new LinkedBlockingQueue<File>();
             watchManager.watchFile(targetFile, new TestWatcher(queue));
             Thread.sleep(1000);
             source = Paths.get(updateFile.toURI());

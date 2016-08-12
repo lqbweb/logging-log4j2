@@ -67,7 +67,7 @@ public class UdpSocketServer<T extends InputStream> extends AbstractSocketServer
      *             if an I/O error occurs when opening the socket.
      */
     public static UdpSocketServer<InputStream> createJsonSocketServer(final int port) throws IOException {
-        return new UdpSocketServer<>(port, new JsonInputStreamLogEventBridge());
+        return new UdpSocketServer<InputStream>(port, new JsonInputStreamLogEventBridge());
     }
 
     /**
@@ -80,7 +80,7 @@ public class UdpSocketServer<T extends InputStream> extends AbstractSocketServer
      *             if an I/O error occurs when opening the socket.
      */
     public static UdpSocketServer<ObjectInputStream> createSerializedSocketServer(final int port) throws IOException {
-        return new UdpSocketServer<>(port, new ObjectInputStreamLogEventBridge());
+        return new UdpSocketServer<ObjectInputStream>(port, new ObjectInputStreamLogEventBridge());
     }
 
     /**
@@ -93,7 +93,7 @@ public class UdpSocketServer<T extends InputStream> extends AbstractSocketServer
      *             if an I/O error occurs when opening the socket.
      */
     public static UdpSocketServer<InputStream> createXmlSocketServer(final int port) throws IOException {
-        return new UdpSocketServer<>(port, new XmlInputStreamLogEventBridge());
+        return new UdpSocketServer<InputStream>(port, new XmlInputStreamLogEventBridge());
     }
 
     /**

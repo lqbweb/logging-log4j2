@@ -122,7 +122,7 @@ public class ThreadContextMapFilter extends MapFilter {
             LOGGER.error("key and value pairs must be specified for the ThreadContextMapFilter");
             return null;
         }
-        final Map<String, List<String>> map = new HashMap<>();
+        final Map<String, List<String>> map = new HashMap<String, List<String>>();
         for (final KeyValuePair pair : pairs) {
             final String key = pair.getKey();
             if (key == null) {
@@ -138,7 +138,7 @@ public class ThreadContextMapFilter extends MapFilter {
             if (list != null) {
                 list.add(value);
             } else {
-                list = new ArrayList<>();
+                list = new ArrayList<String>();
                 list.add(value);
                 map.put(pair.getKey(), list);
             }

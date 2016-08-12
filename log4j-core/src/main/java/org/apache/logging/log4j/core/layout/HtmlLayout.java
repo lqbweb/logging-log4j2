@@ -219,7 +219,7 @@ public final class HtmlLayout extends AbstractStringLayout {
         }
         pw.flush();
         final LineNumberReader reader = new LineNumberReader(new StringReader(sw.toString()));
-        final ArrayList<String> lines = new ArrayList<>();
+        final ArrayList<String> lines = new ArrayList<String>();
         try {
           String line = reader.readLine();
           while (line != null) {

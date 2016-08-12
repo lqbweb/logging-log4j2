@@ -130,11 +130,11 @@ public class ThrowableProxy implements Serializable {
         this.name = throwable.getClass().getName();
         this.message = throwable.getMessage();
         this.localizedMessage = throwable.getLocalizedMessage();
-        final Map<String, CacheEntry> map = new HashMap<>();
+        final Map<String, CacheEntry> map = new HashMap<String, CacheEntry>();
         final Stack<Class<?>> stack = ReflectionUtil.getCurrentStackTrace();
         this.extendedStackTrace = this.toExtendedStackTrace(stack, map, null, throwable.getStackTrace());
         final Throwable throwableCause = throwable.getCause();
-        final Set<Throwable> causeVisited = new HashSet<>(1);
+        final Set<Throwable> causeVisited = new HashSet<Throwable>(1);
         this.causeProxy = throwableCause == null ? null : new ThrowableProxy(throwable, stack, map, throwableCause, visited, causeVisited);
         this.suppressedProxies = this.toSuppressedProxies(throwable, visited);
     }
@@ -640,9 +640,9 @@ public class ThrowableProxy implements Serializable {
             if (suppressed == null) {
                 return EMPTY_THROWABLE_PROXY_ARRAY;
             }
-            final List<ThrowableProxy> proxies = new ArrayList<>(suppressed.length);
+            final List<ThrowableProxy> proxies = new ArrayList<ThrowableProxy>(suppressed.length);
             if (suppressedVisited == null) {
-                suppressedVisited = new HashSet<>(proxies.size());
+                suppressedVisited = new HashSet<Throwable>(proxies.size());
             }
             for (int i = 0; i < suppressed.length; i++) {
                 final Throwable candidate = suppressed[i];

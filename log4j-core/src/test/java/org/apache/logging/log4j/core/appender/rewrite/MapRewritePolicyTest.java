@@ -40,7 +40,7 @@ import static org.junit.Assert.*;
 
 
 public class MapRewritePolicyTest {
-    private static Map<String, String> map = new HashMap<>();
+    private static Map<String, String> map = new HashMap<String, String>();
     private static KeyValuePair[] rewrite;
     private static LogEvent logEvent0, logEvent1, logEvent2, logEvent3;
 
@@ -64,7 +64,7 @@ public class MapRewritePolicyTest {
                 .setSource(new StackTraceElement("MapRewritePolicyTest", "setupClass", "MapRewritePolicyTest", 29)) //
                 .build();
 
-        final ThreadContextStack stack = new MutableThreadContextStack(new ArrayList<>(map.values()));
+        final ThreadContextStack stack = new MutableThreadContextStack(new ArrayList<String>(map.values()));
         logEvent2 = ((Log4jLogEvent) logEvent0).asBuilder() //
                 .setContextStack(stack) //
                 .setMarker(MarkerManager.getMarker("test")) //

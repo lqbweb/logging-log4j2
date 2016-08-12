@@ -56,13 +56,16 @@ public class MemoryMappedFileManagerTest {
 
         manager.release();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        try {
             String line = reader.readLine();
             for (int i = 0; i < 1000; i++) {
                 assertNotNull("line", line);
                 assertTrue("line incorrect", line.contains("Message " + i));
                 line = reader.readLine();
             }
+        } finally {
+            reader.close();
         }
     }
 
@@ -75,9 +78,12 @@ public class MemoryMappedFileManagerTest {
         final int initialLength = 4 * 1024;
 
         // create existing file
-        try (FileOutputStream fos = new FileOutputStream(file)) {
+        FileOutputStream fos = new FileOutputStream(file);
+        try {
             fos.write(new byte[initialLength], 0, initialLength);
             fos.flush();
+        } finally {
+            fos.close();
         }
         assertEquals("all flushed to disk", initialLength, file.length());
 

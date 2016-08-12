@@ -39,7 +39,7 @@ public class MapLookupTest {
 
     @Test
     public void testMap() {
-        final HashMap<String, String> map = new HashMap<>();
+        final HashMap<String, String> map = new HashMap<String, String>();
         map.put("A", "B");
         final MapLookup lookup = new MapLookup(map);
         assertEquals(null, lookup.lookup(null));
@@ -69,9 +69,9 @@ public class MapLookupTest {
 
     @Test
     public void testEventMapMessage() {
-      final HashMap<String, String> map = new HashMap<>();
+      final HashMap<String, String> map = new HashMap<String, String>();
       map.put("A", "B");
-      final HashMap<String, String> eventMap = new HashMap<>();
+      final HashMap<String, String> eventMap = new HashMap<String, String>();
       eventMap.put("A1", "B1");
       final MapMessage message = new MapMessage(eventMap);
       final LogEvent event = Log4jLogEvent.newBuilder()
@@ -84,7 +84,7 @@ public class MapLookupTest {
 
     @Test
     public void testNullEvent() {
-      final HashMap<String, String> map = new HashMap<>();
+      final HashMap<String, String> map = new HashMap<String, String>();
       map.put("A", "B");
       final MapLookup lookup = new MapLookup(map);
       assertEquals("B", lookup.lookup(null, "A"));

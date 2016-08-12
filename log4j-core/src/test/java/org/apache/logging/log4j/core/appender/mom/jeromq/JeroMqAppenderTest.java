@@ -96,14 +96,13 @@ public class JeroMqAppenderTest {
             int hello = 0;
             int again = 0;
             for (final String string : list) {
-                switch (string) {
-                case "Hello":
+                if (string.equals("Hello")) {
                     hello++;
-                    break;
-                case "Again":
+
+                } else if (string.equals("Again")) {
                     again++;
-                    break;
-                default:
+
+                } else {
                     Assert.fail("Unexpected message: " + string);
                 }
             }

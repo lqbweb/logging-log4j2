@@ -59,18 +59,17 @@ final class DisruptorUtil {
         final String strategy = PropertiesUtil.getProperties().getStringProperty(propertyName, "TIMEOUT");
         LOGGER.trace("property {}={}", propertyName, strategy);
         final String strategyUp = strategy.toUpperCase(Locale.ROOT); // TODO Refactor into Strings.toRootUpperCase(String)
-        switch (strategyUp) { // TODO Define a DisruptorWaitStrategy enum?
-        case "SLEEP":
+        if (strategyUp.equals("SLEEP")) {
             return new SleepingWaitStrategy();
-        case "YIELD":
+        } else if (strategyUp.equals("YIELD")) {
             return new YieldingWaitStrategy();
-        case "BLOCK":
+        } else if (strategyUp.equals("BLOCK")) {
             return new BlockingWaitStrategy();
-        case "BUSYSPIN":
+        } else if (strategyUp.equals("BUSYSPIN")) {
             return new BusySpinWaitStrategy();
-        case "TIMEOUT":
+        } else if (strategyUp.equals("TIMEOUT")) {
             return new TimeoutBlockingWaitStrategy(timeoutMillis, TimeUnit.MILLISECONDS);
-        default:
+        } else {
             return new TimeoutBlockingWaitStrategy(timeoutMillis, TimeUnit.MILLISECONDS);
         }
     }

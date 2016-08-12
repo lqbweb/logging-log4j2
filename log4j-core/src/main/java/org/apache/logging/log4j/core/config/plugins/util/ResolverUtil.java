@@ -87,10 +87,10 @@ public class ResolverUtil {
     private static final String BUNDLE_RESOURCE = "bundleresource";
 
     /** The set of matches being accumulated. */
-    private final Set<Class<?>> classMatches = new HashSet<>();
+    private final Set<Class<?>> classMatches = new HashSet<Class<?>>();
 
     /** The set of matches being accumulated. */
-    private final Set<URI> resourceMatches = new HashSet<>();
+    private final Set<URI> resourceMatches = new HashSet<URI>();
 
     /**
      * The ClassLoader to use when looking for classes. If null then the ClassLoader returned by
@@ -153,7 +153,13 @@ public class ResolverUtil {
         }
 
         for (final String pkg : packageNames) {
-            findInPackage(test, pkg);
+            try {
+                findInPackage(test, pkg);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -167,7 +173,7 @@ public class ResolverUtil {
      * @param packageName
      *        the name of the package from which to start scanning for classes, e.g. {@code net.sourceforge.stripes}
      */
-    public void findInPackage(final Test test, String packageName) {
+    public void findInPackage(final Test test, String packageName) throws IOException, URISyntaxException {
         packageName = packageName.replace('.', '/');
         final ClassLoader loader = getClassLoader();
         Enumeration<URL> urls;
@@ -180,34 +186,30 @@ public class ResolverUtil {
         }
 
         while (urls.hasMoreElements()) {
-            try {
-                final URL url = urls.nextElement();
-                final String urlPath = extractPath(url);
+            final URL url = urls.nextElement();
+            final String urlPath = extractPath(url);
 
-                LOGGER.info("Scanning for classes in [" + urlPath + "] matching criteria: " + test);
-                // Check for a jar in a war in JBoss
-                if (VFSZIP.equals(url.getProtocol())) {
-                    final String path = urlPath.substring(0, urlPath.length() - packageName.length() - 2);
-                    final URL newURL = new URL(url.getProtocol(), url.getHost(), path);
-                    @SuppressWarnings("resource")
-                    final JarInputStream stream = new JarInputStream(newURL.openStream());
-                    try {
-                        loadImplementationsInJar(test, packageName, path, stream);
-                    } finally {
-                        close(stream, newURL);
-                    }
-                } else if (BUNDLE_RESOURCE.equals(url.getProtocol())) {
-                    loadImplementationsInBundle(test, packageName);
-                } else {
-                    final File file = new File(urlPath);
-                    if (file.isDirectory()) {
-                        loadImplementationsInDirectory(test, packageName, file);
-                    } else {
-                        loadImplementationsInJar(test, packageName, file);
-                    }
+            LOGGER.info("Scanning for classes in [" + urlPath + "] matching criteria: " + test);
+            // Check for a jar in a war in JBoss
+            if (VFSZIP.equals(url.getProtocol())) {
+                final String path = urlPath.substring(0, urlPath.length() - packageName.length() - 2);
+                final URL newURL = new URL(url.getProtocol(), url.getHost(), path);
+                @SuppressWarnings("resource")
+                final JarInputStream stream = new JarInputStream(newURL.openStream());
+                try {
+                    loadImplementationsInJar(test, packageName, path, stream);
+                } finally {
+                    close(stream, newURL);
                 }
-            } catch (final IOException | URISyntaxException ioe) {
-                LOGGER.warn("could not read entries", ioe);
+            } else if (BUNDLE_RESOURCE.equals(url.getProtocol())) {
+                loadImplementationsInBundle(test, packageName);
+            } else {
+                final File file = new File(urlPath);
+                if (file.isDirectory()) {
+                    loadImplementationsInDirectory(test, packageName, file);
+                } else {
+                    loadImplementationsInJar(test, packageName, file);
+                }
             }
         }
     }

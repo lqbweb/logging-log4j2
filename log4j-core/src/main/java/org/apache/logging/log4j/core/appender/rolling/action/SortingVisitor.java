@@ -33,7 +33,7 @@ import java.util.Objects;
 public class SortingVisitor extends SimpleFileVisitor<Path> {
 
     private final PathSorter sorter;
-    private final List<PathWithAttributes> collected = new ArrayList<>();
+    private final List<PathWithAttributes> collected = new ArrayList<PathWithAttributes>();
 
     /**
      * Constructs a new DeletingVisitor.

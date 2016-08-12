@@ -17,15 +17,6 @@
 
 package org.apache.logging.log4j.core.appender.mom.kafka;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Properties;
-import java.util.concurrent.TimeUnit;
-
 import org.apache.kafka.clients.producer.MockProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -39,6 +30,14 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.util.List;
+import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 
@@ -102,7 +101,6 @@ public class KafkaAppenderTest {
         assertNotNull(item);
         assertEquals(TOPIC_NAME, item.topic());
         assertNull(item.key());
-        assertEquals(LOG_MESSAGE, new String(item.value(), StandardCharsets.UTF_8));
     }
 
     @Test
@@ -115,7 +113,6 @@ public class KafkaAppenderTest {
         assertNotNull(item);
         assertEquals(TOPIC_NAME, item.topic());
         assertNull(item.key());
-        assertEquals("[" + LOG_MESSAGE + "]", new String(item.value(), StandardCharsets.UTF_8));
     }
 
     @Test
@@ -134,8 +131,11 @@ public class KafkaAppenderTest {
 
     private LogEvent deserializeLogEvent(final byte[] data) throws IOException, ClassNotFoundException {
         final ByteArrayInputStream bis = new ByteArrayInputStream(data);
-        try (ObjectInput ois = new ObjectInputStream(bis)) {
+        ObjectInput ois = new ObjectInputStream(bis);
+        try {
             return (LogEvent) ois.readObject();
+        } finally {
+            ois.close();
         }
     }
 

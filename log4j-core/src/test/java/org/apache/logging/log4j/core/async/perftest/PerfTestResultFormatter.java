@@ -51,7 +51,7 @@ class PerfTestResultFormatter {
         }
     }
 
-    private final Map<String, Map<String, Stats>> results = new TreeMap<>();
+    private final Map<String, Map<String, Stats>> results = new TreeMap<String, Map<String, Stats>>();
 
     public PerfTestResultFormatter() {
     }
@@ -139,7 +139,7 @@ class PerfTestResultFormatter {
         final Stats stats = new Stats(throughput, avg, pct99, pct99_99);
         Map<String, Stats> map = results.get(key.trim());
         if (map == null) {
-            map = new TreeMap<>(sort());
+            map = new TreeMap<String, Stats>(sort());
             results.put(key.trim(), map);
         }
         String subKey = sub.trim();

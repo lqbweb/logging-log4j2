@@ -16,25 +16,8 @@
  */
 package org.apache.logging.log4j.core;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.File;
-import java.net.URI;
-import java.util.Collection;
-import java.util.Objects;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.config.Configuration;
-import org.apache.logging.log4j.core.config.ConfigurationFactory;
-import org.apache.logging.log4j.core.config.ConfigurationListener;
-import org.apache.logging.log4j.core.config.ConfigurationSource; // SUPPRESS CHECKSTYLE
-import org.apache.logging.log4j.core.config.DefaultConfiguration;
-import org.apache.logging.log4j.core.config.NullConfiguration;
-import org.apache.logging.log4j.core.config.Reconfigurable;
+import org.apache.logging.log4j.core.config.*;
 import org.apache.logging.log4j.core.impl.Log4jLogEvent;
 import org.apache.logging.log4j.core.jmx.Server;
 import org.apache.logging.log4j.core.util.Cancellable;
@@ -46,7 +29,17 @@ import org.apache.logging.log4j.spi.LoggerContextFactory;
 import org.apache.logging.log4j.spi.LoggerRegistry;
 import org.apache.logging.log4j.spi.Terminable;
 
-import static org.apache.logging.log4j.core.util.ShutdownCallbackRegistry.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.net.URI;
+import java.util.Collection;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+import static org.apache.logging.log4j.core.util.ShutdownCallbackRegistry.SHUTDOWN_HOOK_MARKER;
 
 /**
  * The LoggerContext is the anchor for the logging system. It maintains a list of all the loggers requested by
@@ -63,8 +56,8 @@ public class LoggerContext extends AbstractLifeCycle implements org.apache.loggi
 
     private static final Configuration NULL_CONFIGURATION = new NullConfiguration();
 
-    private final LoggerRegistry<Logger> loggerRegistry = new LoggerRegistry<>();
-    private final CopyOnWriteArrayList<PropertyChangeListener> propertyChangeListeners = new CopyOnWriteArrayList<>();
+    private final LoggerRegistry<Logger> loggerRegistry = new LoggerRegistry<Logger>();
+    private final CopyOnWriteArrayList<PropertyChangeListener> propertyChangeListeners = new CopyOnWriteArrayList<PropertyChangeListener>();
 
     /**
      * The Configuration is volatile to guarantee that initialization of the Configuration has completed before the
@@ -331,6 +324,18 @@ public class LoggerContext extends AbstractLifeCycle implements org.apache.loggi
         return getLogger(LogManager.ROOT_LOGGER_NAME);
     }
 
+    static <T> T requireNonNull(T obj) {
+        if (obj == null)
+            throw new NullPointerException();
+        return obj;
+    }
+
+    static <T> T requireNonNull(T obj, String message) {
+        if (obj == null)
+            throw new NullPointerException(message);
+        return obj;
+    }
+
     /**
      * Sets the name.
      *
@@ -338,7 +343,7 @@ public class LoggerContext extends AbstractLifeCycle implements org.apache.loggi
      * @throws NullPointerException if the specified name is {@code null}
      */
     public void setName(final String name) {
-    	contextName = Objects.requireNonNull(name);
+    	contextName = requireNonNull(name);
     }
 
     /**
@@ -474,7 +479,7 @@ public class LoggerContext extends AbstractLifeCycle implements org.apache.loggi
      * @return The previous Configuration.
      */
     private Configuration setConfiguration(final Configuration config) {
-        Objects.requireNonNull(config, "No Configuration was provided");
+        requireNonNull(config, "No Configuration was provided");
         configLock.lock();
         try {
             final Configuration prev = this.configuration;
@@ -520,7 +525,7 @@ public class LoggerContext extends AbstractLifeCycle implements org.apache.loggi
     }
 
     public void addPropertyChangeListener(final PropertyChangeListener listener) {
-        propertyChangeListeners.add(Objects.requireNonNull(listener, "listener"));
+        propertyChangeListeners.add(requireNonNull(listener, "listener"));
     }
 
     public void removePropertyChangeListener(final PropertyChangeListener listener) {

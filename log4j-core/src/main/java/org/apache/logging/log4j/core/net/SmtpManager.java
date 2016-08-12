@@ -81,7 +81,7 @@ public class SmtpManager extends AbstractManager {
         this.session = session;
         this.message = message;
         this.data = data;
-        this.buffer = new CyclicBuffer<>(LogEvent.class, data.numElements);
+        this.buffer = new CyclicBuffer<LogEvent>(LogEvent.class, data.numElements);
     }
 
     public void add(LogEvent event) {
@@ -170,7 +170,13 @@ public class SmtpManager extends AbstractManager {
             final MimeMultipart mp = getMimeMultipart(encodedBytes, headers);
 
             sendMultipartMessage(message, mp);
-        } catch (final MessagingException | IOException | RuntimeException e) {
+        } catch (final IOException e) {
+            logError("caught exception while sending e-mail notification.", e);
+            throw new LoggingException("Error occurred while sending email", e);
+        } catch (final MessagingException e) {
+            logError("caught exception while sending e-mail notification.", e);
+            throw new LoggingException("Error occurred while sending email", e);
+        } catch (final RuntimeException e) {
             logError("caught exception while sending e-mail notification.", e);
             throw new LoggingException("Error occurred while sending email", e);
         }
@@ -230,8 +236,11 @@ public class SmtpManager extends AbstractManager {
 
     protected void encodeContent(final byte[] bytes, final String encoding, final ByteArrayOutputStream out)
             throws MessagingException, IOException {
-        try (final OutputStream encoder = MimeUtility.encode(out, encoding)) {
+        final OutputStream encoder = MimeUtility.encode(out, encoding);
+        try {
             encoder.write(bytes);
+        } finally {
+            encoder.close();
         }
     }
 

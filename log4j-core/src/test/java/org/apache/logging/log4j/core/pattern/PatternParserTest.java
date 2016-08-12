@@ -95,7 +95,7 @@ public class PatternParserTest {
     public void testCustomPattern() {
         final List<PatternFormatter> formatters = parser.parse(customPattern);
         assertNotNull(formatters);
-        final Map<String, String> mdc = new HashMap<>();
+        final Map<String, String> mdc = new HashMap<String, String>();
         mdc.put("loginId", "Fred");
         final Throwable t = new Throwable();
         final StackTraceElement[] elements = t.getStackTrace();

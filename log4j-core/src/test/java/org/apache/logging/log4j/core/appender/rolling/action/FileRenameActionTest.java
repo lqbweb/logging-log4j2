@@ -52,10 +52,13 @@ public class FileRenameActionTest {
     @Test
     public void testRename1() throws Exception {
         final File file = new File("target/fileRename/fileRename.log");
-        try (final PrintStream pos = new PrintStream(file)) {
+        final PrintStream pos = new PrintStream(file);
+        try {
             for (int i = 0; i < 100; ++i) {
                 pos.println("This is line " + i);
             }
+        } finally {
+            pos.close();
         }
 
         final File dest = new File("target/fileRename/newFile.log");
@@ -68,8 +71,11 @@ public class FileRenameActionTest {
     @Test
     public void testEmpty() throws Exception {
         final File file = new File("target/fileRename/fileRename.log");
-        try (final PrintStream pos = new PrintStream(file)) {
+        final PrintStream pos = new PrintStream(file);
+        try {
             // do nothing
+        }finally {
+            pos.close();
         }
 
         final File dest = new File("target/fileRename/newFile.log");
@@ -83,10 +89,13 @@ public class FileRenameActionTest {
     @Test
     public void testNoParent() throws Exception {
         final File file = new File("fileRename.log");
-        try (final PrintStream pos = new PrintStream(file)) {
+        final PrintStream pos = new PrintStream(file);
+        try {
             for (int i = 0; i < 100; ++i) {
                 pos.println("This is line " + i);
             }
+        } finally {
+            pos.close();
         }
 
         final File dest = new File("newFile.log");

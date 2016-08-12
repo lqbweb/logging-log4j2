@@ -69,10 +69,18 @@ public class CompositeConfiguration extends AbstractConfiguration implements Rec
                 DefaultMergeStrategy.class.getName());
         try {
             mergeStrategy = LoaderUtil.newInstanceOf(mergeStrategyClassName);
-        } catch (ClassNotFoundException | IllegalAccessException | NoSuchMethodException | InvocationTargetException |
-                InstantiationException ex) {
+        } catch (ClassNotFoundException ex) {
+            mergeStrategy = new DefaultMergeStrategy();
+        } catch (IllegalAccessException ex) {
+            mergeStrategy = new DefaultMergeStrategy();
+        } catch (NoSuchMethodException ex) {
+            mergeStrategy = new DefaultMergeStrategy();
+        } catch (InvocationTargetException ex) {
+            mergeStrategy = new DefaultMergeStrategy();
+        } catch (InstantiationException ex) {
             mergeStrategy = new DefaultMergeStrategy();
         }
+
         for (final AbstractConfiguration config : configurations) {
             mergeStrategy.mergeRootProperties(rootNode, config);
         }
@@ -143,7 +151,7 @@ public class CompositeConfiguration extends AbstractConfiguration implements Rec
     @Override
     public Configuration reconfigure() {
         LOGGER.debug("Reconfiguring composite configuration");
-        final List<AbstractConfiguration> configs = new ArrayList<>();
+        final List<AbstractConfiguration> configs = new ArrayList<AbstractConfiguration>();
         final ConfigurationFactory factory = ConfigurationFactory.getInstance();
         for (final AbstractConfiguration config : configurations) {
             final ConfigurationSource source = config.getConfigurationSource();

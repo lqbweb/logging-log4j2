@@ -50,7 +50,7 @@ public final class RandomAccessFileAppender extends AbstractOutputStreamAppender
 
         super(name, layout, filter, ignoreExceptions, immediateFlush, manager);
         if (advertiser != null) {
-            final Map<String, String> configuration = new HashMap<>(
+            final Map<String, String> configuration = new HashMap<String, String>(
                     layout.getContentFormat());
             configuration.putAll(manager.getContentFormat());
             configuration.put("contentType", layout.getContentType());

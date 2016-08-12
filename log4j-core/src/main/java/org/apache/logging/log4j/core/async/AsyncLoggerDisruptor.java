@@ -85,7 +85,7 @@ class AsyncLoggerDisruptor {
         backgroundThreadId = DisruptorUtil.getExecutorThreadId(executor);
         asyncQueueFullPolicy = AsyncQueueFullPolicyFactory.create();
 
-        disruptor = new Disruptor<>(RingBufferLogEvent.FACTORY, ringBufferSize, executor, ProducerType.MULTI,
+        disruptor = new Disruptor<RingBufferLogEvent>(RingBufferLogEvent.FACTORY, ringBufferSize, executor, ProducerType.MULTI,
                 waitStrategy);
 
         final ExceptionHandler<RingBufferLogEvent> errorHandler = DisruptorUtil.getAsyncLoggerExceptionHandler();

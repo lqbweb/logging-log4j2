@@ -39,7 +39,7 @@ public final class LoggersPlugin {
      */
     @PluginFactory
     public static Loggers createLoggers(@PluginElement("Loggers") final LoggerConfig[] loggers) {
-        final ConcurrentMap<String, LoggerConfig> loggerMap = new ConcurrentHashMap<>();
+        final ConcurrentMap<String, LoggerConfig> loggerMap = new ConcurrentHashMap<String, LoggerConfig>();
         LoggerConfig root = null;
 
         for (final LoggerConfig logger : loggers) {

@@ -32,7 +32,7 @@ import org.apache.logging.log4j.util.PerformanceSensitive;
  */
 public class AppenderControl extends AbstractFilterable {
 
-    private final ThreadLocal<AppenderControl> recursive = new ThreadLocal<>();
+    private final ThreadLocal<AppenderControl> recursive = new ThreadLocal<AppenderControl>();
     private final Appender appender;
     private final Level level;
     private final int intLevel;

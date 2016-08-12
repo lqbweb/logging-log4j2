@@ -71,7 +71,7 @@ public class PerfTestDriver {
         }
 
         List<String> processArguments(final String java) {
-            final List<String> args = new ArrayList<>();
+            final List<String> args = new ArrayList<String>();
             args.add(java);
             args.add("-server");
             args.add("-Xms1g");
@@ -217,7 +217,7 @@ public class PerfTestDriver {
     }
 
     private static List<Setup> selectTests() throws IOException {
-        final List<Setup> tests = new ArrayList<>();
+        final List<Setup> tests = new ArrayList<Setup>();
         
         // final String CACHEDCLOCK = "-Dlog4j.Clock=CachedClock";
         final String SYSCLOCK = "-Dlog4j.Clock=SystemClock";

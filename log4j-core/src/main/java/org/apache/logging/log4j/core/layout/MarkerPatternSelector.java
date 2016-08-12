@@ -40,9 +40,9 @@ import java.util.Map;
 @Plugin(name = "MarkerPatternSelector", category = Node.CATEGORY, elementType = PatternSelector.ELEMENT_TYPE, printObject = true)
 public class MarkerPatternSelector implements PatternSelector {
 
-    private final Map<String, PatternFormatter[]> formatterMap = new HashMap<>();
+    private final Map<String, PatternFormatter[]> formatterMap = new HashMap<String, PatternFormatter[]>();
 
-    private final Map<String, String> patternMap = new HashMap<>();
+    private final Map<String, String> patternMap = new HashMap<String, String>();
 
     private final PatternFormatter[] defaultFormatters;
 

@@ -131,85 +131,76 @@ public class DefaultMergeStrategy implements MergeStrategy {
                     continue;
                 }
 
-                switch (targetChildNode.getName().toLowerCase()) {
-                    case PROPERTIES:
-                    case SCRIPTS:
-                    case APPENDERS: {
-                        for (final Node node : sourceChildNode.getChildren()) {
-                            for (final Node targetNode : targetChildNode.getChildren()) {
-                                if (targetNode.getAttributes().get(NAME).equals(node.getAttributes().get(NAME))) {
-                                    targetChildNode.getChildren().remove(targetNode);
-                                    break;
-                                }
+                String s = targetChildNode.getName().toLowerCase();
+                if (s.equals(PROPERTIES) || s.equals(SCRIPTS) || s.equals(APPENDERS)) {
+                    for (final Node node : sourceChildNode.getChildren()) {
+                        for (final Node targetNode : targetChildNode.getChildren()) {
+                            if (targetNode.getAttributes().get(NAME).equals(node.getAttributes().get(NAME))) {
+                                targetChildNode.getChildren().remove(targetNode);
+                                break;
                             }
-                            targetChildNode.getChildren().add(node);
                         }
-                        isMerged = true;
-                        break;
+                        targetChildNode.getChildren().add(node);
                     }
-                    case LOGGERS: {
-                        final Map<String, Node> targetLoggers = new HashMap<>();
-                        for (final Node node : targetChildNode.getChildren()) {
-                            targetLoggers.put(node.getName(), node);
-                        }
-                        for (final Node node : sourceChildNode.getChildren()) {
-                            final Node targetNode = getLoggerNode(targetChildNode, node.getAttributes().get(NAME));
-                            final Node loggerNode = new Node(targetChildNode, node.getName(), node.getType());
-                            if (targetNode != null) {
-                                for (final Node sourceLoggerChild : node.getChildren()) {
-                                    if (isFilterNode(sourceLoggerChild)) {
-                                        boolean foundFilter = false;
+                    isMerged = true;
+                } else if (s.equals(LOGGERS)) {
+                    final Map<String, Node> targetLoggers = new HashMap<String, Node>();
+                    for (final Node node : targetChildNode.getChildren()) {
+                        targetLoggers.put(node.getName(), node);
+                    }
+                    for (final Node node : sourceChildNode.getChildren()) {
+                        final Node targetNode = getLoggerNode(targetChildNode, node.getAttributes().get(NAME));
+                        final Node loggerNode = new Node(targetChildNode, node.getName(), node.getType());
+                        if (targetNode != null) {
+                            for (final Node sourceLoggerChild : node.getChildren()) {
+                                if (isFilterNode(sourceLoggerChild)) {
+                                    boolean foundFilter = false;
+                                    for (final Node targetChild : targetNode.getChildren()) {
+                                        if (isFilterNode(targetChild)) {
+                                            updateFilterNode(loggerNode, targetChild, sourceLoggerChild,
+                                                    pluginManager);
+                                            foundFilter = true;
+                                            break;
+                                        }
+                                    }
+                                    if (!foundFilter) {
+                                        final Node childNode = new Node(loggerNode, sourceLoggerChild.getName(),
+                                                sourceLoggerChild.getType());
+                                        targetNode.getChildren().add(childNode);
+                                    }
+                                } else {
+                                    final Node childNode = new Node(loggerNode, sourceLoggerChild.getName(),
+                                            sourceLoggerChild.getType());
+                                    childNode.getAttributes().putAll(sourceLoggerChild.getAttributes());
+                                    if (childNode.getName().equalsIgnoreCase("AppenderRef")) {
                                         for (final Node targetChild : targetNode.getChildren()) {
-                                            if (isFilterNode(targetChild)) {
-                                                updateFilterNode(loggerNode, targetChild, sourceLoggerChild,
-                                                        pluginManager);
-                                                foundFilter = true;
+                                            if (isSameReference(targetChild, childNode)) {
+                                                targetNode.getChildren().remove(targetChild);
                                                 break;
                                             }
                                         }
-                                        if (!foundFilter) {
-                                            final Node childNode = new Node(loggerNode, sourceLoggerChild.getName(),
-                                                    sourceLoggerChild.getType());
-                                            targetNode.getChildren().add(childNode);
-                                        }
                                     } else {
-                                        final Node childNode = new Node(loggerNode, sourceLoggerChild.getName(),
-                                                sourceLoggerChild.getType());
-                                        childNode.getAttributes().putAll(sourceLoggerChild.getAttributes());
-                                        if (childNode.getName().equalsIgnoreCase("AppenderRef")) {
-                                            for (final Node targetChild : targetNode.getChildren()) {
-                                                if (isSameReference(targetChild, childNode)) {
-                                                    targetNode.getChildren().remove(targetChild);
-                                                    break;
-                                                }
-                                            }
-                                        } else {
-                                            for (final Node targetChild : targetNode.getChildren()) {
-                                                if (isSameName(targetChild, childNode)) {
-                                                    targetNode.getChildren().remove(targetChild);
-                                                    break;
-                                                }
+                                        for (final Node targetChild : targetNode.getChildren()) {
+                                            if (isSameName(targetChild, childNode)) {
+                                                targetNode.getChildren().remove(targetChild);
+                                                break;
                                             }
                                         }
-
-                                        targetNode.getChildren().add(childNode);
                                     }
-                                }
-                            } else {
-                                loggerNode.getAttributes().putAll(node.getAttributes());
-                                loggerNode.getChildren().addAll(node.getChildren());
-                                targetChildNode.getChildren().add(loggerNode);
-                            }
-                        }
-                        isMerged = true;
-                        break;
-                    }
-                    default: {
-                        targetChildNode.getChildren().addAll(sourceChildNode.getChildren());
-                        isMerged = true;
-                        break;
-                    }
 
+                                    targetNode.getChildren().add(childNode);
+                                }
+                            }
+                        } else {
+                            loggerNode.getAttributes().putAll(node.getAttributes());
+                            loggerNode.getChildren().addAll(node.getChildren());
+                            targetChildNode.getChildren().add(loggerNode);
+                        }
+                    }
+                    isMerged = true;
+                } else {
+                    targetChildNode.getChildren().addAll(sourceChildNode.getChildren());
+                    isMerged = true;
                 }
             }
             if (!isMerged) {

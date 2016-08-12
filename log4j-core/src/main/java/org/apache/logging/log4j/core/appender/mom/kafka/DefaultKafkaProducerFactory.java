@@ -26,7 +26,7 @@ public class DefaultKafkaProducerFactory implements KafkaProducerFactory {
 
     @Override
     public Producer<byte[], byte[]> newKafkaProducer(final Properties config) {
-        return new KafkaProducer<>(config);
+        return new KafkaProducer<byte[], byte[]>(config);
     }
 
 }

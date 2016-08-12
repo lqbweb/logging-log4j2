@@ -284,7 +284,7 @@ public class Logger extends AbstractLogger implements Supplier<LoggerConfig> {
         } else if (filter instanceof CompositeFilter) {
             return ((CompositeFilter) filter).iterator();
         } else {
-            final List<Filter> filters = new ArrayList<>();
+            final List<Filter> filters = new ArrayList<Filter>();
             filters.add(filter);
             return filters.iterator();
         }

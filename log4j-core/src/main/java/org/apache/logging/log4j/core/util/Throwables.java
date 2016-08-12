@@ -103,7 +103,7 @@ public final class Throwables {
             // Ignore any exceptions.
         }
         pw.flush();
-        final List<String> lines = new ArrayList<>();
+        final List<String> lines = new ArrayList<String>();
         final LineNumberReader reader = new LineNumberReader(new StringReader(sw.toString()));
         try {
             String line = reader.readLine();

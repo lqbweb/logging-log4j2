@@ -54,7 +54,7 @@ public final class FailoverAppender extends AbstractAppender {
 
     private AppenderControl primary;
 
-    private final List<AppenderControl> failoverAppenders = new ArrayList<>();
+    private final List<AppenderControl> failoverAppenders = new ArrayList<AppenderControl>();
 
     private final long intervalNanos;
 

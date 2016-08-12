@@ -59,7 +59,7 @@ public class LoggerConfig extends AbstractFilterable {
     public static final String ROOT = "root";
     private static LogEventFactory LOG_EVENT_FACTORY = null;
 
-    private List<AppenderRef> appenderRefs = new ArrayList<>();
+    private List<AppenderRef> appenderRefs = new ArrayList<AppenderRef>();
     private final AppenderControlArraySet appenders = new AppenderControlArraySet();
     private final String name;
     private LogEventFactory logEventFactory;
@@ -131,7 +131,7 @@ public class LoggerConfig extends AbstractFilterable {
         this.includeLocation = includeLocation;
         this.config = config;
         if (properties != null && properties.length > 0) {
-            final Map<Property, Boolean> map = new HashMap<>(properties.length);
+            final Map<Property, Boolean> map = new HashMap<Property, Boolean>(properties.length);
             for (final Property prop : properties) {
                 final boolean interpolate = prop.getValue().contains("${");
                 map.put(prop, interpolate);
@@ -330,7 +330,7 @@ public class LoggerConfig extends AbstractFilterable {
             final Message data, final Throwable t) {
         List<Property> props = null;
         if (properties != null) {
-            props = new ArrayList<>(properties.size());
+            props = new ArrayList<Property>(properties.size());
             final LogEvent event = Log4jLogEvent.newBuilder()
                 .setMessage(data)
                 .setMarker(marker)

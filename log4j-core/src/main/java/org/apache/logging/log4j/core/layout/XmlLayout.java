@@ -249,7 +249,7 @@ public final class XmlLayout extends AbstractJacksonLayout {
      */
     @Override
     public Map<String, String> getContentFormat() {
-        final Map<String, String> result = new HashMap<>();
+        final Map<String, String> result = new HashMap<String, String>();
         // result.put("dtd", "log4j-events.dtd");
         result.put("xsd", "log4j-events.xsd");
         result.put("version", "2.0");

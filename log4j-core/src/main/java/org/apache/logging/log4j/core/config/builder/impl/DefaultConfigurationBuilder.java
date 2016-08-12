@@ -252,18 +252,18 @@ public class DefaultConfigurationBuilder<T extends BuiltConfiguration> implement
 
     @Override
     public <B extends ComponentBuilder<B>> ComponentBuilder<B> newComponent(final String type) {
-        return new DefaultComponentBuilder<>(this, type);
+        return new DefaultComponentBuilder<B, DefaultConfigurationBuilder<T>>(this, type);
     }
 
     @Override
     public <B extends ComponentBuilder<B>> ComponentBuilder<B> newComponent(final String name, final String type) {
-        return new DefaultComponentBuilder<>(this, name, type);
+        return new DefaultComponentBuilder<B, DefaultConfigurationBuilder<T>>(this, name, type);
     }
 
     @Override
     public <B extends ComponentBuilder<B>> ComponentBuilder<B> newComponent(final String name, final String type,
                                                                             final String value) {
-        return new DefaultComponentBuilder<>(this, name, type, value);
+        return new DefaultComponentBuilder<B, DefaultConfigurationBuilder<T>>(this, name, type, value);
     }
 
 

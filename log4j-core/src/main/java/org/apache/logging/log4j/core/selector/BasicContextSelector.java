@@ -57,7 +57,7 @@ public class BasicContextSelector implements ContextSelector {
 
     @Override
     public List<LoggerContext> getLoggerContexts() {
-        final List<LoggerContext> list = new ArrayList<>();
+        final List<LoggerContext> list = new ArrayList<LoggerContext>();
         list.add(CONTEXT);
         return Collections.unmodifiableList(list);
     }

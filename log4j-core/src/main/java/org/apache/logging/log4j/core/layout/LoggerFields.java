@@ -75,7 +75,7 @@ public final class LoggerFields {
         @PluginAttribute("sdId") final String sdId,
         @PluginAttribute("enterpriseId") final String enterpriseId,
         @PluginAttribute(value = "discardIfAllFieldsAreEmpty", defaultBoolean = false) final boolean discardIfAllFieldsAreEmpty) {
-        final Map<String, String> map = new HashMap<>();
+        final Map<String, String> map = new HashMap<String, String>();
 
         for (final KeyValuePair keyValuePair : keyValuePairs) {
             map.put(keyValuePair.getKey(), keyValuePair.getValue());

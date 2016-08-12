@@ -117,7 +117,7 @@ public class ConfigurationScheduler extends AbstractLifeCycle {
     public CronScheduledFuture<?> scheduleWithCron(final CronExpression cronExpression, final Runnable command) {
         final CronRunnable runnable = new CronRunnable(command, cronExpression);
         final ScheduledFuture<?> future = schedule(runnable, nextFireInterval(cronExpression), TimeUnit.MILLISECONDS);
-        final CronScheduledFuture<?> cronScheduledFuture = new CronScheduledFuture<>(future);
+        final CronScheduledFuture<?> cronScheduledFuture = new CronScheduledFuture(future);
         runnable.setScheduledFuture(cronScheduledFuture);
         return cronScheduledFuture;
     }

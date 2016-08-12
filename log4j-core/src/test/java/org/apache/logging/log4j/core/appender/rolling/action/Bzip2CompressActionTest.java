@@ -23,6 +23,7 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import org.apache.commons.compress.compressors.CompressorException;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 import org.junit.Test;
 
@@ -44,7 +45,7 @@ public class Bzip2CompressActionTest {
     }
 
     @Test
-    public void testExecuteReturnsFalseIfSourceDoesNotExist() throws IOException {
+    public void testExecuteReturnsFalseIfSourceDoesNotExist() throws IOException, CompressorException {
         File source = new File("any");
         while (source.exists()) {
             source = new File(source.getName() + Math.random());
@@ -54,16 +55,19 @@ public class Bzip2CompressActionTest {
     }
 
     @Test
-    public void testExecuteCompressesSourceFileToDestinationFile() throws IOException {
+    public void testExecuteCompressesSourceFileToDestinationFile() throws IOException, CompressorException {
         final String LINE1 = "Here is line 1. Random text: ABCDEFGHIJKLMNOPQRSTUVWXYZ\r\n";
         final String LINE2 = "Here is line 2. Random text: ABCDEFGHIJKLMNOPQRSTUVWXYZ\r\n";
         final String LINE3 = "Here is line 3. Random text: ABCDEFGHIJKLMNOPQRSTUVWXYZ\r\n";
         final File source = new File("target/compressme");
-        try (FileWriter fw = new FileWriter(source, false)) {
+        FileWriter fw = new FileWriter(source, false);
+        try {
             fw.write(LINE1);
             fw.write(LINE2);
             fw.write(LINE3);
             fw.flush();
+        } finally {
+            fw.close();
         }
         final File destination = new File("target/compressme.bz2");
         destination.delete(); // just in case
@@ -94,7 +98,8 @@ public class Bzip2CompressActionTest {
         assertEquals(bz2.length, destination.length());
 
         // check the compressed contents
-        try (FileInputStream fis = new FileInputStream(destination)) {
+        FileInputStream fis = new FileInputStream(destination);
+        try {
             final byte[] actualBz2 = new byte[bz2.length];
             int n = 0;
             int offset = 0;
@@ -103,11 +108,14 @@ public class Bzip2CompressActionTest {
                 offset += n;
             } while (offset < actualBz2.length);
             assertArrayEquals("Compressed data corrupt", bz2, actualBz2);
+        } finally {
+            fis.close();
         }
         destination.delete();
 
         // uncompress
-        try (BZip2CompressorInputStream bzin = new BZip2CompressorInputStream(new ByteArrayInputStream(bz2))) {
+        BZip2CompressorInputStream bzin = new BZip2CompressorInputStream(new ByteArrayInputStream(bz2));
+        try {
             final StringBuilder sb = new StringBuilder();
             final byte[] buf = new byte[1024];
             int n = 0;
@@ -115,6 +123,8 @@ public class Bzip2CompressActionTest {
                 sb.append(new String(buf, 0, n));
             }
             assertEquals(LINE1 + LINE2 + LINE3, sb.toString());
+        } finally {
+            bzin.close();
         }
     }
 }

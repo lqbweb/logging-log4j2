@@ -31,10 +31,10 @@ public abstract class ConfigurationBuilderFactory {
      * @return A new ConfigurationBuilder.
      */
     public static ConfigurationBuilder<BuiltConfiguration> newConfigurationBuilder() {
-        return new DefaultConfigurationBuilder<>();
+        return new DefaultConfigurationBuilder<BuiltConfiguration>();
     }
 
     public static <T extends BuiltConfiguration> ConfigurationBuilder<T> newConfigurationBuilder(final Class<T> clazz) {
-        return new DefaultConfigurationBuilder<>(clazz);
+        return new DefaultConfigurationBuilder<T>(clazz);
     }
 }

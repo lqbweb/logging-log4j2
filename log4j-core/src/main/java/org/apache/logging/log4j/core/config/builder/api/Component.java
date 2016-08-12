@@ -28,8 +28,8 @@ import java.util.Map;
  */
 public class Component {
 
-    private final Map<String, String> attributes = new HashMap<>();
-    private final List<Component> components = new ArrayList<>();
+    private final Map<String, String> attributes = new HashMap<String, String>();
+    private final List<Component> components = new ArrayList<Component>();
     private final String pluginType;
     private final String value;
 

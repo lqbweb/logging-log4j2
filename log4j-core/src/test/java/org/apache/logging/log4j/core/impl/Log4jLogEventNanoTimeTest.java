@@ -67,11 +67,14 @@ public class Log4jLogEventNanoTimeTest {
 
         String line1;
         String line2;
-        try (final BufferedReader reader = new BufferedReader(new FileReader(file))) {
+        final BufferedReader reader = new BufferedReader(new FileReader(file));
+        try {
             line1 = reader.readLine();
             line2 = reader.readLine();
             // System.out.println(line1);
             // System.out.println(line2);
+        }finally {
+            reader.close();
         }
         file.delete();
 

@@ -45,12 +45,12 @@ import org.apache.logging.log4j.util.ReflectionUtil;
  */
 public class ClassLoaderContextSelector implements ContextSelector {
 
-    private static final AtomicReference<LoggerContext> DEFAULT_CONTEXT = new AtomicReference<>();
+    private static final AtomicReference<LoggerContext> DEFAULT_CONTEXT = new AtomicReference<LoggerContext>();
 
     protected static final StatusLogger LOGGER = StatusLogger.getLogger();
 
     protected static final ConcurrentMap<String, AtomicReference<WeakReference<LoggerContext>>> CONTEXT_MAP =
-            new ConcurrentHashMap<>();
+            new ConcurrentHashMap<String, AtomicReference<WeakReference<LoggerContext>>>();
 
     @Override
     public LoggerContext getContext(final String fqcn, final ClassLoader loader, final boolean currentContext) {
@@ -93,7 +93,7 @@ public class ClassLoaderContextSelector implements ContextSelector {
 
     @Override
     public List<LoggerContext> getLoggerContexts() {
-        final List<LoggerContext> list = new ArrayList<>();
+        final List<LoggerContext> list = new ArrayList<LoggerContext>();
         final Collection<AtomicReference<WeakReference<LoggerContext>>> coll = CONTEXT_MAP.values();
         for (final AtomicReference<WeakReference<LoggerContext>> ref : coll) {
             final LoggerContext ctx = ref.get().get();
@@ -143,8 +143,8 @@ public class ClassLoaderContextSelector implements ContextSelector {
                 }
             }
             LoggerContext ctx = createContext(name, configLocation);
-            final AtomicReference<WeakReference<LoggerContext>> r = new AtomicReference<>();
-            r.set(new WeakReference<>(ctx));
+            final AtomicReference<WeakReference<LoggerContext>> r = new AtomicReference<WeakReference<LoggerContext>>();
+            r.set(new WeakReference<LoggerContext>(ctx));
             CONTEXT_MAP.putIfAbsent(name, r);
             ctx = CONTEXT_MAP.get(name).get().get();
             return ctx;
@@ -163,7 +163,7 @@ public class ClassLoaderContextSelector implements ContextSelector {
             return ctx;
         }
         ctx = createContext(name, configLocation);
-        ref.compareAndSet(weakRef, new WeakReference<>(ctx));
+        ref.compareAndSet(weakRef, new WeakReference<LoggerContext>(ctx));
         return ctx;
     }
 

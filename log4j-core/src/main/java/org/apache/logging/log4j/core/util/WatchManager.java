@@ -35,7 +35,7 @@ import org.apache.logging.log4j.status.StatusLogger;
 public class WatchManager extends AbstractLifeCycle {
 
     private static Logger logger = StatusLogger.getLogger();
-    private final ConcurrentMap<File, FileMonitor> watchers = new ConcurrentHashMap<>();
+    private final ConcurrentMap<File, FileMonitor> watchers = new ConcurrentHashMap<File, FileMonitor>();
     private int intervalSeconds = 0;
     private ScheduledFuture<?> future;
     private final ConfigurationScheduler scheduler;
@@ -80,7 +80,7 @@ public class WatchManager extends AbstractLifeCycle {
     }
 
     public Map<File, FileWatcher> getWatchers() {
-        final Map<File, FileWatcher> map = new HashMap<>();
+        final Map<File, FileWatcher> map = new HashMap<File, FileWatcher>();
         for (final Map.Entry<File, FileMonitor> entry : watchers.entrySet()) {
             map.put(entry.getKey(), entry.getValue().fileWatcher);
         }

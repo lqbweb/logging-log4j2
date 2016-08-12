@@ -16,12 +16,7 @@
  */
 package org.apache.logging.log4j.core.appender.rolling.action;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Objects;
+import java.io.*;
 import java.util.zip.GZIPOutputStream;
 
 /**
@@ -46,6 +41,12 @@ public final class GzCompressAction extends AbstractAction {
      */
     private final boolean deleteSource;
 
+    static <T> T requireNonNull(T obj, String message) {
+        if (obj == null)
+            throw new NullPointerException(message);
+        return obj;
+    }
+
     /**
      * Create new instance of GzCompressAction.
      *
@@ -55,8 +56,8 @@ public final class GzCompressAction extends AbstractAction {
      *                     does not cause an exception to be thrown or affect return value.
      */
     public GzCompressAction(final File source, final File destination, final boolean deleteSource) {
-        Objects.requireNonNull(source, "source");
-        Objects.requireNonNull(destination, "destination");
+        requireNonNull(source, "source");
+        requireNonNull(destination, "destination");
 
         this.source = source;
         this.destination = destination;
@@ -87,15 +88,19 @@ public final class GzCompressAction extends AbstractAction {
     public static boolean execute(final File source, final File destination, final boolean deleteSource)
             throws IOException {
         if (source.exists()) {
-            try (final FileInputStream fis = new FileInputStream(source);
-                    final BufferedOutputStream os = new BufferedOutputStream(new GZIPOutputStream(new FileOutputStream(
-                            destination)))) {
+            final FileInputStream fis = new FileInputStream(source);
+            final BufferedOutputStream os = new BufferedOutputStream(new GZIPOutputStream(new FileOutputStream(
+                    destination)));
+            try {
                 final byte[] inbuf = new byte[BUF_SIZE];
                 int n;
 
                 while ((n = fis.read(inbuf)) != -1) {
                     os.write(inbuf, 0, n);
                 }
+            } finally {
+                fis.close();
+                os.close();
             }
 
             if (deleteSource && !source.delete()) {

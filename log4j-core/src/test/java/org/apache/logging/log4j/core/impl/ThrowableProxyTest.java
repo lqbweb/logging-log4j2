@@ -208,8 +208,8 @@ public class ThrowableProxyTest {
 
     @Test
     public void testStack() {
-        final Map<String, ThrowableProxy.CacheEntry> map = new HashMap<>();
-        final Stack<Class<?>> stack = new Stack<>();
+        final Map<String, ThrowableProxy.CacheEntry> map = new HashMap<String, ThrowableProxy.CacheEntry>();
+        final Stack<Class<?>> stack = new Stack<Class<?>>();
         final Throwable throwable = new IllegalStateException("This is a test");
         final ThrowableProxy proxy = new ThrowableProxy(throwable);
         final ExtendedStackTraceElement[] callerPackageData = proxy.toExtendedStackTrace(stack, map, null,
@@ -224,8 +224,8 @@ public class ThrowableProxyTest {
      */
     @Test
     public void testStackWithUnloadableClass() throws Exception {
-        final Stack<Class<?>> stack = new Stack<>();
-        final Map<String, ThrowableProxy.CacheEntry> map = new HashMap<>();
+        final Stack<Class<?>> stack = new Stack<Class<?>>();
+        final Map<String, ThrowableProxy.CacheEntry> map = new HashMap<String, ThrowableProxy.CacheEntry>();
 
         final String runtimeExceptionThrownAtUnloadableClass_base64 = "rO0ABXNyABpqYXZhLmxhbmcuUnVudGltZUV4Y2VwdGlvbp5fBkcKNIPlAgAAeHIAE2phdmEubGFuZy5FeGNlcHRpb27Q/R8+GjscxAIAAHhyABNqYXZhLmxhbmcuVGhyb3dhYmxl1cY1Jzl3uMsDAANMAAVjYXVzZXQAFUxqYXZhL2xhbmcvVGhyb3dhYmxlO0wADWRldGFpbE1lc3NhZ2V0ABJMamF2YS9sYW5nL1N0cmluZztbAApzdGFja1RyYWNldAAeW0xqYXZhL2xhbmcvU3RhY2tUcmFjZUVsZW1lbnQ7eHBxAH4ABnB1cgAeW0xqYXZhLmxhbmcuU3RhY2tUcmFjZUVsZW1lbnQ7AkYqPDz9IjkCAAB4cAAAAAFzcgAbamF2YS5sYW5nLlN0YWNrVHJhY2VFbGVtZW50YQnFmiY23YUCAARJAApsaW5lTnVtYmVyTAAOZGVjbGFyaW5nQ2xhc3NxAH4ABEwACGZpbGVOYW1lcQB+AARMAAptZXRob2ROYW1lcQB+AAR4cAAAAAZ0ADxvcmcuYXBhY2hlLmxvZ2dpbmcubG9nNGouY29yZS5pbXBsLkZvcmNlTm9EZWZDbGFzc0ZvdW5kRXJyb3J0AB5Gb3JjZU5vRGVmQ2xhc3NGb3VuZEVycm9yLmphdmF0AARtYWlueA==";
         final byte[] binaryDecoded = DatatypeConverter
@@ -236,54 +236,6 @@ public class ThrowableProxyTest {
         final ThrowableProxy subject = new ThrowableProxy(throwable);
 
         subject.toExtendedStackTrace(stack, map, null, throwable.getStackTrace());
-    }
-
-    /**
-     * Tests LOG4J2-934.
-     */
-    @Test
-    public void testCircularSuppressedExceptions() {
-        final Exception e1 = new Exception();
-        final Exception e2 = new Exception();
-        e2.addSuppressed(e1);
-        e1.addSuppressed(e2);
-        LogManager.getLogger().error("Error", e1);
-    }
-
-    @Test
-	public void testSuppressedExceptions() {
-		final Exception e = new Exception("Root exception");
-		e.addSuppressed(new IOException("Suppressed #1"));
-		e.addSuppressed(new IOException("Suppressed #2"));
-		LogManager.getLogger().error("Error", e);
-		final ThrowableProxy proxy = new ThrowableProxy(e);
-		final String extendedStackTraceAsString = proxy.getExtendedStackTraceAsString();
-		assertTrue(extendedStackTraceAsString.contains("\tSuppressed: java.io.IOException: Suppressed #1"));
-		assertTrue(extendedStackTraceAsString.contains("\tSuppressed: java.io.IOException: Suppressed #1"));
-	}
-
-    @Test
-	public void testCauseSuppressedExceptions() {
-		final Exception cause = new Exception("Nested exception");
-		cause.addSuppressed(new IOException("Suppressed #1"));
-		cause.addSuppressed(new IOException("Suppressed #2"));
-		LogManager.getLogger().error("Error", new Exception(cause));
-		final ThrowableProxy proxy = new ThrowableProxy(new Exception("Root exception", cause));
-		final String extendedStackTraceAsString = proxy.getExtendedStackTraceAsString();
-		assertTrue(extendedStackTraceAsString.contains("\tSuppressed: java.io.IOException: Suppressed #1"));
-		assertTrue(extendedStackTraceAsString.contains("\tSuppressed: java.io.IOException: Suppressed #1"));
-	}
-
-    /**
-     * Tests LOG4J2-934.
-     */
-    @Test
-    public void testCircularSuppressedNestedException() {
-        final Exception e1 = new Exception();
-        final Exception e2 = new Exception(e1);
-        e2.addSuppressed(e1);
-        e1.addSuppressed(e2);
-        LogManager.getLogger().error("Error", e1);
     }
 
     /**

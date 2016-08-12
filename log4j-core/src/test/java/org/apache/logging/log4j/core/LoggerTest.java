@@ -213,7 +213,7 @@ public class LoggerTest {
         logger.debug("Debug message 1");
         final List<LogEvent> events = app.getEvents();
         assertEventCount(events, 1);
-        final Map<String, Level> map = new HashMap<>();
+        final Map<String, Level> map = new HashMap<String, Level>();
         map.put(logger.getName(), Level.OFF);
         Configurator.setLevel(map);
         logger.debug("Debug message 2");
@@ -231,7 +231,7 @@ public class LoggerTest {
         loggerGrandchild.debug("Debug message 1 GC");
         final List<LogEvent> events = app.getEvents();
         assertEventCount(events, 3);
-        final Map<String, Level> map = new HashMap<>();
+        final Map<String, Level> map = new HashMap<String, Level>();
         map.put(logger.getName(), Level.OFF);
         map.put(loggerChild.getName(), Level.DEBUG);
         map.put(loggerGrandchild.getName(), Level.WARN);

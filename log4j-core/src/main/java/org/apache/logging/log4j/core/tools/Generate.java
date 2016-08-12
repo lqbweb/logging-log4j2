@@ -1027,7 +1027,7 @@ public final class Generate {
         }
 
         public static List<LevelInfo> parse(final List<String> values, final Class<?> generator) {
-            final List<LevelInfo> result = new ArrayList<>(values.size());
+            final List<LevelInfo> result = new ArrayList<LevelInfo>(values.size());
             for (int i = 0; i < values.size(); i++) {
                 try {
                     result.add(new LevelInfo(values.get(i)));
@@ -1050,7 +1050,7 @@ public final class Generate {
             usage(printStream, type.generator());
             System.exit(-1);
         }
-        final List<String> values = new ArrayList<>(Arrays.asList(args));
+        final List<String> values = new ArrayList<String>(Arrays.asList(args));
         final String classFQN = values.remove(0);
         final List<LevelInfo> levels = LevelInfo.parse(values, type.generator());
         printStream.println(generateSource(classFQN, levels, type));

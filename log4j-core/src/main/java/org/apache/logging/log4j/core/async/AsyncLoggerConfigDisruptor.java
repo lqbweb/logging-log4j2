@@ -220,7 +220,7 @@ public class AsyncLoggerConfigDisruptor implements AsyncLoggerConfigDelegate {
 
         translator = mutable ? MUTABLE_TRANSLATOR : TRANSLATOR;
         factory = mutable ? MUTABLE_FACTORY : FACTORY;
-        disruptor = new Disruptor<>(factory, ringBufferSize, executor, ProducerType.MULTI, waitStrategy);
+        disruptor = new Disruptor<Log4jEventWrapper>(factory, ringBufferSize, executor, ProducerType.MULTI, waitStrategy);
 
         final ExceptionHandler<Log4jEventWrapper> errorHandler = DisruptorUtil.getAsyncLoggerConfigExceptionHandler();
         disruptor.handleExceptionsWith(errorHandler);

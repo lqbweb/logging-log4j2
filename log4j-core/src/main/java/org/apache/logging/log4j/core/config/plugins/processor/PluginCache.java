@@ -33,7 +33,7 @@ import java.util.Map;
  */
 public class PluginCache {
     private final Map<String, Map<String, PluginEntry>> categories =
-        new LinkedHashMap<>();
+        new LinkedHashMap<String, Map<String, PluginEntry>>();
 
     /**
      * Returns all categories of plugins in this cache.
@@ -67,7 +67,8 @@ public class PluginCache {
      */
     // NOTE: if this file format is to be changed, the filename should change and this format should still be readable
     public void writeCache(final OutputStream os) throws IOException {
-        try (final DataOutputStream out = new DataOutputStream(new BufferedOutputStream(os))) {
+        final DataOutputStream out = new DataOutputStream(new BufferedOutputStream(os));
+        try {
             // See PluginManager.readFromCacheFiles for the corresponding decoder. Format may not be changed
             // without breaking existing Log4j2Plugins.dat files.
             out.writeInt(categories.size());
@@ -84,6 +85,8 @@ public class PluginCache {
                     out.writeBoolean(plugin.isDefer());
                 }
             }
+        } finally {
+            out.close();
         }
     }
 
@@ -97,7 +100,8 @@ public class PluginCache {
         categories.clear();
         while (resources.hasMoreElements()) {
             final URL url = resources.nextElement();
-            try (final DataInputStream in = new DataInputStream(new BufferedInputStream(url.openStream()))) {
+            final DataInputStream in = new DataInputStream(new BufferedInputStream(url.openStream()));
+            try {
                 final int count = in.readInt();
                 for (int i = 0; i < count; i++) {
                     final String category = in.readUTF();
@@ -116,6 +120,8 @@ public class PluginCache {
                         }
                     }
                 }
+            } finally {
+                in.close();
             }
         }
     }

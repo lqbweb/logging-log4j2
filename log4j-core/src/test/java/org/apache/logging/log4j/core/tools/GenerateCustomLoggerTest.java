@@ -63,15 +63,19 @@ public class GenerateCustomLoggerTest {
         final String src = Generate.generateSource(CLASSNAME, levels, Generate.Type.CUSTOM);
         final File f = new File("target/test-classes/org/myorg/MyCustomLogger.java");
         f.getParentFile().mkdirs();
-        try (final FileOutputStream out = new FileOutputStream(f)) {
+        final FileOutputStream out = new FileOutputStream(f);
+        try {
             out.write(src.getBytes(Charset.defaultCharset()));
+        } finally {
+            out.close();
         }
 
         // set up compiler
         final JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        final DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
-        final List<String> errors = new ArrayList<>();
-        try (final StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnostics, null, null)) {
+        final DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<JavaFileObject>();
+        final List<String> errors = new ArrayList<String>();
+        final StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnostics, null, null);
+        try {
             final Iterable<? extends JavaFileObject> compilationUnits = fileManager.getJavaFileObjectsFromFiles(Arrays
                     .asList(f));
 
@@ -84,6 +88,8 @@ public class GenerateCustomLoggerTest {
                     errors.add(String.format("Compile error: %s%n", diagnostic.getMessage(Locale.getDefault())));
                 }
             }
+        } finally {
+            fileManager.close();
         }
         assertTrue(errors.toString(), errors.isEmpty());
 

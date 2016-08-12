@@ -42,7 +42,7 @@ import org.apache.logging.log4j.core.net.JndiManager;
  */
 public class JmsServer extends LogEventListener implements MessageListener, LifeCycle {
 
-    private final AtomicReference<State> state = new AtomicReference<>(State.INITIALIZED);
+    private final AtomicReference<State> state = new AtomicReference<State>(State.INITIALIZED);
     private final JmsManager jmsManager;
     private MessageConsumer messageConsumer;
 

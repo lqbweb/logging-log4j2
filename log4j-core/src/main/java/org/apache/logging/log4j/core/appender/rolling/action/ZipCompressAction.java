@@ -20,7 +20,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Objects;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -51,6 +50,12 @@ public final class ZipCompressAction extends AbstractAction {
      */
     private final int level;
 
+    static <T> T requireNonNull(T obj, String message) {
+        if (obj == null)
+            throw new NullPointerException(message);
+        return obj;
+    }
+
     /**
      * Creates new instance of GzCompressAction.
      *
@@ -61,8 +66,8 @@ public final class ZipCompressAction extends AbstractAction {
      * @param level TODO
      */
     public ZipCompressAction(final File source, final File destination, final boolean deleteSource, final int level) {
-        Objects.requireNonNull(source, "source");
-        Objects.requireNonNull(destination, "destination");
+        requireNonNull(source, "source");
+        requireNonNull(destination, "destination");
 
         this.source = source;
         this.destination = destination;
@@ -95,8 +100,9 @@ public final class ZipCompressAction extends AbstractAction {
     public static boolean execute(final File source, final File destination, final boolean deleteSource,
             final int level) throws IOException {
         if (source.exists()) {
-            try (final FileInputStream fis = new FileInputStream(source);
-                    final ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(destination))) {
+            final FileInputStream fis = new FileInputStream(source);
+            final ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(destination));
+            try {
                 zos.setLevel(level);
 
                 final ZipEntry zipEntry = new ZipEntry(source.getName());
@@ -108,6 +114,9 @@ public final class ZipCompressAction extends AbstractAction {
                 while ((n = fis.read(inbuf)) != -1) {
                     zos.write(inbuf, 0, n);
                 }
+            } finally {
+                fis.close();
+                zos.close();
             }
 
             if (deleteSource && !source.delete()) {

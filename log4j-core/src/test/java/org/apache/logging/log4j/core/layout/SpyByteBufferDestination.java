@@ -26,7 +26,7 @@ import java.util.List;
 public class SpyByteBufferDestination implements ByteBufferDestination {
     public final ByteBuffer buffer;
     public final ByteBuffer drained;
-    public final List<Data> drainPoints = new ArrayList<>();
+    public final List<Data> drainPoints = new ArrayList<Data>();
 
     public static class Data {
         public final int position;

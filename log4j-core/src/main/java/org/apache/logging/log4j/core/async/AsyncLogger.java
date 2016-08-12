@@ -70,7 +70,7 @@ public class AsyncLogger extends Logger implements EventTranslatorVararg<RingBuf
 
     private static final ThreadNameCachingStrategy THREAD_NAME_CACHING_STRATEGY = ThreadNameCachingStrategy.create();
 
-    private final ThreadLocal<RingBufferLogEventTranslator> threadLocalTranslator = new ThreadLocal<>();
+    private final ThreadLocal<RingBufferLogEventTranslator> threadLocalTranslator = new ThreadLocal<RingBufferLogEventTranslator>();
     private final AsyncLoggerDisruptor loggerDisruptor;
 
     private volatile boolean includeLocation; // reconfigurable

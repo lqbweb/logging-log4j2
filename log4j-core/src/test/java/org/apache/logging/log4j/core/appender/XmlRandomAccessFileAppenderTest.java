@@ -56,13 +56,16 @@ public class XmlRandomAccessFileAppenderTest {
         String line2;
         String line3;
         String line4;
-        try (final BufferedReader reader = new BufferedReader(new FileReader(file))) {
+        final BufferedReader reader = new BufferedReader(new FileReader(file));
+        try {
+
             line1 = reader.readLine();
             line2 = reader.readLine();
             line3 = reader.readLine();
             line4 = reader.readLine();
         } finally {
             file.delete();
+            reader.close();
         }
         assertNotNull("line1", line1);
         final String msg1 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";

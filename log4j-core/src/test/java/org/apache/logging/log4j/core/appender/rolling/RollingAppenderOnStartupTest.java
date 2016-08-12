@@ -77,7 +77,8 @@ public class RollingAppenderOnStartupTest {
     @AfterClass
     public static void afterClass() throws Exception {
         long size = 0;
-        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(Paths.get("target/onStartup"))) {
+        DirectoryStream<Path> directoryStream = Files.newDirectoryStream(Paths.get("target/onStartup"));
+        try {
             for (Path path : directoryStream) {
                 if (size == 0) {
                     size = Files.size(path);
@@ -87,6 +88,8 @@ public class RollingAppenderOnStartupTest {
                 Files.delete(path);
             }
             Files.delete(Paths.get("target/onStartup"));
+        } finally {
+            directoryStream.close();
         }
     }
 

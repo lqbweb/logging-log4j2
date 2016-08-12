@@ -36,12 +36,13 @@ class JeroMqTestClient implements Callable<List<String>> {
         this.context = context;
         this.endpoint = endpoint;
         this.receiveCount = receiveCount;
-        this.messages = new ArrayList<>(receiveCount);
+        this.messages = new ArrayList<String>(receiveCount);
     }
 
     @Override
     public List<String> call() throws Exception {
-        try (ZMQ.Socket subscriber = context.socket(ZMQ.SUB)) {
+        ZMQ.Socket subscriber = context.socket(ZMQ.SUB);
+        try {
             subscriber.connect(endpoint);
             subscriber.subscribe(new byte[0]);
             for (int messageNum = 0; messageNum < receiveCount
@@ -49,6 +50,8 @@ class JeroMqTestClient implements Callable<List<String>> {
                 // Use trim to remove the tailing '0' character
                 messages.add(subscriber.recvStr(0).trim());
             }
+        } finally {
+            subscriber.close();
         }
         return messages;
     }

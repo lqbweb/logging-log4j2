@@ -193,7 +193,8 @@ public final class ThrowableFormatOptions {
         if (options.length == 1 && Strings.isNotEmpty(options[0])) {
             final String[] opts = options[0].split(Patterns.COMMA_SEPARATOR, 2);
             final String first = opts[0].trim();
-            try (final Scanner scanner = new Scanner(first)) {
+            final Scanner scanner = new Scanner(first);
+            try {
                 if (opts.length > 1
                         && (first.equalsIgnoreCase(FULL) || first.equalsIgnoreCase(SHORT)
                                 || first.equalsIgnoreCase(NONE) || scanner.hasNextInt())) {
@@ -201,6 +202,8 @@ public final class ThrowableFormatOptions {
                             first,
                             opts[1].trim() };
                 }
+            } finally {
+                scanner.close();
             }
         }
 
@@ -219,7 +222,7 @@ public final class ThrowableFormatOptions {
                     if (filterStr.length() > 0) {
                         final String[] array = filterStr.split(Patterns.COMMA_SEPARATOR);
                         if (array.length > 0) {
-                            packages = new ArrayList<>(array.length);
+                            packages = new ArrayList<String>(array.length);
                             for (String token : array) {
                                 token = token.trim();
                                 if (token.length() > 0) {

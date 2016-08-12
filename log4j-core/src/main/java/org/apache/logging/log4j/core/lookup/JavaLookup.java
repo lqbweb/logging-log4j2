@@ -99,20 +99,19 @@ public class JavaLookup extends AbstractLookup {
      */
     @Override
     public String lookup(final LogEvent event, final String key) {
-        switch (key) {
-        case "version":
+        if (key.equals("version")) {
             return "Java version " + getSystemProperty("java.version");
-        case "runtime":
+        } else if (key.equals("runtime")) {
             return getRuntime();
-        case "vm":
+        } else if (key.equals("vm")) {
             return getVirtualMachine();
-        case "os":
+        } else if (key.equals("os")) {
             return getOperatingSystem();
-        case "hw":
+        } else if (key.equals("hw")) {
             return getHardware();
-        case "locale":
+        } else if (key.equals("locale")) {
             return getLocale();
-        default:
+        } else {
             throw new IllegalArgumentException(key);
         }
     }

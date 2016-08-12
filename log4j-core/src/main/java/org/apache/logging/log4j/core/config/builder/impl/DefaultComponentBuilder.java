@@ -38,8 +38,8 @@ class DefaultComponentBuilder<T extends ComponentBuilder<T>, CB extends Configur
 
     private final CB builder;
     private final String type;
-    private final Map<String, String> attributes = new HashMap<>();
-    private final List<Component> components = new ArrayList<>();
+    private final Map<String, String> attributes = new HashMap<String, String>();
+    private final List<Component> components = new ArrayList<Component>();
     private final String name;
     private final String value;
 

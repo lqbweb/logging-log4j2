@@ -42,8 +42,11 @@ public class SslConfigurationTest {
         final SslConfiguration sc = SslConfiguration.createSSLConfiguration(null, null, null);
         final SSLSocketFactory factory = sc.getSslSocketFactory();
         try {
-            try (final SSLSocket clientSocket = (SSLSocket) factory.createSocket(TLS_TEST_HOST, TLS_TEST_PORT)) {
+            final SSLSocket clientSocket = (SSLSocket) factory.createSocket(TLS_TEST_HOST, TLS_TEST_PORT);
+            try {
                 Assert.assertNotNull(clientSocket);
+                clientSocket.close();
+            } finally {
                 clientSocket.close();
             }
         } catch (final UnknownHostException offline) {
@@ -57,13 +60,19 @@ public class SslConfigurationTest {
         final SslConfiguration sc = SslConfiguration.createSSLConfiguration(null, null, tsc);
         final SSLSocketFactory factory = sc.getSslSocketFactory();
         try {
-            try (final SSLSocket clientSocket = (SSLSocket) factory.createSocket(TLS_TEST_HOST, TLS_TEST_PORT)) {
-                try (final OutputStream os = clientSocket.getOutputStream()) {
+            final SSLSocket clientSocket = (SSLSocket) factory.createSocket(TLS_TEST_HOST, TLS_TEST_PORT);
+            try {
+                final OutputStream os = clientSocket.getOutputStream();
+                try {
                     os.write("GET config/login_verify2?".getBytes());
                     Assert.fail("Expected IOException");
                 } catch (final IOException e) {
                     // Expected, do nothing.
+                } finally {
+                    os.close();
                 }
+            } finally {
+                clientSocket.close();
             }
         } catch (final UnknownHostException offline) {
             // this exception is thrown on Windows when offline

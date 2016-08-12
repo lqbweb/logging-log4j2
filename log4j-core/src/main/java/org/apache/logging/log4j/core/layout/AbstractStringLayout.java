@@ -57,7 +57,7 @@ public abstract class AbstractStringLayout extends AbstractLayout<String> implem
      */
     protected static final int DEFAULT_STRING_BUILDER_SIZE = 1024;
 
-    private static final ThreadLocal<StringBuilder> threadLocal = new ThreadLocal<>();
+    private static final ThreadLocal<StringBuilder> threadLocal = new ThreadLocal<StringBuilder>();
 
     private Encoder<StringBuilder> textEncoder;
 

@@ -43,7 +43,7 @@ public class IdlePurgePolicy extends AbstractLifeCycle implements PurgePolicy, R
 
     private static final Logger LOGGER = StatusLogger.getLogger();
     private final long timeToLive;
-    private final ConcurrentMap<String, Long> appendersUsage = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, Long> appendersUsage = new ConcurrentHashMap<String, Long>();
     private RoutingAppender routingAppender;
     private final ConfigurationScheduler scheduler;
     private volatile ScheduledFuture<?> future = null;

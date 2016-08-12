@@ -101,10 +101,13 @@ public class RollingAppenderDeleteAccumulatedCount2Test {
     private Path writeTextTo(final String location) throws IOException {
         final Path path = Paths.get(location);
         Files.createDirectories(path.getParent());
-        try (BufferedWriter buffy = Files.newBufferedWriter(path, Charset.defaultCharset())) {
+        BufferedWriter buffy = Files.newBufferedWriter(path, Charset.defaultCharset());
+        try {
             buffy.write("some text");
             buffy.newLine();
             buffy.flush();
+        } finally {
+            buffy.close();
         }
         return path;
     }

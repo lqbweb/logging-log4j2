@@ -16,10 +16,6 @@
  */
 package org.apache.logging.log4j.core.filter;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.ThreadContext;
@@ -33,6 +29,9 @@ import org.apache.logging.log4j.core.config.plugins.PluginElement;
 import org.apache.logging.log4j.core.config.plugins.PluginFactory;
 import org.apache.logging.log4j.core.util.KeyValuePair;
 import org.apache.logging.log4j.message.Message;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Compare against a log level that is associated with an MDC value.
@@ -56,7 +55,7 @@ public final class DynamicThresholdFilter extends AbstractFilter {
             @PluginAttribute("defaultThreshold") final Level defaultThreshold,
             @PluginAttribute("onMatch") final Result onMatch,
             @PluginAttribute("onMismatch") final Result onMismatch) {
-        final Map<String, Level> map = new HashMap<>();
+        final Map<String, Level> map = new HashMap<String, Level>();
         for (final KeyValuePair pair : pairs) {
             map.put(pair.getKey(), Level.toLevel(pair.getValue()));
         }
@@ -66,12 +65,18 @@ public final class DynamicThresholdFilter extends AbstractFilter {
     private Level defaultThreshold = Level.ERROR;
     private final String key;
 
-    private Map<String, Level> levelMap = new HashMap<>();
+    private Map<String, Level> levelMap = new HashMap<String, Level>();
+
+    static <T> T requireNonNull(T obj, String message) {
+        if (obj == null)
+            throw new NullPointerException(message);
+        return obj;
+    }
 
     private DynamicThresholdFilter(final String key, final Map<String, Level> pairs, final Level defaultLevel,
                                    final Result onMatch, final Result onMismatch) {
         super(onMatch, onMismatch);
-        Objects.requireNonNull(key, "key cannot be null");
+        requireNonNull(key, "key cannot be null");
         this.key = key;
         this.levelMap = pairs;
         this.defaultThreshold = defaultLevel;

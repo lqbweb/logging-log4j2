@@ -45,7 +45,9 @@ public class RandomAccessFileManagerTest {
     @Test
     public void testWrite_multiplesOfBufferSize() throws IOException {
         final File file = folder.newFile();
-        try (final RandomAccessFile raf = new RandomAccessFile(file, "rw")) {
+        final RandomAccessFile raf = new RandomAccessFile(file, "rw");
+        try {
+
             final OutputStream os = NullOutputStream.NULL_OUTPUT_STREAM;
             final RandomAccessFileManager manager = new RandomAccessFileManager(raf, file.getName(), os,
                     RandomAccessFileManager.DEFAULT_BUFFER_SIZE, null, null, true);
@@ -56,7 +58,11 @@ public class RandomAccessFileManagerTest {
 
             // all data is written if exceeds buffer size
             assertEquals(RandomAccessFileManager.DEFAULT_BUFFER_SIZE * 3, raf.length());
-        }}
+        } finally {
+            raf.close();
+        }
+
+    }
 
     /**
      * Test method for
@@ -66,7 +72,8 @@ public class RandomAccessFileManagerTest {
     @Test
     public void testWrite_dataExceedingBufferSize() throws IOException {
         final File file = folder.newFile();
-        try (final RandomAccessFile raf = new RandomAccessFile(file, "rw")) {
+        final RandomAccessFile raf = new RandomAccessFile(file, "rw");
+        try {
             final OutputStream os = NullOutputStream.NULL_OUTPUT_STREAM;
             final RandomAccessFileManager manager = new RandomAccessFileManager(raf, file.getName(), os,
                     RandomAccessFileManager.DEFAULT_BUFFER_SIZE, null, null, true);
@@ -79,12 +86,16 @@ public class RandomAccessFileManagerTest {
 
             manager.flush();
             assertEquals(size, raf.length()); // all data written to file now
-        }}
+        } finally {
+            raf.close();
+        }
+    }
 
     @Test
     public void testConfigurableBufferSize() throws IOException {
         final File file = folder.newFile();
-        try (final RandomAccessFile raf = new RandomAccessFile(file, "rw")) {
+        final RandomAccessFile raf = new RandomAccessFile(file, "rw");
+        try {
             final OutputStream os = NullOutputStream.NULL_OUTPUT_STREAM;
             final int bufferSize = 4 * 1024;
             assertNotEquals(bufferSize, RandomAccessFileManager.DEFAULT_BUFFER_SIZE);
@@ -94,12 +105,16 @@ public class RandomAccessFileManagerTest {
 
             // check the resulting buffer size is what was requested
             assertEquals(bufferSize, manager.getBufferSize());
-        }}
+        } finally {
+            raf.close();
+        }
+    }
 
     @Test
     public void testWrite_dataExceedingMinBufferSize() throws IOException {
         final File file = folder.newFile();
-        try (final RandomAccessFile raf = new RandomAccessFile(file, "rw")) {
+        final RandomAccessFile raf = new RandomAccessFile(file, "rw");
+        try {
             final OutputStream os = NullOutputStream.NULL_OUTPUT_STREAM;
             final int bufferSize = 1;
             final RandomAccessFileManager manager = new RandomAccessFileManager(raf, file.getName(), os,
@@ -113,7 +128,10 @@ public class RandomAccessFileManagerTest {
 
             manager.flush();
             assertEquals(size, raf.length()); // all data written to file now
-        }}
+        } finally {
+            raf.close();
+        }
+    }
 
     @Test
     public void testAppendDoesNotOverwriteExistingFile() throws IOException {
@@ -124,9 +142,12 @@ public class RandomAccessFileManagerTest {
         final byte[] bytes = new byte[4 * 1024];
 
         // create existing file
-        try (FileOutputStream fos = new FileOutputStream(file)) {
+        FileOutputStream fos = new FileOutputStream(file);
+        try {
             fos.write(bytes, 0, bytes.length);
             fos.flush();
+        } finally {
+            fos.close();
         }
         assertEquals("all flushed to disk", bytes.length, file.length());
 

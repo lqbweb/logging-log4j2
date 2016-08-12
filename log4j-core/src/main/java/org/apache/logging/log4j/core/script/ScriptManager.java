@@ -47,7 +47,7 @@ public class ScriptManager implements FileWatcher, Serializable {
     private static final Logger logger = StatusLogger.getLogger();
     
     private final ScriptEngineManager manager = new ScriptEngineManager();
-    private final ConcurrentMap<String, ScriptRunner> scripts = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, ScriptRunner> scripts = new ConcurrentHashMap<String, ScriptRunner>();
     private final String languages;
     private final WatchManager watchManager;
     private static final SecurityManager SECURITY_MANAGER = System.getSecurityManager();

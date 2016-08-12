@@ -63,7 +63,7 @@ public final class MapRewritePolicy implements RewritePolicy {
             return source;
         }
 
-        final Map<String, String> newMap = new HashMap<>(((MapMessage) msg).getData());
+        final Map<String, String> newMap = new HashMap<String, String>(((MapMessage) msg).getData());
         switch (mode) {
             case Add: {
                 newMap.putAll(map);
@@ -129,7 +129,7 @@ public final class MapRewritePolicy implements RewritePolicy {
             LOGGER.error("keys and values must be specified for the MapRewritePolicy");
             return null;
         }
-        final Map<String, String> map = new HashMap<>();
+        final Map<String, String> map = new HashMap<String, String>();
         for (final KeyValuePair pair : pairs) {
             final String key = pair.getKey();
             if (key == null) {

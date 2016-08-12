@@ -48,7 +48,7 @@ import org.apache.logging.log4j.core.util.Patterns;
 public class JsonConfiguration extends AbstractConfiguration implements Reconfigurable {
 
     private static final String[] VERBOSE_CLASSES = new String[] { ResolverUtil.class.getName() };
-    private final List<Status> status = new ArrayList<>();
+    private final List<Status> status = new ArrayList<Status>();
     private JsonNode root;
 
     public JsonConfiguration(final ConfigurationSource configSource) {
@@ -56,8 +56,11 @@ public class JsonConfiguration extends AbstractConfiguration implements Reconfig
         final File configFile = configSource.getFile();
         byte[] buffer;
         try {
-            try (final InputStream configStream = configSource.getInputStream()) {
+            final InputStream configStream = configSource.getInputStream();
+            try {
                 buffer = toByteArray(configStream);
+            } finally {
+                configStream.close();
             }
             final InputStream is = new ByteArrayInputStream(buffer);
             root = getObjectMapper().readTree(is);

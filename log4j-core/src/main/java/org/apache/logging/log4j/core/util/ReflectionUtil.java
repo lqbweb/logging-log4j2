@@ -186,7 +186,11 @@ public final class ReflectionUtil {
         final Constructor<T> constructor = getDefaultConstructor(clazz);
         try {
             return constructor.newInstance();
-        } catch (final NoClassDefFoundError | InstantiationException e) {
+        } catch (final NoClassDefFoundError e) {
+            // LOG4J2-1051
+            // On platforms like Google App Engine and Android, some JRE classes are not supported: JMX, JNDI, etc.
+            throw new IllegalArgumentException(e);
+        } catch (final InstantiationException e) {
             // LOG4J2-1051
             // On platforms like Google App Engine and Android, some JRE classes are not supported: JMX, JNDI, etc.
             throw new IllegalArgumentException(e);

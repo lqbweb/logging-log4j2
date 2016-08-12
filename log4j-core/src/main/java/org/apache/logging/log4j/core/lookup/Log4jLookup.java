@@ -16,15 +16,15 @@
  */
 package org.apache.logging.log4j.core.lookup;
 
-import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-
 import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.core.config.ConfigurationSource;
 import org.apache.logging.log4j.core.config.plugins.Plugin;
 import org.apache.logging.log4j.status.StatusLogger;
+
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 /**
  * Lookup properties of Log4j
@@ -59,30 +59,24 @@ public class Log4jLookup extends AbstractConfigurationAwareLookup {
             final ConfigurationSource configSrc = configuration.getConfigurationSource();
             final File file = configSrc.getFile();
             if (file != null) {
-                switch (key) {
-                    case KEY_CONFIG_LOCATION:
-                        return file.getAbsolutePath();
-
-                    case KEY_CONFIG_PARENT_LOCATION:
-                        return file.getParentFile().getAbsolutePath();
-
-                    default:
-                        return null;
+                if (key.equals(KEY_CONFIG_LOCATION)) {
+                    return file.getAbsolutePath();
+                } else if (key.equals(KEY_CONFIG_PARENT_LOCATION)) {
+                    return file.getParentFile().getAbsolutePath();
+                } else {
+                    return null;
                 }
             }
 
             final URL url = configSrc.getURL();
             if (url != null) {
                 try {
-                    switch (key) {
-                        case KEY_CONFIG_LOCATION:
-                            return asPath(url.toURI());
-
-                        case KEY_CONFIG_PARENT_LOCATION:
-                            return asPath(getParent(url.toURI()));
-
-                        default:
-                            return null;
+                    if (key.equals(KEY_CONFIG_LOCATION)) {
+                        return asPath(url.toURI());
+                    } else if (key.equals(KEY_CONFIG_PARENT_LOCATION)) {
+                        return asPath(getParent(url.toURI()));
+                    } else {
+                        return null;
                     }
                 } catch (final URISyntaxException use) {
                     LOGGER.error(use);

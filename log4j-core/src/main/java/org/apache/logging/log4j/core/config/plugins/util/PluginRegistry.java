@@ -19,6 +19,7 @@ package org.apache.logging.log4j.core.config.plugins.util;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -55,19 +56,19 @@ public class PluginRegistry {
      * Contains plugins found in Log4j2Plugins.dat cache files in the main CLASSPATH.
      */
     private final AtomicReference<Map<String, List<PluginType<?>>>> pluginsByCategoryRef =
-        new AtomicReference<>();
+        new AtomicReference<Map<String, List<PluginType<?>>>>();
 
     /**
      * Contains plugins found in Log4j2Plugins.dat cache files in OSGi Bundles.
      */
     private final ConcurrentMap<Long, Map<String, List<PluginType<?>>>> pluginsByCategoryByBundleId =
-        new ConcurrentHashMap<>();
+        new ConcurrentHashMap<Long, Map<String, List<PluginType<?>>>>();
 
     /**
      * Contains plugins found by searching for annotated classes at runtime.
      */
     private final ConcurrentMap<String, Map<String, List<PluginType<?>>>> pluginsByCategoryByPackage =
-        new ConcurrentHashMap<>();
+        new ConcurrentHashMap<String, Map<String, List<PluginType<?>>>>();
 
     private PluginRegistry() {
     }
@@ -168,11 +169,11 @@ public class PluginRegistry {
         } catch (final IOException ioe) {
             LOGGER.warn("Unable to preload plugins", ioe);
         }
-        final Map<String, List<PluginType<?>>> newPluginsByCategory = new HashMap<>();
+        final Map<String, List<PluginType<?>>> newPluginsByCategory = new HashMap<String, List<PluginType<?>>>();
         int pluginCount = 0;
         for (final Map.Entry<String, Map<String, PluginEntry>> outer : cache.getAllCategories().entrySet()) {
             final String categoryLowerCase = outer.getKey();
-            final List<PluginType<?>> types = new ArrayList<>(outer.getValue().size());
+            final List<PluginType<?>> types = new ArrayList<PluginType<?>>(outer.getValue().size());
             newPluginsByCategory.put(categoryLowerCase, types);
             for (final Map.Entry<String, PluginEntry> inner : outer.getValue().entrySet()) {
                 final PluginEntry entry = inner.getValue();
@@ -180,7 +181,7 @@ public class PluginRegistry {
                 try {
                     final Class<?> clazz = loader.loadClass(className);
                     @SuppressWarnings({"unchecked","rawtypes"})
-                    final PluginType<?> type = new PluginType<>(entry, clazz, entry.getName());
+                    final PluginType<?> type = new PluginType(entry, clazz, entry.getName());
                     types.add(type);
                     ++pluginCount;
                 } catch (final ClassNotFoundException e) {
@@ -219,15 +220,21 @@ public class PluginRegistry {
         if (classLoader != null) {
             resolver.setClassLoader(classLoader);
         }
-        resolver.findInPackage(new PluginTest(), pkg);
+        try {
+            resolver.findInPackage(new PluginTest(), pkg);
+        } catch (IOException e) {
+            LOGGER.error("", e);
+        } catch (URISyntaxException e) {
+            LOGGER.error("", e);
+        }
 
-        final Map<String, List<PluginType<?>>> newPluginsByCategory = new HashMap<>();
+        final Map<String, List<PluginType<?>>> newPluginsByCategory = new HashMap<String, List<PluginType<?>>>();
         for (final Class<?> clazz : resolver.getClasses()) {
             final Plugin plugin = clazz.getAnnotation(Plugin.class);
             final String categoryLowerCase = plugin.category().toLowerCase();
             List<PluginType<?>> list = newPluginsByCategory.get(categoryLowerCase);
             if (list == null) {
-                newPluginsByCategory.put(categoryLowerCase, list = new ArrayList<>());
+                newPluginsByCategory.put(categoryLowerCase, list = new ArrayList<PluginType<?>>());
             }
             final PluginEntry mainEntry = new PluginEntry();
             final String mainElementName = plugin.elementType().equals(
@@ -238,7 +245,7 @@ public class PluginRegistry {
             mainEntry.setClassName(clazz.getName());
             mainEntry.setPrintable(plugin.printObject());
             mainEntry.setDefer(plugin.deferChildren());
-            final PluginType<?> mainType = new PluginType<>(mainEntry, clazz, mainElementName);
+            final PluginType<?> mainType = new PluginType(mainEntry, clazz, mainElementName);
             list.add(mainType);
             final PluginAliases pluginAliases = clazz.getAnnotation(PluginAliases.class);
             if (pluginAliases != null) {
@@ -252,7 +259,7 @@ public class PluginRegistry {
                     aliasEntry.setClassName(clazz.getName());
                     aliasEntry.setPrintable(plugin.printObject());
                     aliasEntry.setDefer(plugin.deferChildren());
-                    final PluginType<?> aliasType = new PluginType<>(aliasEntry, clazz, aliasElementName);
+                    final PluginType<?> aliasType = new PluginType(aliasEntry, clazz, aliasElementName);
                     list.add(aliasType);
                 }
             }

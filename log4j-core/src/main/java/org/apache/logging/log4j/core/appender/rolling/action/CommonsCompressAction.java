@@ -16,16 +16,11 @@
  */
 package org.apache.logging.log4j.core.appender.rolling.action;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Objects;
-
 import org.apache.commons.compress.compressors.CompressorException;
 import org.apache.commons.compress.compressors.CompressorStreamFactory;
 import org.apache.commons.compress.utils.IOUtils;
+
+import java.io.*;
 
 /**
  * Compresses a file using bzip2 compression.
@@ -54,6 +49,12 @@ public final class CommonsCompressAction extends AbstractAction {
      */
     private final boolean deleteSource;
 
+    static <T> T requireNonNull(T obj, String message) {
+        if (obj == null)
+            throw new NullPointerException(message);
+        return obj;
+    }
+
     /**
      * Creates new instance of Bzip2CompressAction.
      * 
@@ -65,8 +66,8 @@ public final class CommonsCompressAction extends AbstractAction {
      */
     public CommonsCompressAction(final String name, final File source, final File destination,
             final boolean deleteSource) {
-        Objects.requireNonNull(source, "source");
-        Objects.requireNonNull(destination, "destination");
+        requireNonNull(source, "source");
+        requireNonNull(destination, "destination");
         this.name = name;
         this.source = source;
         this.destination = destination;
@@ -81,7 +82,11 @@ public final class CommonsCompressAction extends AbstractAction {
      */
     @Override
     public boolean execute() throws IOException {
-        return execute(name, source, destination, deleteSource);
+        try {
+            return execute(name, source, destination, deleteSource);
+        } catch (CompressorException e) {
+            throw new IOException();
+        }
     }
 
     /**
@@ -97,17 +102,19 @@ public final class CommonsCompressAction extends AbstractAction {
      * @throws IOException on IO exception.
      */
     public static boolean execute(final String name, final File source, final File destination,
-            final boolean deleteSource) throws IOException {
+            final boolean deleteSource) throws IOException, CompressorException {
         if (!source.exists()) {
             return false;
         }
-        try (final FileInputStream input = new FileInputStream(source);
-                final BufferedOutputStream output = new BufferedOutputStream(
-                        new CompressorStreamFactory().createCompressorOutputStream(name, new FileOutputStream(
-                                destination)))) {
+        final FileInputStream input = new FileInputStream(source);
+        final BufferedOutputStream output = new BufferedOutputStream(
+                new CompressorStreamFactory().createCompressorOutputStream(name, new FileOutputStream(
+                        destination)));
+        try {
             IOUtils.copy(input, output, BUF_SIZE);
-        } catch (final CompressorException e) {
-            throw new IOException(e);
+        } finally {
+            input.close();
+            output.close();
         }
 
         if (deleteSource && !source.delete()) {

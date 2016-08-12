@@ -155,7 +155,7 @@ public final class DatePatternConverter extends LogEventPatternConverter impleme
     private static final String UNIX_MILLIS_FORMAT = "UNIX_MILLIS";
 
     private final String[] options;
-    private final ThreadLocal<Formatter> threadLocalFormatter = new ThreadLocal<>();
+    private final ThreadLocal<Formatter> threadLocalFormatter = new ThreadLocal<Formatter>();
     private final AtomicReference<CachedTime> cachedTime;
     private final Formatter formatter;
 
@@ -168,7 +168,7 @@ public final class DatePatternConverter extends LogEventPatternConverter impleme
         super("Date", "date");
         this.options = options == null ? null : Arrays.copyOf(options, options.length);
         this.formatter = createFormatter(options);
-        cachedTime = new AtomicReference<>(new CachedTime(System.currentTimeMillis()));
+        cachedTime = new AtomicReference<CachedTime>(new CachedTime(System.currentTimeMillis()));
     }
 
     private Formatter createFormatter(final String[] options) {

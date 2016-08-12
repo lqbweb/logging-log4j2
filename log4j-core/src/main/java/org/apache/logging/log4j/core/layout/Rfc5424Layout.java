@@ -148,7 +148,7 @@ public final class Rfc5424Layout extends AbstractStringLayout {
             final String[] array = excludes.split(Patterns.COMMA_SEPARATOR);
             if (array.length > 0) {
                 c = new ExcludeChecker();
-                mdcExcludes = new ArrayList<>(array.length);
+                mdcExcludes = new ArrayList<String>(array.length);
                 for (final String str : array) {
                     mdcExcludes.add(str.trim());
                 }
@@ -162,7 +162,7 @@ public final class Rfc5424Layout extends AbstractStringLayout {
             final String[] array = includes.split(Patterns.COMMA_SEPARATOR);
             if (array.length > 0) {
                 c = new IncludeChecker();
-                mdcIncludes = new ArrayList<>(array.length);
+                mdcIncludes = new ArrayList<String>(array.length);
                 for (final String str : array) {
                     mdcIncludes.add(str.trim());
                 }
@@ -175,7 +175,7 @@ public final class Rfc5424Layout extends AbstractStringLayout {
         if (required != null) {
             final String[] array = required.split(Patterns.COMMA_SEPARATOR);
             if (array.length > 0) {
-                mdcRequired = new ArrayList<>(array.length);
+                mdcRequired = new ArrayList<String>(array.length);
                 for (final String str : array) {
                     mdcRequired.add(str.trim());
                 }
@@ -196,12 +196,12 @@ public final class Rfc5424Layout extends AbstractStringLayout {
 
     private Map<String, FieldFormatter> createFieldFormatters(final LoggerFields[] loggerFields,
             final Configuration config) {
-        final Map<String, FieldFormatter> sdIdMap = new HashMap<>();
+        final Map<String, FieldFormatter> sdIdMap = new HashMap<String, FieldFormatter>();
 
         if (loggerFields != null) {
             for (final LoggerFields lField : loggerFields) {
                 final StructuredDataId key = lField.getSdId() == null ? mdcSdId : lField.getSdId();
-                final Map<String, List<PatternFormatter>> sdParams = new HashMap<>();
+                final Map<String, List<PatternFormatter>> sdParams = new HashMap<String, List<PatternFormatter>>();
                 final Map<String, String> fields = lField.getMap();
                 if (!fields.isEmpty()) {
                     final PatternParser fieldParser = createPatternParser(config, null);
@@ -251,7 +251,7 @@ public final class Rfc5424Layout extends AbstractStringLayout {
      */
     @Override
     public Map<String, String> getContentFormat() {
-        final Map<String, String> result = new HashMap<>();
+        final Map<String, String> result = new HashMap<String, String>();
         result.put("structured", "true");
         result.put("formatType", "RFC5424");
         return result;
@@ -360,7 +360,7 @@ public final class Rfc5424Layout extends AbstractStringLayout {
             return;
         }
 
-        final Map<String, StructuredDataElement> sdElements = new HashMap<>();
+        final Map<String, StructuredDataElement> sdElements = new HashMap<String, StructuredDataElement>();
         final Map<String, String> contextMap = event.getContextMap();
 
         if (mdcRequired != null) {
@@ -537,7 +537,7 @@ public final class Rfc5424Layout extends AbstractStringLayout {
 
     private void appendMap(final String prefix, final Map<String, String> map, final StringBuilder sb,
             final ListChecker checker) {
-        final SortedMap<String, String> sorted = new TreeMap<>(map);
+        final SortedMap<String, String> sorted = new TreeMap<String, String>(map);
         for (final Map.Entry<String, String> entry : sorted.entrySet()) {
             if (checker.check(entry.getKey()) && entry.getValue() != null) {
                 sb.append(' ');
@@ -674,7 +674,7 @@ public final class Rfc5424Layout extends AbstractStringLayout {
         }
 
         public StructuredDataElement format(final LogEvent event) {
-            final Map<String, String> map = new HashMap<>();
+            final Map<String, String> map = new HashMap<String, String>();
 
             for (final Map.Entry<String, List<PatternFormatter>> entry : delegateMap.entrySet()) {
                 final StringBuilder buffer = new StringBuilder();

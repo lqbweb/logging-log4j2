@@ -55,13 +55,16 @@ public class JsonCompleteFileAppenderTest {
         String line4;
         String line5;
         String line6;
-        try (final BufferedReader reader = new BufferedReader(new FileReader(this.logFile))) {
+        final BufferedReader reader = new BufferedReader(new FileReader(this.logFile));
+        try {
             line1 = reader.readLine();
             line2 = reader.readLine();
             line3 = reader.readLine();
             line4 = reader.readLine();
             line5 = reader.readLine();
             line6 = reader.readLine();
+        } finally {
+            reader.close();
         }
         assertNotNull("line1", line1);
         final String msg1 = "[";

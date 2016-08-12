@@ -75,7 +75,7 @@ public final class AsyncAppender extends AbstractAppender {
                           final boolean ignoreExceptions,
                           final long shutdownTimeout, final Configuration config, final boolean includeLocation) {
         super(name, filter, null, ignoreExceptions);
-        this.queue = new ArrayBlockingQueue<>(queueSize);
+        this.queue = new ArrayBlockingQueue<LogEvent>(queueSize);
         this.queueSize = queueSize;
         this.blocking = blocking;
         this.shutdownTimeout = shutdownTimeout;
@@ -88,7 +88,7 @@ public final class AsyncAppender extends AbstractAppender {
     @Override
     public void start() {
         final Map<String, Appender> map = config.getAppenders();
-        final List<AppenderControl> appenders = new ArrayList<>();
+        final List<AppenderControl> appenders = new ArrayList<AppenderControl>();
         for (final AppenderRef appenderRef : appenderRefs) {
             final Appender appender = map.get(appenderRef.getRef());
             if (appender != null) {

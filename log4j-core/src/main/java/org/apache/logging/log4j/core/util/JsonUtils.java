@@ -28,7 +28,7 @@ public final class JsonUtils {
     /**
      * Temporary buffer used for composing quote/escape sequences
      */
-    private final static ThreadLocal<char[]> _qbufLocal = new ThreadLocal<>();
+    private final static ThreadLocal<char[]> _qbufLocal = new ThreadLocal<char[]>();
 
     private static char[] getQBuf() {
         char[] _qbuf = _qbufLocal.get();

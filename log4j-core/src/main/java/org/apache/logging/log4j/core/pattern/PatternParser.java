@@ -130,7 +130,7 @@ public final class PatternParser {
         final PluginManager manager = new PluginManager(converterKey);
         manager.collectPlugins(config == null ? null : config.getPluginPackages());
         final Map<String, PluginType<?>> plugins = manager.getPlugins();
-        final Map<String, Class<PatternConverter>> converters = new LinkedHashMap<>();
+        final Map<String, Class<PatternConverter>> converters = new LinkedHashMap<String, Class<PatternConverter>>();
 
         for (final PluginType<?> type : plugins.values()) {
             try {
@@ -164,9 +164,9 @@ public final class PatternParser {
 
     public List<PatternFormatter> parse(final String pattern, final boolean alwaysWriteExceptions,
             final boolean noConsoleNoAnsi) {
-        final List<PatternFormatter> list = new ArrayList<>();
-        final List<PatternConverter> converters = new ArrayList<>();
-        final List<FormattingInfo> fields = new ArrayList<>();
+        final List<PatternFormatter> list = new ArrayList<PatternFormatter>();
+        final List<PatternConverter> converters = new ArrayList<PatternConverter>();
+        final List<FormattingInfo> fields = new ArrayList<FormattingInfo>();
 
         parse(pattern, converters, fields, noConsoleNoAnsi, true);
 
@@ -295,6 +295,12 @@ public final class PatternParser {
         return i;
     }
 
+    static <T> T requireNonNull(T obj, String message) {
+        if (obj == null)
+            throw new NullPointerException(message);
+        return obj;
+    }
+
     /**
      * Parse a format specifier.
      *
@@ -312,7 +318,7 @@ public final class PatternParser {
     public void parse(final String pattern, final List<PatternConverter> patternConverters,
             final List<FormattingInfo> formattingInfos, final boolean noConsoleNoAnsi,
             final boolean convertBackslashes) {
-        Objects.requireNonNull(pattern, "pattern");
+        requireNonNull(pattern, "pattern");
 
         final StringBuilder currentLiteral = new StringBuilder(BUF_SIZE);
 
@@ -596,7 +602,7 @@ public final class PatternParser {
 
         final String converterId = convBuf.toString();
 
-        final List<String> options = new ArrayList<>();
+        final List<String> options = new ArrayList<String>();
         i = extractOptions(pattern, i, options);
 
         final PatternConverter pc = createConverter(converterId, currentLiteral, rules, options, noConsoleNoAnsi);

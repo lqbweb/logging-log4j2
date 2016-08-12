@@ -136,7 +136,7 @@ public abstract class ConfigurationFactory extends ConfigurationBuilderFactory {
             LOCK.lock();
             try {
                 if (factories == null) {
-                    final List<ConfigurationFactory> list = new ArrayList<>();
+                    final List<ConfigurationFactory> list = new ArrayList<ConfigurationFactory>();
                     final String factoryClass = PropertiesUtil.getProperties().getStringProperty(CONFIGURATION_FACTORY_PROPERTY);
                     if (factoryClass != null) {
                         addFactory(list, factoryClass);
@@ -144,7 +144,7 @@ public abstract class ConfigurationFactory extends ConfigurationBuilderFactory {
                     final PluginManager manager = new PluginManager(CATEGORY);
                     manager.collectPlugins();
                     final Map<String, PluginType<?>> plugins = manager.getPlugins();
-                    final List<Class<? extends ConfigurationFactory>> ordered = new ArrayList<>(plugins.size());
+                    final List<Class<? extends ConfigurationFactory>> ordered = new ArrayList<Class<? extends ConfigurationFactory>>(plugins.size());
                     for (final PluginType<?> type : plugins.values()) {
                         try {
                             ordered.add(type.getPluginClass().asSubclass(ConfigurationFactory.class));
@@ -395,7 +395,7 @@ public abstract class ConfigurationFactory extends ConfigurationBuilderFactory {
                 if (configLocationStr != null) {
                     final String[] sources = configLocationStr.split(",");
                     if (sources.length > 1) {
-                        final List<AbstractConfiguration> configs = new ArrayList<>();
+                        final List<AbstractConfiguration> configs = new ArrayList<AbstractConfiguration>();
                         for (final String sourceLocation : sources) {
                             final Configuration config = getConfiguration(sourceLocation.trim());
                             if (config != null && config instanceof AbstractConfiguration) {

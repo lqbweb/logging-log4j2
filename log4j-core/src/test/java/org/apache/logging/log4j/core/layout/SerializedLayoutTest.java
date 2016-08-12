@@ -164,9 +164,12 @@ public class SerializedLayoutTest {
         testSerialization();
         final File file = new File(DAT_PATH);
         final FileInputStream fis = new FileInputStream(file);
-        try (final ObjectInputStream ois = new ObjectInputStream(fis) ) {
+        final ObjectInputStream ois = new ObjectInputStream(fis);
+        try {
             final LogEvent event = (LogEvent) ois.readObject();
             assertNotNull(event);
+        } finally {
+            ois.close();
         }
     }
 }

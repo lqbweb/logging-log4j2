@@ -370,7 +370,7 @@ public class StrSubstitutor implements ConfigurationAware {
         if (valueProperties == null) {
             return source.toString();
         }
-        final Map<String, String> valueMap = new HashMap<>();
+        final Map<String, String> valueMap = new HashMap<String, String>();
         final Enumeration<?> propNames = valueProperties.propertyNames();
         while (propNames.hasMoreElements()) {
             final String propName = (String) propNames.nextElement();
@@ -950,7 +950,7 @@ public class StrSubstitutor implements ConfigurationAware {
 
                                 // on the first call initialize priorVariables
                                 if (priorVariables == null) {
-                                    priorVariables = new ArrayList<>();
+                                    priorVariables = new ArrayList<String>();
                                     priorVariables.add(new String(chars,
                                             offset, length + lengthChange));
                                 }

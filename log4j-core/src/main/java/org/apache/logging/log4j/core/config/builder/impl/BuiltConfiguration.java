@@ -57,31 +57,18 @@ public class BuiltConfiguration extends AbstractConfiguration {
         super(source);
         statusConfig = new StatusConfiguration().withVerboseClasses(VERBOSE_CLASSES).withStatus(getDefaultStatus());
         for (final Component component : rootComponent.getComponents()) {
-            switch (component.getPluginType()) {
-                case "Scripts": {
-                    scriptsComponent = component;
-                    break;
-                }
-                case "Loggers": {
-                    loggersComponent = component;
-                    break;
-                }
-                case "Appenders": {
-                    appendersComponent = component;
-                    break;
-                }
-                case "Filters": {
-                    filtersComponent = component;
-                    break;
-                }
-                case "Properties": {
-                    propertiesComponent = component;
-                    break;
-                }
-                case "CustomLevels": {
-                    customLevelsComponent = component;
-                    break;
-                }
+            if (component.getPluginType().equals("Scripts")) {
+                scriptsComponent = component;
+            } else if (component.getPluginType().equals("Loggers")) {
+                loggersComponent = component;
+            } else if (component.getPluginType().equals("Appenders")) {
+                appendersComponent = component;
+            } else if (component.getPluginType().equals("Filters")) {
+                filtersComponent = component;
+            } else if (component.getPluginType().equals("Properties")) {
+                propertiesComponent = component;
+            } else if (component.getPluginType().equals("CustomLevels")) {
+                customLevelsComponent = component;
             }
         }
         this.rootComponent = rootComponent;

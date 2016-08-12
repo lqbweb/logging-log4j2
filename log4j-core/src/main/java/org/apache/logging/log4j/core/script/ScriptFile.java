@@ -16,16 +16,6 @@
  */
 package org.apache.logging.log4j.core.script;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.URI;
-import java.nio.charset.Charset;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.Node;
 import org.apache.logging.log4j.core.config.plugins.Plugin;
@@ -36,6 +26,12 @@ import org.apache.logging.log4j.core.util.FileUtils;
 import org.apache.logging.log4j.core.util.IOUtils;
 import org.apache.logging.log4j.core.util.NetUtils;
 import org.apache.logging.log4j.status.StatusLogger;
+
+import java.io.*;
+import java.net.URI;
+import java.nio.charset.Charset;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * Container for the language and body of a script file along with the file location.
@@ -96,13 +92,27 @@ public class ScriptFile extends AbstractScript {
 
         final Charset actualCharset = charset == null ? Charset.defaultCharset() : charset;
         String scriptText;
-        try (final Reader reader = new InputStreamReader(
-                file != null ? new FileInputStream(file) : uri.toURL().openStream(), actualCharset)) {
+        Reader reader=null;
+        try {
+            reader = new InputStreamReader(
+                    file != null ? new FileInputStream(file) : uri.toURL().openStream(), actualCharset);
+        } catch (IOException e) {
+            LOGGER.error("", e);
+        }
+        try {
             scriptText = IOUtils.toString(reader);
         } catch (final IOException e) {
             LOGGER.error("{}: language={}, path={}, actualCharset={}", e.getClass().getSimpleName(),
                     language, filePathOrUri, actualCharset);
             return null;
+        } finally {
+            if(reader !=null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    LOGGER.error("", e);
+                }
+            }
         }
         final Path path = file != null ? Paths.get(file.toURI()) : Paths.get(uri);
         if (path == null) {

@@ -45,7 +45,7 @@ public class MutableLogEventTest {
     private static final ThreadContext.ContextStack STACK = new MutableThreadContextStack(Arrays.asList("abc", "xyz"));
 
     private static Map<String,String> createContextMap() {
-        final Map<String,String> result = new HashMap<>();
+        final Map<String,String> result = new HashMap<String, String>();
         result.put("a", "1");
         result.put("b", "2");
         return result;

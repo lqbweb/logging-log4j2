@@ -142,8 +142,14 @@ public class DefaultRolloverStrategy implements RolloverStrategy {
 
         private final String extension;
 
+        static <T> T requireNonNull(T obj, String message) {
+            if (obj == null)
+                throw new NullPointerException(message);
+            return obj;
+        }
+
         private FileExtensions(final String extension) {
-            Objects.requireNonNull(extension, "extension");
+            requireNonNull(extension, "extension");
             this.extension = extension;
         }
 
@@ -296,7 +302,7 @@ public class DefaultRolloverStrategy implements RolloverStrategy {
         if (compressAction == null) {
             return new CompositeAction(custom, stopOnError);
         }
-        final List<Action> all = new ArrayList<>();
+        final List<Action> all = new ArrayList<Action>();
         all.add(compressAction);
         all.addAll(custom);
         return new CompositeAction(all, stopOnError);
@@ -316,7 +322,7 @@ public class DefaultRolloverStrategy implements RolloverStrategy {
      * @return true if purge was successful and rollover should be attempted.
      */
     private int purgeAscending(final int lowIndex, final int highIndex, final RollingFileManager manager) {
-        final List<FileRenameAction> renames = new ArrayList<>();
+        final List<FileRenameAction> renames = new ArrayList<FileRenameAction>();
         final StringBuilder buf = new StringBuilder();
 
         // LOG4J2-531: directory scan & rollover must use same format
@@ -423,7 +429,7 @@ public class DefaultRolloverStrategy implements RolloverStrategy {
      * @return true if purge was successful and rollover should be attempted.
      */
     private int purgeDescending(final int lowIndex, final int highIndex, final RollingFileManager manager) {
-        final List<FileRenameAction> renames = new ArrayList<>();
+        final List<FileRenameAction> renames = new ArrayList<FileRenameAction>();
         final StringBuilder buf = new StringBuilder();
 
         // LOG4J2-531: directory scan & rollover must use same format

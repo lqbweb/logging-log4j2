@@ -16,11 +16,11 @@
  */
 package org.apache.logging.log4j.core.appender;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.RandomAccessFile;
-import java.io.Serializable;
+import org.apache.logging.log4j.core.Layout;
+import org.apache.logging.log4j.core.util.Closer;
+import org.apache.logging.log4j.core.util.NullOutputStream;
+
+import java.io.*;
 import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -31,11 +31,6 @@ import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
-
-import org.apache.logging.log4j.core.Layout;
-import org.apache.logging.log4j.core.util.Closer;
-import org.apache.logging.log4j.core.util.NullOutputStream;
 
 //Lines too long...
 //CHECKSTYLE:OFF
@@ -68,16 +63,22 @@ public class MemoryMappedFileManager extends OutputStreamManager {
     private final int regionLength;
     private final String advertiseURI;
     private final RandomAccessFile randomAccessFile;
-    private final ThreadLocal<Boolean> isEndOfBatch = new ThreadLocal<>();
+    private final ThreadLocal<Boolean> isEndOfBatch = new ThreadLocal<Boolean>();
     private MappedByteBuffer mappedBuffer;
     private long mappingOffset;
+
+    static <T> T requireNonNull(T obj, String message) {
+        if (obj == null)
+            throw new NullPointerException(message);
+        return obj;
+    }
 
     protected MemoryMappedFileManager(final RandomAccessFile file, final String fileName, final OutputStream os,
             final boolean force, final long position, final int regionLength, final String advertiseURI,
             final Layout<? extends Serializable> layout, final boolean writeHeader) throws IOException {
         super(os, fileName, layout, writeHeader, ByteBuffer.wrap(new byte[0]));
         this.isForce = force;
-        this.randomAccessFile = Objects.requireNonNull(file, "RandomAccessFile");
+        this.randomAccessFile = requireNonNull(file, "RandomAccessFile");
         this.regionLength = regionLength;
         this.advertiseURI = advertiseURI;
         this.isEndOfBatch.set(Boolean.FALSE);
@@ -263,7 +264,7 @@ public class MemoryMappedFileManager extends OutputStreamManager {
      */
     @Override
     public Map<String, String> getContentFormat() {
-        final Map<String, String> result = new HashMap<>(super.getContentFormat());
+        final Map<String, String> result = new HashMap<String, String>(super.getContentFormat());
         result.put("fileURI", advertiseURI);
         return result;
     }

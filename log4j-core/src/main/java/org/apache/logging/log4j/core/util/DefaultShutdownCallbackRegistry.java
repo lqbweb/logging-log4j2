@@ -40,9 +40,9 @@ public class DefaultShutdownCallbackRegistry implements ShutdownCallbackRegistry
     /** Status logger. */
     protected static final Logger LOGGER = StatusLogger.getLogger();
 
-    private final AtomicReference<State> state = new AtomicReference<>(State.INITIALIZED);
+    private final AtomicReference<State> state = new AtomicReference<State>(State.INITIALIZED);
     private final ThreadFactory threadFactory;
-    private final Collection<Cancellable> hooks = new CopyOnWriteArrayList<>();
+    private final Collection<Cancellable> hooks = new CopyOnWriteArrayList<Cancellable>();
     private Reference<Thread> shutdownHookRef;
 
     /**
@@ -85,7 +85,7 @@ public class DefaultShutdownCallbackRegistry implements ShutdownCallbackRegistry
 
         RegisteredCancellable(final Runnable callback, final Collection<Cancellable> registered) {
             this.registered = registered;
-            hook = new SoftReference<>(callback);
+            hook = new SoftReference<Runnable>(callback);
         }
 
         @Override
@@ -145,7 +145,7 @@ public class DefaultShutdownCallbackRegistry implements ShutdownCallbackRegistry
     }
 
     private void addShutdownHook(final Thread thread) {
-        shutdownHookRef = new WeakReference<>(thread);
+        shutdownHookRef = new WeakReference<Thread>(thread);
         Runtime.getRuntime().addShutdownHook(thread);
     }
 

@@ -79,7 +79,7 @@ public abstract class NameAbbreviator {
                         isNegativeNumber? MaxElementAbbreviator.Strategy.DROP : MaxElementAbbreviator.Strategy.RETAIN);
             }
 
-            final ArrayList<PatternAbbreviatorFragment> fragments = new ArrayList<>(5);
+            final ArrayList<PatternAbbreviatorFragment> fragments = new ArrayList<PatternAbbreviatorFragment>(5);
             char ellipsis;
             int charCount;
             int pos = 0;
