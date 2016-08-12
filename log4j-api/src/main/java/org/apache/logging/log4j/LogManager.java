@@ -83,7 +83,7 @@ public class LogManager {
         }
 
         if (factory == null) {
-            final SortedMap<Integer, LoggerContextFactory> factories = new TreeMap<>();
+            final SortedMap<Integer, LoggerContextFactory> factories = new TreeMap<Integer, LoggerContextFactory>();
             // note that the following initial call to ProviderUtil may block until a Provider has been installed when
             // running in an OSGi environment
             if (ProviderUtil.hasProviders()) {

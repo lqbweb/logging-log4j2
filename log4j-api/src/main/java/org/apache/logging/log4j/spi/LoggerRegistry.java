@@ -19,7 +19,6 @@ package org.apache.logging.log4j.spi;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
-import java.util.Objects;
 import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -53,12 +52,12 @@ public class LoggerRegistry<T extends ExtendedLogger> {
     public static class ConcurrentMapFactory<T extends ExtendedLogger> implements MapFactory<T> {
         @Override
         public Map<String, T> createInnerMap() {
-            return new ConcurrentHashMap<>();
+            return new ConcurrentHashMap<String, T>();
         }
 
         @Override
         public Map<String, Map<String, T>> createOuterMap() {
-            return new ConcurrentHashMap<>();
+            return new ConcurrentHashMap<String, Map<String, T>>();
         }
 
         @Override
@@ -74,12 +73,12 @@ public class LoggerRegistry<T extends ExtendedLogger> {
     public static class WeakMapFactory<T extends ExtendedLogger> implements MapFactory<T> {
         @Override
         public Map<String, T> createInnerMap() {
-            return new WeakHashMap<>();
+            return new WeakHashMap<String, T>();
         }
 
         @Override
         public Map<String, Map<String, T>> createOuterMap() {
-            return new WeakHashMap<>();
+            return new WeakHashMap<String, Map<String, T>>();
         }
 
         @Override
@@ -92,8 +91,14 @@ public class LoggerRegistry<T extends ExtendedLogger> {
         this(new ConcurrentMapFactory<T>());
     }
 
+    private static <T> T requireNonNull(T obj, String message) {
+        if (obj == null)
+            throw new NullPointerException(message);
+        return obj;
+    }
+
     public LoggerRegistry(final MapFactory<T> factory) {
-        this.factory = Objects.requireNonNull(factory, "factory");
+        this.factory = requireNonNull(factory, "factory");
         this.map = factory.createOuterMap();
     }
 

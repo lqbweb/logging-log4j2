@@ -173,7 +173,7 @@ public class ThreadDumpMessage implements Message, StringBuilderFormattable {
         public Map<ThreadInformation, StackTraceElement[]> createThreadInfo() {
             final Map<Thread, StackTraceElement[]> map = Thread.getAllStackTraces();
             final Map<ThreadInformation, StackTraceElement[]> threads =
-                new HashMap<>(map.size());
+                new HashMap<ThreadInformation, StackTraceElement[]>(map.size());
             for (final Map.Entry<Thread, StackTraceElement[]> entry : map.entrySet()) {
                 threads.put(new BasicThreadInformation(entry.getKey()), entry.getValue());
             }
@@ -191,7 +191,7 @@ public class ThreadDumpMessage implements Message, StringBuilderFormattable {
             final ThreadInfo[] array = bean.dumpAllThreads(true, true);
 
             final Map<ThreadInformation, StackTraceElement[]>  threads =
-                new HashMap<>(array.length);
+                new HashMap<ThreadInformation, StackTraceElement[]>(array.length);
             for (final ThreadInfo info : array) {
                 threads.put(new ExtendedThreadInformation(info), info.getStackTrace());
             }

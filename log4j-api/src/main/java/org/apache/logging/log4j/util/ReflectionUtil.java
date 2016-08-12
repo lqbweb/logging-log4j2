@@ -80,7 +80,12 @@ public final class ReflectionUtil {
                     java7u25CompensationOffset = 1;
                 }
             }
-        } catch (final Exception | LinkageError e) {
+        } catch (final Exception e) {
+            LOGGER.info("sun.reflect.Reflection.getCallerClass is not supported. "
+                    + "ReflectionUtil.getCallerClass will be much slower due to this.", e);
+            getCallerClass = null;
+            java7u25CompensationOffset = -1;
+        } catch (final LinkageError e) {
             LOGGER.info("sun.reflect.Reflection.getCallerClass is not supported. "
                     + "ReflectionUtil.getCallerClass will be much slower due to this.", e);
             getCallerClass = null;
@@ -283,7 +288,7 @@ public final class ReflectionUtil {
         // benchmarks show that using the SecurityManager is much faster than looping through getCallerClass(int)
         if (SECURITY_MANAGER != null) {
             final Class<?>[] array = SECURITY_MANAGER.getClassContext();
-            final Stack<Class<?>> classes = new Stack<>();
+            final Stack<Class<?>> classes = new Stack<Class<?>>();
             classes.ensureCapacity(array.length);
             for (final Class<?> clazz : array) {
                 classes.push(clazz);
@@ -292,14 +297,14 @@ public final class ReflectionUtil {
         }
         // slower version using getCallerClass where we cannot use a SecurityManager
         if (supportsFastReflection()) {
-            final Stack<Class<?>> classes = new Stack<>();
+            final Stack<Class<?>> classes = new Stack<Class<?>>();
             Class<?> clazz;
             for (int i = 1; null != (clazz = getCallerClass(i)); i++) {
                 classes.push(clazz);
             }
             return classes;
         }
-        return new Stack<>();
+        return new Stack<Class<?>>();
     }
 
     /**

@@ -60,7 +60,7 @@ final class ParameterFormatter {
     private static final char DELIM_STOP = '}';
     private static final char ESCAPE_CHAR = '\\';
 
-    private static ThreadLocal<SimpleDateFormat> threadLocalSimpleDateFormat = new ThreadLocal<>();
+    private static ThreadLocal<SimpleDateFormat> threadLocalSimpleDateFormat = new ThreadLocal<SimpleDateFormat>();
 
     private ParameterFormatter() {
     }
@@ -392,7 +392,7 @@ final class ParameterFormatter {
             return (String) o;
         }
         final StringBuilder str = new StringBuilder();
-        final Set<String> dejaVu = new HashSet<>(); // that's actually a neat name ;)
+        final Set<String> dejaVu = new HashSet<String>(); // that's actually a neat name ;)
         recursiveDeepToString(o, str, dejaVu);
         return str.toString();
     }
@@ -504,7 +504,7 @@ final class ParameterFormatter {
             str.append(Arrays.toString((char[]) o));
         } else {
             if (dejaVu == null) {
-                dejaVu = new HashSet<>();
+                dejaVu = new HashSet<String>();
             }
             // special handling of container Object[]
             final String id = identityToString(o);
@@ -521,7 +521,7 @@ final class ParameterFormatter {
                     } else {
                         str.append(", ");
                     }
-                    recursiveDeepToString(current, str, new HashSet<>(dejaVu));
+                    recursiveDeepToString(current, str, new HashSet<String>(dejaVu));
                 }
                 str.append(']');
             }
@@ -532,7 +532,7 @@ final class ParameterFormatter {
     private static void appendMap(final Object o, final StringBuilder str, Set<String> dejaVu) {
         // special handling of container Map
         if (dejaVu == null) {
-            dejaVu = new HashSet<>();
+            dejaVu = new HashSet<String>();
         }
         final String id = identityToString(o);
         if (dejaVu.contains(id)) {
@@ -551,9 +551,9 @@ final class ParameterFormatter {
                 }
                 final Object key = current.getKey();
                 final Object value = current.getValue();
-                recursiveDeepToString(key, str, new HashSet<>(dejaVu));
+                recursiveDeepToString(key, str, new HashSet<String>(dejaVu));
                 str.append('=');
-                recursiveDeepToString(value, str, new HashSet<>(dejaVu));
+                recursiveDeepToString(value, str, new HashSet<String>(dejaVu));
             }
             str.append('}');
         }
@@ -562,7 +562,7 @@ final class ParameterFormatter {
     private static void appendCollection(final Object o, final StringBuilder str, Set<String> dejaVu) {
         // special handling of container Collection
         if (dejaVu == null) {
-            dejaVu = new HashSet<>();
+            dejaVu = new HashSet<String>();
         }
         final String id = identityToString(o);
         if (dejaVu.contains(id)) {
@@ -578,7 +578,7 @@ final class ParameterFormatter {
                 } else {
                     str.append(", ");
                 }
-                recursiveDeepToString(anOCol, str, new HashSet<>(dejaVu));
+                recursiveDeepToString(anOCol, str, new HashSet<String>(dejaVu));
             }
             str.append(']');
         }

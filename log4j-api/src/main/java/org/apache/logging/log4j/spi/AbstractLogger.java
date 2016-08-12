@@ -226,7 +226,9 @@ public abstract class AbstractLogger implements ExtendedLogger, Serializable {
         try {
             final MessageFactory result = DEFAULT_MESSAGE_FACTORY_CLASS.newInstance();
             return narrow(result);
-        } catch (final InstantiationException | IllegalAccessException e) {
+        } catch (InstantiationException e) {
+            throw new IllegalStateException(e);
+        } catch(IllegalAccessException e) {
             throw new IllegalStateException(e);
         }
     }
@@ -241,7 +243,9 @@ public abstract class AbstractLogger implements ExtendedLogger, Serializable {
     private static FlowMessageFactory createDefaultFlowMessageFactory() {
         try {
             return DEFAULT_FLOW_MESSAGE_FACTORY_CLASS.newInstance();
-        } catch (final InstantiationException | IllegalAccessException e) {
+        } catch (final IllegalAccessException e) {
+            throw new IllegalStateException(e);
+        } catch (final InstantiationException e) {
             throw new IllegalStateException(e);
         }
     }

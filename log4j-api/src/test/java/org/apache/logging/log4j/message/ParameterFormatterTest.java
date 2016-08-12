@@ -169,7 +169,7 @@ public class ParameterFormatterTest {
 
     @Test
     public void testDeepToString() throws Exception {
-        final List<Object> list = new ArrayList<>();
+        final List<Object> list = new ArrayList<Object>();
         list.add(1);
         list.add(list);
         list.add(2);
@@ -180,7 +180,7 @@ public class ParameterFormatterTest {
 
     @Test
     public void testIdentityToString() throws Exception {
-        final List<Object> list = new ArrayList<>();
+        final List<Object> list = new ArrayList<Object>();
         list.add(1);
         list.add(list);
         list.add(2);

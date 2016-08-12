@@ -27,7 +27,7 @@ import org.apache.logging.log4j.util.PerformanceSensitive;
  */
 public final class MarkerManager {
 
-    private static final ConcurrentMap<String, Marker> MARKERS = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, Marker> MARKERS = new ConcurrentHashMap<String, Marker>();
 
     private MarkerManager() {
         // do nothing

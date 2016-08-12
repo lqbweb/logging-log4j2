@@ -118,8 +118,11 @@ public class StringFormattedMessageTest {
     public void testSerialization() throws IOException, ClassNotFoundException {
         final StringFormattedMessage expected = new StringFormattedMessage("Msg", "a", "b", "c");
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try (final ObjectOutputStream out = new ObjectOutputStream(baos)) {
+        final ObjectOutputStream out = new ObjectOutputStream(baos);
+        try {
             out.writeObject(expected);
+        } finally {
+            out.close();
         }
         final ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
         final ObjectInputStream in = new ObjectInputStream(bais);

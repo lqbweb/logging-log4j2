@@ -60,7 +60,7 @@ public class SimpleLoggerContext implements LoggerContext {
 
     private final PrintStream stream;
 
-    private final LoggerRegistry<ExtendedLogger> loggerRegistry = new LoggerRegistry<>();
+    private final LoggerRegistry<ExtendedLogger> loggerRegistry = new LoggerRegistry<ExtendedLogger>();
 
     public SimpleLoggerContext() {
         props = new PropertiesUtil("log4j2.simplelog.properties");

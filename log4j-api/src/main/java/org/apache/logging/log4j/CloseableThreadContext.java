@@ -74,10 +74,10 @@ public class CloseableThreadContext {
         return new CloseableThreadContext.Instance().put(key, value);
     }
 
-    public static class Instance implements AutoCloseable {
+    public static class Instance {
 
         private int pushCount = 0;
-        private final Map<String, String> originalValues = new HashMap<>();
+        private final Map<String, String> originalValues = new HashMap<String, String>();
 
         private Instance() {
         }
@@ -136,7 +136,6 @@ public class CloseableThreadContext {
          * Values put on the {@link ThreadContext} <em>map</em> will be removed, or restored to their original values it they already existed.
          * </p>
          */
-        @Override
         public void close() {
             closeStack();
             closeMap();

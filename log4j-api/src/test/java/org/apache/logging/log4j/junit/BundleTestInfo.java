@@ -36,12 +36,24 @@ public class BundleTestInfo {
      * Constructs a new helper objects and initializes itself.
      */
     public BundleTestInfo() {
-        try (final FileReader reader = new FileReader("pom.xml")) {
+        FileReader reader = null;
+        try {
+            reader = new FileReader("pom.xml");
             // get a raw POM view, not a fully realized POM object.
             final Model model = new MavenXpp3Reader().read(reader);
             this.project = new MavenProject(model);
-        } catch (final IOException | XmlPullParserException e) {
+        } catch (final XmlPullParserException e) {
             throw new IllegalStateException("Could not read pom.xml", e);
+        } catch (final IOException e) {
+        throw new IllegalStateException("Could not read pom.xml", e);
+        } finally {
+            if(reader!=null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    throw new IllegalStateException(e);
+                }
+            }
         }
     }
 

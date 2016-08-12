@@ -27,7 +27,7 @@ import org.apache.logging.log4j.spi.ExtendedLogger;
  *
  */
 public class TestLoggerContext implements LoggerContext {
-    private final Map<String, ExtendedLogger> map = new HashMap<>();
+    private final Map<String, ExtendedLogger> map = new HashMap<String, ExtendedLogger>();
 
     @Override
     public ExtendedLogger getLogger(final String name) {

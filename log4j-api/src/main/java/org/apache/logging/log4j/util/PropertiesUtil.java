@@ -56,10 +56,20 @@ public final class PropertiesUtil {
     public PropertiesUtil(final String propertiesFileName) {
         final Properties properties = new Properties();
         for (final URL url : LoaderUtil.findResources(propertiesFileName)) {
-            try (final InputStream in = url.openStream()) {
+            InputStream in=null;
+            try {
+                in = url.openStream();
                 properties.load(in);
             } catch (final IOException ioe) {
                 LowLevelLogUtil.logException("Unable to read " + url.toString(), ioe);
+            } finally {
+                if(in!=null) {
+                    try {
+                        in.close();
+                    } catch (IOException e) {
+                        LowLevelLogUtil.logException(e);
+                    }
+                }
             }
         }
         this.props = properties;
@@ -241,7 +251,7 @@ public final class PropertiesUtil {
 
         final String prefixToMatch = prefix.charAt(prefix.length() - 1) != '.' ? prefix + '.' : prefix;
 
-        final List<String> keys = new ArrayList<>();
+        final List<String> keys = new ArrayList<String>();
 
         for (final String key : properties.stringPropertyNames()) {
             if (key.startsWith(prefixToMatch)) {
@@ -265,7 +275,7 @@ public final class PropertiesUtil {
      * @since 2.6
      */
     public static Map<String, Properties> partitionOnCommonPrefixes(final Properties properties) {
-        final Map<String, Properties> parts = new ConcurrentHashMap<>();
+        final Map<String, Properties> parts = new ConcurrentHashMap<String, Properties>();
         for (final String key : properties.stringPropertyNames()) {
             final String prefix = key.substring(0, key.indexOf('.'));
             if (!parts.containsKey(prefix)) {

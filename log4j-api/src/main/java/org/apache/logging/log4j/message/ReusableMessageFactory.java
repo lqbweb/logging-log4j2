@@ -38,9 +38,9 @@ public final class ReusableMessageFactory implements MessageFactory2, Serializab
     public static final ReusableMessageFactory INSTANCE = new ReusableMessageFactory();
 
     private static final long serialVersionUID = -8970940216592525651L;
-    private static ThreadLocal<ReusableParameterizedMessage> threadLocalParameterized = new ThreadLocal<>();
-    private static ThreadLocal<ReusableSimpleMessage> threadLocalSimpleMessage = new ThreadLocal<>();
-    private static ThreadLocal<ReusableObjectMessage> threadLocalObjectMessage = new ThreadLocal<>();
+    private static ThreadLocal<ReusableParameterizedMessage> threadLocalParameterized = new ThreadLocal<ReusableParameterizedMessage>();
+    private static ThreadLocal<ReusableSimpleMessage> threadLocalSimpleMessage = new ThreadLocal<ReusableSimpleMessage>();
+    private static ThreadLocal<ReusableObjectMessage> threadLocalObjectMessage = new ThreadLocal<ReusableObjectMessage>();
 
     /**
      * Constructs a message factory.
