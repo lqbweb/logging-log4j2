@@ -17,15 +17,16 @@
 
 package org.apache.logging.log4j.core.appender.rolling.action;
 
+import org.apache.logging.log4j.util.Objects;
+
 import java.io.IOException;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
+import org.apache.logging.log4j.files.FileVisitResult;
+import org.apache.logging.log4j.files.Path;
+import org.apache.logging.log4j.files.SimpleFileVisitor;
+import org.apache.logging.log4j.files.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * FileVisitor that sorts files.

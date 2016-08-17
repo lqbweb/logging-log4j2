@@ -74,7 +74,7 @@ public class MessageFormatMessage implements Message {
      * @param parameters The objects to format
      */
     public MessageFormatMessage(final String messagePattern, final Object... parameters) {
-        this(Locale.getDefault(Locale.Category.FORMAT), messagePattern, parameters);
+        this(Locale.getDefault(), messagePattern, parameters);
     }
 
     /**

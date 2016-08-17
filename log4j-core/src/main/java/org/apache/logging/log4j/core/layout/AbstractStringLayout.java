@@ -26,7 +26,6 @@ import org.apache.logging.log4j.util.Strings;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 
 /**
  * Abstract base class for Layouts that result in a String.
@@ -116,10 +115,10 @@ public abstract class AbstractStringLayout extends AbstractLayout<String> implem
         super(null, header, footer);
         this.headerSerializer = null;
         this.footerSerializer = null;
-        this.charset = aCharset == null ? StandardCharsets.UTF_8 : aCharset;
+        this.charset = aCharset == null ? Constants.UTF_8 : aCharset;
         this.charsetName = this.charset.name();
         useCustomEncoding = isPreJava8()
-                && (StandardCharsets.ISO_8859_1.equals(aCharset) || StandardCharsets.US_ASCII.equals(aCharset));
+                && (Constants.ISO_8859_1.equals(aCharset) || Constants.US_ASCII.equals(aCharset));
         textEncoder = Constants.ENABLE_DIRECT_ENCODERS ? new StringBuilderEncoder(charset) : null;
     }
 
@@ -136,10 +135,10 @@ public abstract class AbstractStringLayout extends AbstractLayout<String> implem
         super(config, null, null);
         this.headerSerializer = headerSerializer;
         this.footerSerializer = footerSerializer;
-        this.charset = aCharset == null ? StandardCharsets.UTF_8 : aCharset;
+        this.charset = aCharset == null ? Constants.UTF_8 : aCharset;
         this.charsetName = this.charset.name();
         useCustomEncoding = isPreJava8()
-                && (StandardCharsets.ISO_8859_1.equals(aCharset) || StandardCharsets.US_ASCII.equals(aCharset));
+                && (Constants.ISO_8859_1.equals(aCharset) || Constants.US_ASCII.equals(aCharset));
         textEncoder = Constants.ENABLE_DIRECT_ENCODERS ? new StringBuilderEncoder(charset) : null;
     }
 

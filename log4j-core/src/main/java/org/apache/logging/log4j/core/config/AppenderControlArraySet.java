@@ -19,10 +19,10 @@ package org.apache.logging.log4j.core.config;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.apache.logging.log4j.core.Appender;
+import org.apache.logging.log4j.util.Objects;
 import org.apache.logging.log4j.util.PerformanceSensitive;
 
 /**

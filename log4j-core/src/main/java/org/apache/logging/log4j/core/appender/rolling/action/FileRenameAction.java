@@ -16,14 +16,14 @@
  */
 package org.apache.logging.log4j.core.appender.rolling.action;
 
+import org.apache.logging.log4j.files.Files;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
+import org.apache.logging.log4j.files.Path;
 /**
  * File rename action.
  */

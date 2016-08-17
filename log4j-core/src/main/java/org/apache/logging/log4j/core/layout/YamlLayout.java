@@ -19,7 +19,6 @@ package org.apache.logging.log4j.core.layout;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +31,7 @@ import org.apache.logging.log4j.core.config.plugins.Plugin;
 import org.apache.logging.log4j.core.config.plugins.PluginAttribute;
 import org.apache.logging.log4j.core.config.plugins.PluginConfiguration;
 import org.apache.logging.log4j.core.config.plugins.PluginFactory;
+import org.apache.logging.log4j.core.util.Constants;
 import org.apache.logging.log4j.util.Strings;
 
 /**
@@ -810,7 +810,7 @@ public final class YamlLayout extends AbstractJacksonLayout {
      */
     public static AbstractJacksonLayout createDefaultLayout() {
         return new YamlLayout(new DefaultConfiguration(), false, false, false, false, false, DEFAULT_HEADER,
-                DEFAULT_FOOTER, StandardCharsets.UTF_8);
+                DEFAULT_FOOTER, Constants.UTF_8);
     }
 
     @Override

@@ -215,8 +215,8 @@
     <clirr.plugin.version>2.6.1</clirr.plugin.version>
     <site.plugin.version>3.4</site.plugin.version>
     <manifestfile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestfile>
-    <maven.compile.source>1.7</maven.compile.source>
-    <maven.compile.target>1.7</maven.compile.target>
+    <maven.compile.source>1.6</maven.compile.source>
+    <maven.compile.target>1.6</maven.compile.target>
     <docLabel>Site Documentation</docLabel>
     <projectDir />
     <commonsLoggingVersion>1.2</commonsLoggingVersion>
@@ -1398,9 +1398,9 @@
       </build>
     </profile>
     <profile>
-      <id>jdk7</id>
+      <id>jdk6</id>
       <activation>
-        <jdk>1.7</jdk>
+        <jdk>1.6</jdk>
       </activation>
       <build>
         <plugins>

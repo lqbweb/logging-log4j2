@@ -17,8 +17,9 @@
 
 package org.apache.logging.log4j.core.util.datetime;
 
+import org.apache.logging.log4j.util.Objects;
+
 import java.util.Calendar;
-import java.util.Objects;
 
 /**
  * Custom time formatter that trades flexibility for performance. This formatter only supports the date patterns defined

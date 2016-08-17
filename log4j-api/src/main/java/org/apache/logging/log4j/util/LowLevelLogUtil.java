@@ -20,7 +20,6 @@ package org.apache.logging.log4j.util;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Writer;
-import java.util.Objects;
 
 /**
  * PrintWriter-based logging utility for classes too low level to use {@link org.apache.logging.log4j.status.StatusLogger}.

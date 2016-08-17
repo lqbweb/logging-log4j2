@@ -16,12 +16,12 @@
  */
 package org.apache.logging.log4j.spi;
 
-import java.util.Objects;
-
 import org.apache.logging.log4j.message.Message;
 import org.apache.logging.log4j.message.MessageFactory;
 import org.apache.logging.log4j.message.MessageFactory2;
 import org.apache.logging.log4j.message.SimpleMessage;
+import org.apache.logging.log4j.util.Objects;
+
 
 /**
  * Adapts a legacy MessageFactory to the new MessageFactory2 interface.

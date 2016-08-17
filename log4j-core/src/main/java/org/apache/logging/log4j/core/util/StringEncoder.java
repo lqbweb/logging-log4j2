@@ -18,7 +18,6 @@ package org.apache.logging.log4j.core.util;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 
 /**
  * Encodes Strings to bytes.
@@ -39,7 +38,7 @@ public final class StringEncoder {
      */
     public static byte[] toBytes(final String str, final Charset charset) {
         if (str != null) {
-            if (StandardCharsets.ISO_8859_1.equals(charset)) {
+            if (Constants.ISO_8859_1.equals(charset)) {
                 return encodeSingleByteChars(str);
             }
             final Charset actual = charset != null ? charset : Charset.defaultCharset();

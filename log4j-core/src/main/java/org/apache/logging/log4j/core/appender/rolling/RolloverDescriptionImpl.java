@@ -16,9 +16,9 @@
  */
 package org.apache.logging.log4j.core.appender.rolling;
 
-import java.util.Objects;
 
 import org.apache.logging.log4j.core.appender.rolling.action.Action;
+import org.apache.logging.log4j.util.Objects;
 
 /**
  * Description of actions needed to complete rollover.

@@ -18,11 +18,11 @@
 package org.apache.logging.log4j.core.appender.rolling.action;
 
 import java.io.IOException;
-import java.nio.file.FileVisitOption;
-import java.nio.file.FileVisitor;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import org.apache.logging.log4j.files.FileVisitOption;
+import org.apache.logging.log4j.files.FileVisitor;
+import org.apache.logging.log4j.files.Files;
+import org.apache.logging.log4j.files.Path;
+import org.apache.logging.log4j.files.Paths;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;

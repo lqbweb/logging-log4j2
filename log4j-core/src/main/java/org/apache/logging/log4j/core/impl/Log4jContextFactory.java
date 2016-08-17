@@ -19,7 +19,6 @@ package org.apache.logging.log4j.core.impl;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import org.apache.logging.log4j.core.LifeCycle;
 import org.apache.logging.log4j.core.LoggerContext;
@@ -37,6 +36,7 @@ import org.apache.logging.log4j.core.util.ShutdownCallbackRegistry;
 import org.apache.logging.log4j.spi.LoggerContextFactory;
 import org.apache.logging.log4j.status.StatusLogger;
 import org.apache.logging.log4j.util.LoaderUtil;
+import org.apache.logging.log4j.util.Objects;
 import org.apache.logging.log4j.util.PropertiesUtil;
 
 /**

@@ -18,13 +18,13 @@ package org.apache.logging.log4j.core.layout;
 
 import org.apache.logging.log4j.core.util.Constants;
 import org.apache.logging.log4j.status.StatusLogger;
+import org.apache.logging.log4j.util.Objects;
 
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
 import java.nio.charset.CodingErrorAction;
-import java.util.Objects;
 
 /**
  * Encoder for StringBuilders that uses ThreadLocals to avoid locking as much as possible.

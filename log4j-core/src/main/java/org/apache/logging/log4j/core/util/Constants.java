@@ -17,7 +17,6 @@
 package org.apache.logging.log4j.core.util;
 
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 
 import org.apache.logging.log4j.util.PropertiesUtil;
 
@@ -60,11 +59,12 @@ public final class Constants {
     /**
      * Equivalent to StandardCharsets.UTF_8.
      *
-     * @deprecated Use {@link StandardCharsets#UTF_8}. Will be removed in 2.5.
      */
-    @Deprecated
-    public static final Charset UTF_8 = StandardCharsets.UTF_8;
+    public static final Charset UTF_8 = Charset.forName("UTF-8");
 
+    public static final Charset ISO_8859_1 = Charset.forName("ISO-8859-1");
+
+    public static final Charset US_ASCII = Charset.forName("US-ASCII");
     /**
      * Supports user request LOG4J2-898 to have the option to format a message in the background thread.
      */

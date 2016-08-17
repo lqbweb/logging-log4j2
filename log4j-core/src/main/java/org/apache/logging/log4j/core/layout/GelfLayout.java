@@ -25,6 +25,7 @@ import org.apache.logging.log4j.core.config.plugins.PluginAttribute;
 import org.apache.logging.log4j.core.config.plugins.PluginElement;
 import org.apache.logging.log4j.core.config.plugins.PluginFactory;
 import org.apache.logging.log4j.core.net.Severity;
+import org.apache.logging.log4j.core.util.Constants;
 import org.apache.logging.log4j.core.util.JsonUtils;
 import org.apache.logging.log4j.core.util.KeyValuePair;
 import org.apache.logging.log4j.message.Message;
@@ -37,7 +38,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Map;
 import java.util.zip.DeflaterOutputStream;
@@ -108,7 +108,7 @@ public final class GelfLayout extends AbstractStringLayout {
 
     public GelfLayout(final String host, final KeyValuePair[] additionalFields, final CompressionType compressionType,
                       final int compressionThreshold, final boolean includeStacktrace) {
-        super(StandardCharsets.UTF_8);
+        super(Constants.UTF_8);
         this.host = host;
         this.additionalFields = additionalFields;
         this.compressionType = compressionType;

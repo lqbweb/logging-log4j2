@@ -18,7 +18,7 @@ package org.apache.logging.log4j.core.script;
 
 import java.io.File;
 import java.io.Serializable;
-import java.nio.file.Path;
+import org.apache.logging.log4j.files.Path;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.List;

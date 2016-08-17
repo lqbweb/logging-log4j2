@@ -35,7 +35,7 @@ public class Log4jMarkerFactory implements IMarkerFactory {
 
     private static final Logger LOGGER = StatusLogger.getLogger();
 
-    private final ConcurrentMap<String, Marker> markerMap = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, Marker> markerMap = new ConcurrentHashMap<String, Marker>();
 
     /**
      * Returns a Log4j Marker that is compatible with SLF4J.

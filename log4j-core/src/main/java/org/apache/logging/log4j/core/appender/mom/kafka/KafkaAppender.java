@@ -18,7 +18,6 @@
 package org.apache.logging.log4j.core.appender.mom.kafka;
 
 import java.io.Serializable;
-import java.nio.charset.StandardCharsets;
 
 import org.apache.logging.log4j.core.Appender;
 import org.apache.logging.log4j.core.Filter;
@@ -34,6 +33,7 @@ import org.apache.logging.log4j.core.config.plugins.PluginElement;
 import org.apache.logging.log4j.core.config.plugins.PluginFactory;
 import org.apache.logging.log4j.core.config.plugins.validation.constraints.Required;
 import org.apache.logging.log4j.core.layout.SerializedLayout;
+import org.apache.logging.log4j.core.util.Constants;
 import org.apache.logging.log4j.core.util.StringEncoder;
 
 /**
@@ -80,7 +80,7 @@ public final class KafkaAppender extends AbstractAppender {
                         data = layout.toByteArray(event);
                     }
                 } else {
-                    data = StringEncoder.toBytes(event.getMessage().getFormattedMessage(), StandardCharsets.UTF_8);
+                    data = StringEncoder.toBytes(event.getMessage().getFormattedMessage(), Constants.UTF_8);
                 }
                 manager.send(data);
             } catch (final Exception e) {

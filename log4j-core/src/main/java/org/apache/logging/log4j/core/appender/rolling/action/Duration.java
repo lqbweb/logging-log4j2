@@ -17,8 +17,9 @@
 
 package org.apache.logging.log4j.core.appender.rolling.action;
 
+import org.apache.logging.log4j.util.Objects;
+
 import java.io.Serializable;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

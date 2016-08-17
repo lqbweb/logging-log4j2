@@ -223,13 +223,13 @@ public class LoggerSupplierTest {
     @Before
     public void setup() {
         results.clear();
-        defaultLocale = Locale.getDefault(Locale.Category.FORMAT);
-        Locale.setDefault(Locale.Category.FORMAT, java.util.Locale.US);
+        defaultLocale = Locale.getDefault();
+        Locale.setDefault(java.util.Locale.US);
     }
     
     @After
     public void tearDown() {
-        Locale.setDefault(Locale.Category.FORMAT, defaultLocale);
+        Locale.setDefault(defaultLocale);
     }
 
 }

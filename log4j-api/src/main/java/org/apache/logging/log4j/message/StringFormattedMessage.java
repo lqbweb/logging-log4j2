@@ -75,7 +75,7 @@ public class StringFormattedMessage implements Message {
      * @since 2.6
      */
     public StringFormattedMessage(final String messagePattern, final Object... arguments) {
-        this(Locale.getDefault(Locale.Category.FORMAT), messagePattern, arguments);
+        this(Locale.getDefault(), messagePattern, arguments);
     }
 
     /**

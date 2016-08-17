@@ -18,16 +18,16 @@
 package org.apache.logging.log4j.core.appender.rolling.action;
 
 import java.io.IOException;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
+import org.apache.logging.log4j.files.FileVisitResult;
+import org.apache.logging.log4j.files.Files;
+import org.apache.logging.log4j.files.Path;
+import org.apache.logging.log4j.files.SimpleFileVisitor;
+import org.apache.logging.log4j.files.BasicFileAttributes;
 import java.util.List;
-import java.util.Objects;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.status.StatusLogger;
+import org.apache.logging.log4j.util.Objects;
 
 /**
  * FileVisitor that deletes files that are accepted by all PathFilters. Directories are ignored.

@@ -16,9 +16,10 @@
  */
 package org.apache.logging.log4j.core.config;
 
+import org.apache.logging.log4j.util.Objects;
+
 import java.io.Serializable;
 import java.util.Comparator;
-import java.util.Objects;
 
 /**
  * Comparator for classes annotated with {@link Order}.

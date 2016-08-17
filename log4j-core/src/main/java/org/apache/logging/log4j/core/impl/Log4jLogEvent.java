@@ -16,15 +16,6 @@
  */
 package org.apache.logging.log4j.core.impl;
 
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.ThreadContext;
@@ -36,13 +27,18 @@ import org.apache.logging.log4j.core.util.Clock;
 import org.apache.logging.log4j.core.util.ClockFactory;
 import org.apache.logging.log4j.core.util.DummyNanoClock;
 import org.apache.logging.log4j.core.util.NanoClock;
-import org.apache.logging.log4j.message.LoggerNameAwareMessage;
-import org.apache.logging.log4j.message.Message;
-import org.apache.logging.log4j.message.ReusableMessage;
-import org.apache.logging.log4j.message.SimpleMessage;
-import org.apache.logging.log4j.message.TimestampMessage;
+import org.apache.logging.log4j.message.*;
 import org.apache.logging.log4j.status.StatusLogger;
+import org.apache.logging.log4j.util.Objects;
 import org.apache.logging.log4j.util.Strings;
+
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Implementation of a LogEvent.

@@ -17,9 +17,9 @@
 
 package org.apache.logging.log4j.core.appender.rolling.action;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.attribute.BasicFileAttributes;
+import org.apache.logging.log4j.files.Files;
+import org.apache.logging.log4j.files.Path;
+import org.apache.logging.log4j.files.BasicFileAttributes;
 
 /**
  * Filter that accepts or rejects a candidate {@code Path} for deletion.

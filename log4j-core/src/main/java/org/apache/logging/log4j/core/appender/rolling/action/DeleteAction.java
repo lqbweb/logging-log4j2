@@ -18,11 +18,10 @@
 package org.apache.logging.log4j.core.appender.rolling.action;
 
 import java.io.IOException;
-import java.nio.file.FileVisitor;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import org.apache.logging.log4j.files.FileVisitor;
+import org.apache.logging.log4j.files.Files;
+import org.apache.logging.log4j.files.Path;
 import java.util.List;
-import java.util.Objects;
 
 import org.apache.logging.log4j.core.config.Configuration;
 import org.apache.logging.log4j.core.config.plugins.Plugin;
@@ -31,6 +30,7 @@ import org.apache.logging.log4j.core.config.plugins.PluginConfiguration;
 import org.apache.logging.log4j.core.config.plugins.PluginElement;
 import org.apache.logging.log4j.core.config.plugins.PluginFactory;
 import org.apache.logging.log4j.core.lookup.StrSubstitutor;
+import org.apache.logging.log4j.util.Objects;
 
 /**
  * Rollover or scheduled action for deleting old log files that are accepted by the specified PathFilters.

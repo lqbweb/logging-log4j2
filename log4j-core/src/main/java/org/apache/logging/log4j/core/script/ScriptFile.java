@@ -30,8 +30,8 @@ import org.apache.logging.log4j.status.StatusLogger;
 import java.io.*;
 import java.net.URI;
 import java.nio.charset.Charset;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import org.apache.logging.log4j.files.Path;
+import org.apache.logging.log4j.files.Paths;
 
 /**
  * Container for the language and body of a script file along with the file location.

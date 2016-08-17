@@ -23,7 +23,6 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.status.StatusLogger;
@@ -73,7 +72,7 @@ public final class FileUtils {
                 return null;
             }
         }
-        final String charsetName = StandardCharsets.UTF_8.name();
+        final String charsetName = Constants.UTF_8.name();
         try {
             String fileName = uri.toURL().getFile();
             if (new File(fileName).exists()) { // LOG4J2-466

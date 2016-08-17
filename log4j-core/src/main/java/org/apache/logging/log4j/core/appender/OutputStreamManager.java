@@ -19,11 +19,11 @@ package org.apache.logging.log4j.core.appender;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
-import java.util.Objects;
 
 import org.apache.logging.log4j.core.Layout;
 import org.apache.logging.log4j.core.layout.ByteBufferDestination;
 import org.apache.logging.log4j.core.util.Constants;
+import org.apache.logging.log4j.util.Objects;
 
 /**
  * Manages an OutputStream so that it can be shared by multiple Appenders and will

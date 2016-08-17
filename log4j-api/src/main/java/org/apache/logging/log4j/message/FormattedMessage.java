@@ -128,7 +128,7 @@ public class FormattedMessage implements Message {
      * @param throwable The throwable
      */
     public FormattedMessage(final String messagePattern, final Object[] arguments, final Throwable throwable) {
-        this.locale = Locale.getDefault(Locale.Category.FORMAT);
+        this.locale = Locale.getDefault();
         this.messagePattern = messagePattern;
         this.argArray = arguments;
         this.throwable = throwable;

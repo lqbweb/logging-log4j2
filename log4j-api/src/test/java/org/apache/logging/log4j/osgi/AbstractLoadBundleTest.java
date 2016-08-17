@@ -20,6 +20,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.apache.logging.log4j.junit.BundleTestInfo;
@@ -117,7 +118,7 @@ public abstract class AbstractLoadBundleTest {
      * Tests the log of a simple message in an OSGi container
      */
     @Test
-    public void testSimpleLogInAnOsgiContext() throws BundleException, ReflectiveOperationException {
+    public void testSimpleLogInAnOsgiContext() throws BundleException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
 
         final BundleContext bundleContext = osgi.getFramework().getBundleContext();
 
@@ -160,7 +161,7 @@ public abstract class AbstractLoadBundleTest {
      * Tests LOG4J2-920.
      */
     @Test
-    public void testMissingImportOfCoreOsgiPackage() throws BundleException, ReflectiveOperationException {
+    public void testMissingImportOfCoreOsgiPackage() throws BundleException, IllegalAccessException, NoSuchFieldException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException {
 
         final BundleContext bundleContext = osgi.getFramework().getBundleContext();
 
@@ -197,7 +198,7 @@ public abstract class AbstractLoadBundleTest {
         api.uninstall();
     }
 
-    private void log(final Bundle dummy) throws ReflectiveOperationException {
+    private void log(final Bundle dummy) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         // use reflection to log in the context of the dummy bundle
 
         final Class<?> logManagerClass = dummy.loadClass("org.apache.logging.log4j.LogManager");
@@ -211,7 +212,7 @@ public abstract class AbstractLoadBundleTest {
         infoMethod.invoke(logger, "Test OK");
     }
 
-    private PrintStream setupStream(final Bundle api, final PrintStream newStream) throws ReflectiveOperationException {
+    private PrintStream setupStream(final Bundle api, final PrintStream newStream) throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
         // use reflection to access the classes internals and in the context of the api bundle
 
         final Class<?> statusLoggerClass = api.loadClass("org.apache.logging.log4j.status.StatusLogger");

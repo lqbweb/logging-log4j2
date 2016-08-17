@@ -19,7 +19,6 @@ package org.apache.logging.log4j.core.appender.rolling.action;
 
 import java.nio.file.Path;
 import java.util.List;
-import java.util.Objects;
 
 import javax.script.SimpleBindings;
 
@@ -32,6 +31,7 @@ import org.apache.logging.log4j.core.config.plugins.PluginFactory;
 import org.apache.logging.log4j.core.script.AbstractScript;
 import org.apache.logging.log4j.core.script.ScriptRef;
 import org.apache.logging.log4j.status.StatusLogger;
+import org.apache.logging.log4j.util.Objects;
 
 /**
  * A condition of the {@link DeleteAction} where a user-provided script selects the files to delete from a provided

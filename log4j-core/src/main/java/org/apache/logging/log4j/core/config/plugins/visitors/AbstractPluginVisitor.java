@@ -20,12 +20,12 @@ package org.apache.logging.log4j.core.config.plugins.visitors;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Member;
 import java.util.Map;
-import java.util.Objects;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.plugins.convert.TypeConverters;
 import org.apache.logging.log4j.core.lookup.StrSubstitutor;
 import org.apache.logging.log4j.status.StatusLogger;
+import org.apache.logging.log4j.util.Objects;
 import org.apache.logging.log4j.util.Strings;
 
 /**

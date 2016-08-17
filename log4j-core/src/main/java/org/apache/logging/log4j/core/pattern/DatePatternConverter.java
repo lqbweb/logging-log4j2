@@ -18,7 +18,6 @@ package org.apache.logging.log4j.core.pattern;
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Objects;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -28,6 +27,7 @@ import org.apache.logging.log4j.core.util.Constants;
 import org.apache.logging.log4j.core.util.datetime.FastDateFormat;
 import org.apache.logging.log4j.core.util.datetime.FixedDateFormat;
 import org.apache.logging.log4j.core.util.datetime.FixedDateFormat.FixedFormat;
+import org.apache.logging.log4j.util.Objects;
 
 /**
  * Converts and formats the event's date in a StringBuilder.

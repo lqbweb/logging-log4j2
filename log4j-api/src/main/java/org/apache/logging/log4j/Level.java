@@ -16,15 +16,14 @@
  */
 package org.apache.logging.log4j;
 
+import org.apache.logging.log4j.spi.StandardLevel;
+import org.apache.logging.log4j.util.Strings;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-
-import org.apache.logging.log4j.spi.StandardLevel;
-import org.apache.logging.log4j.util.Strings;
 
 /**
  * Levels used for identifying the severity of an event. Levels are organized from most specific to least:
@@ -296,6 +295,12 @@ public final class Level implements Comparable<Level>, Serializable {
         return values.toArray(new Level[values.size()]);
     }
 
+    public static <T> T requireNonNull(T obj, String message) {
+        if (obj == null)
+            throw new NullPointerException(message);
+        return obj;
+    }
+
     /**
      * Return the Level associated with the name.
      *
@@ -305,7 +310,7 @@ public final class Level implements Comparable<Level>, Serializable {
      * @throws java.lang.IllegalArgumentException if the Level name is not registered.
      */
     public static Level valueOf(final String name) {
-        Objects.requireNonNull(name, "No level name given.");
+        requireNonNull(name, "No level name given.");
         final String levelName = name.toUpperCase(Locale.ENGLISH);
         final Level level = LEVELS.get(levelName);
         if (level != null) {

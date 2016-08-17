@@ -16,8 +16,7 @@
  */
 package org.apache.logging.log4j.core.appender;
 
-import java.nio.charset.StandardCharsets;
-
+import org.apache.logging.log4j.core.util.Constants;
 import org.apache.logging.log4j.util.Chars;
 
 /**
@@ -31,7 +30,7 @@ public class TlsSyslogFrame {
 
     public TlsSyslogFrame(final String message) {
         this.message = message;
-        final byte[] messageBytes = message.getBytes(StandardCharsets.UTF_8);
+        final byte[] messageBytes = message.getBytes(Constants.UTF_8);
         byteLength = messageBytes.length;
     }
 

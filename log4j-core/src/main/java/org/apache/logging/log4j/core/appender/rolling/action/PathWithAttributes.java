@@ -17,9 +17,10 @@
 
 package org.apache.logging.log4j.core.appender.rolling.action;
 
-import java.nio.file.Path;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.util.Objects;
+import org.apache.logging.log4j.util.Objects;
+
+import org.apache.logging.log4j.files.Path;
+import org.apache.logging.log4j.files.BasicFileAttributes;
 
 /**
  * Tuple of a {@code Path} and {@code BasicFileAttributes}, used for sorting.
