@@ -1,23 +1,9 @@
-# [Apache Log4j 2](http://logging.apache.org/log4j/2.x/)
+This is a quick adaptation of log4j 2.6 to run on JDK6.
 
-Apache Log4j 2 is an upgrade to Log4j that provides significant improvements over its predecessor, Log4j 1.x,
-and provides many of the improvements available in Logback while fixing some inherent problems in Logback's architecture.
+This is unmaintained, and I do not recommend to use it (although, so far, it works for me).
 
-## Documentation
+Many JUnits have been removed due to the amount of work of adapting them to run on java 6.
 
-The Log4j 2 User's Guide is available [here](http://logging.apache.org/log4j/2.x/manual/index.html) or as a downloadable
-[PDF](http://logging.apache.org/log4j/2.x/log4j-users-guide.pdf).
+Also, I have only tested it with slf4j and some abstract actions and conditions (like IfFileName, and IfLastModified), and a rolling appender.
 
-## Requirements
-
-Log4j 2.4 and greater requires Java 7, versions 2.0-alpha1 to 2.3 required Java 6.
-Some features require optional dependencies; the documentation for these features specifies the dependencies.
-
-## License
-
-Apache Log4j 2 is distributed under the [Apache License, version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
-
-## Download
-
-[How to download Log4j](http://logging.apache.org/log4j/2.x/download.html),
-and [how to use it from Maven, Ivy and Gradle](http://logging.apache.org/log4j/2.x/maven-artifacts.html).
+I have replace the use of Java NIO2, with apache commons io 2.5.
