@@ -16,23 +16,22 @@
  */
 package org.apache.logging.log4j.core.util;
 
-import static org.junit.Assert.assertNotNull;
+import org.apache.logging.log4j.core.config.ConfigurationScheduler;
+import org.apache.logging.log4j.files.Files;
+import org.apache.logging.log4j.files.Path;
+import org.apache.logging.log4j.files.Paths;
+import org.apache.logging.log4j.util.PropertiesUtil;
+import org.junit.Assume;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.logging.log4j.core.config.ConfigurationScheduler;
-import org.apache.logging.log4j.util.PropertiesUtil;
-import org.junit.Assume;
-import org.junit.Test;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Test the WatchManager
@@ -65,7 +64,7 @@ public class WatchManagerTest {
             watchManager.watchFile(targetFile, new TestWatcher(queue));
             Thread.sleep(1000);
             source = Paths.get(updateFile.toURI());
-            Files.copy(source, Paths.get(targetFile.toURI()), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(source, Paths.get(targetFile.toURI()), true);
             Thread.sleep(1000);
             final File f = queue.poll(1, TimeUnit.SECONDS);
             assertNotNull("File change not detected", f);

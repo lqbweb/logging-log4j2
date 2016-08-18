@@ -18,6 +18,8 @@ package org.apache.logging.log4j.core.appender.rolling.action;
 
 import org.apache.logging.log4j.files.Path;
 import org.apache.logging.log4j.files.BasicFileAttributes;
+
+import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -64,15 +66,15 @@ public final class IfAccumulatedFileSize implements PathCondition {
      * java.nio.file.Path, java.nio.file.attribute.BasicFileAttributes)
      */
     @Override
-    public boolean accept(final Path basePath, final Path relativePath, final BasicFileAttributes attrs) {
+    public boolean accept(final File file, final BasicFileAttributes attrs) {
         accumulatedSize += attrs.size();
         final boolean result = accumulatedSize > thresholdBytes;
         final String match = result ? ">" : "<=";
         final String accept = result ? "ACCEPTED" : "REJECTED";
-        LOGGER.trace("IfAccumulatedFileSize {}: {} accumulated size '{}' {} thresholdBytes '{}'", accept, relativePath,
+        LOGGER.trace("IfAccumulatedFileSize {}: {} accumulated size '{}' {} thresholdBytes '{}'", accept, file,
                 accumulatedSize, match, thresholdBytes);
         if (result) {
-            return IfAll.accept(nestedConditions, basePath, relativePath, attrs);
+            return IfAll.accept(nestedConditions, file, attrs);
         }
         return result;
     }

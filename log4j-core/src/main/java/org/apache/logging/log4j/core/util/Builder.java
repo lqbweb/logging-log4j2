@@ -17,6 +17,8 @@
 
 package org.apache.logging.log4j.core.util;
 
+import org.apache.logging.log4j.core.config.builder.api.Component;
+
 /**
  * A type of builder that can be used to configure and create a instances using a Java DSL instead of
  * through a configuration file. These builders are primarily useful for internal code and unit tests, but they can

@@ -316,7 +316,7 @@ public class PropertiesConfigurationBuilder extends ConfigurationBuilderFactory
         return processRemainingProperties(layoutBuilder, properties);
     }
 
-    private static <B extends ComponentBuilder<B>> ComponentBuilder<B> createComponent(final ComponentBuilder<?> parent,
+    private static <B extends ComponentBuilder<?>> ComponentBuilder<B> createComponent(final ComponentBuilder<?> parent,
                                                                                        final String key,
                                                                                        final Properties properties) {
         final String name = (String) properties.remove(CONFIG_NAME);

@@ -16,10 +16,6 @@
  */
 package org.apache.logging.log4j.core.layout;
 
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.ThreadContext;
 import org.apache.logging.log4j.core.Appender;
@@ -27,10 +23,14 @@ import org.apache.logging.log4j.core.BasicConfigurationFactory;
 import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.config.ConfigurationFactory;
+import org.apache.logging.log4j.core.util.Constants;
 import org.apache.logging.log4j.test.appender.ListAppender;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -80,7 +80,7 @@ public class HtmlLayoutTest {
     @Test
     public void testDefaultCharset() {
         final HtmlLayout layout = HtmlLayout.createDefaultLayout();
-        assertEquals(StandardCharsets.UTF_8, layout.getCharset());
+        assertEquals(Constants.UTF_8, layout.getCharset());
     }
 
     /**

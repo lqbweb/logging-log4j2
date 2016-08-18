@@ -21,6 +21,8 @@ import org.apache.logging.log4j.files.Files;
 import org.apache.logging.log4j.files.Path;
 import org.apache.logging.log4j.files.BasicFileAttributes;
 
+import java.io.File;
+
 /**
  * Filter that accepts or rejects a candidate {@code Path} for deletion.
  */
@@ -40,5 +42,5 @@ public interface PathCondition {
      * @param attrs attributes of the candidate path
      * @return whether the candidate path should be deleted
      */
-    boolean accept(final Path baseDir, final Path relativePath, final BasicFileAttributes attrs);
+    boolean accept(final File file, final BasicFileAttributes attrs);
 }

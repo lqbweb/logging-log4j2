@@ -16,8 +16,7 @@
  */
 package org.apache.logging.log4j.core.appender;
 
-import java.nio.charset.StandardCharsets;
-
+import org.apache.logging.log4j.core.util.Constants;
 import org.apache.logging.log4j.util.Chars;
 import org.junit.Assert;
 import org.junit.Test;
@@ -44,7 +43,7 @@ public class TlsSyslogFrameTest {
     @Test
     public void testToString() {
         final TlsSyslogFrame frame = new TlsSyslogFrame(TEST_MESSAGE);
-        final int length = TEST_MESSAGE.getBytes(StandardCharsets.UTF_8).length;
+        final int length = TEST_MESSAGE.getBytes(Constants.UTF_8).length;
         final String expected = Integer.toString(length) + Chars.SPACE + TEST_MESSAGE;
         Assert.assertEquals(expected, frame.toString());
     }

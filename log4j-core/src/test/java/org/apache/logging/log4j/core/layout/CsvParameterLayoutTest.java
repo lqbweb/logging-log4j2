@@ -16,7 +16,6 @@
  */
 package org.apache.logging.log4j.core.layout;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -29,6 +28,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.ThreadContext;
 import org.apache.logging.log4j.core.Appender;
 import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.core.util.Constants;
 import org.apache.logging.log4j.junit.LoggerContextRule;
 import org.apache.logging.log4j.message.ObjectArrayMessage;
 import org.apache.logging.log4j.test.appender.ListAppender;
@@ -74,14 +74,14 @@ public class CsvParameterLayoutTest {
     @Test
     public void testCustomCharset() {
         final AbstractCsvLayout layout = CsvParameterLayout.createLayout(null, "Excel", null, null, null, null, null,
-                null, StandardCharsets.UTF_16, null, null);
+                null, Constants.UTF_16, null, null);
         assertEquals("text/csv; charset=UTF-16", layout.getContentType());
     }
 
     @Test
     public void testDefaultCharset() {
         final AbstractCsvLayout layout = CsvParameterLayout.createDefaultLayout();
-        assertEquals(StandardCharsets.UTF_8, layout.getCharset());
+        assertEquals(Constants.UTF_8, layout.getCharset());
     }
 
     @Test

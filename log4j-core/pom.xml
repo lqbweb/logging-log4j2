@@ -24,7 +24,7 @@
     <version>2.6.1</version>
     <relativePath>../</relativePath>
   </parent>
-  <artifactId>log4j-core</artifactId>
+  <artifactId>log4j-core-jdk16</artifactId>
   <packaging>jar</packaging>
   <name>Apache Log4j Core</name>
   <description>The Apache Log4j Implementation</description>
@@ -37,7 +37,12 @@
     <!-- Naturally, all implementations require the log4j-api JAR -->
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-api</artifactId>
+      <artifactId>log4j-api-jdk16</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.5</version>
     </dependency>
     <!-- Used for OSGi bundle support -->
     <dependency>
@@ -112,6 +117,7 @@
     <dependency>
       <groupId>org.apache.kafka</groupId>
       <artifactId>kafka-clients</artifactId>
+      <version>0.8.2.1</version>
       <optional>true</optional>
     </dependency>
     <!-- Used for ZeroMQ JeroMQ appender -->
@@ -138,7 +144,7 @@
     <!-- Pull in useful test classes from API -->
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-api</artifactId>
+      <artifactId>log4j-api-jdk16</artifactId>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
@@ -249,11 +255,6 @@
     <dependency>
       <groupId>net.javacrumbs.json-unit</groupId>
       <artifactId>json-unit</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
       <scope>test</scope>
     </dependency>
     <!-- Other -->

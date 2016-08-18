@@ -16,22 +16,21 @@
  */
 package org.apache.logging.log4j.core.appender.rolling.action;
 
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
-import java.nio.file.PathMatcher;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.regex.Pattern;
-
+import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.plugins.Plugin;
 import org.apache.logging.log4j.core.config.plugins.PluginAttribute;
 import org.apache.logging.log4j.core.config.plugins.PluginElement;
 import org.apache.logging.log4j.core.config.plugins.PluginFactory;
+import org.apache.logging.log4j.files.BasicFileAttributes;
+import org.apache.logging.log4j.files.Path;
 import org.apache.logging.log4j.status.StatusLogger;
+
+import java.io.File;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * PathCondition that accepts files for deletion if their relative path matches either a glob pattern or a regular
@@ -44,7 +43,7 @@ import org.apache.logging.log4j.status.StatusLogger;
 @Plugin(name = "IfFileName", category = "Core", printObject = true)
 public final class IfFileName implements PathCondition {
     private static final Logger LOGGER = StatusLogger.getLogger();
-    private final PathMatcher pathMatcher;
+    //private final PathMatcher pathMatcher;
     private final String syntaxAndPattern;
     private final PathCondition[] nestedConditions;
 
@@ -62,7 +61,7 @@ public final class IfFileName implements PathCondition {
                     + "Both cannot be null.");
         }
         this.syntaxAndPattern = createSyntaxAndPatternString(glob, regex);
-        this.pathMatcher = FileSystems.getDefault().getPathMatcher(syntaxAndPattern);
+        //this.pathMatcher = FileSystems.getDefault().getPathMatcher(syntaxAndPattern);
         this.nestedConditions = nestedConditions == null ? new PathCondition[0] : Arrays.copyOf(nestedConditions,
                 nestedConditions.length);
     }
@@ -97,14 +96,15 @@ public final class IfFileName implements PathCondition {
      * java.nio.file.Path, java.nio.file.attribute.BasicFileAttributes)
      */
     @Override
-    public boolean accept(final Path basePath, final Path relativePath, final BasicFileAttributes attrs) {
-        final boolean result = pathMatcher.matches(relativePath);
-
+    public boolean accept(final File file, final BasicFileAttributes attrs) {
+    	if(!syntaxAndPattern.startsWith("glob:"))
+    		throw new IllegalStateException("regular expressions not supported for jdk6 " + syntaxAndPattern);
+        final boolean result = FilenameUtils.wildcardMatchOnSystem(file.getName(), syntaxAndPattern.substring(5));  //pathMatcher.matches(relativePath);
         final String match = result ? "matches" : "does not match";
         final String accept = result ? "ACCEPTED" : "REJECTED";
-        LOGGER.trace("IfFileName {}: '{}' {} relative path '{}'", accept, syntaxAndPattern, match, relativePath);
+        LOGGER.trace("IfFileName {}: '{}' {} relative path '{}'", accept, syntaxAndPattern, match, file);
         if (result) {
-            return IfAll.accept(nestedConditions, basePath, relativePath, attrs);
+            return IfAll.accept(nestedConditions, file, attrs);
         }
         return result;
     }

@@ -24,6 +24,8 @@ import org.apache.logging.log4j.core.config.plugins.PluginElement;
 import org.apache.logging.log4j.core.config.plugins.PluginFactory;
 import org.apache.logging.log4j.util.Objects;
 
+import java.io.File;
+
 /**
  * Wrapper {@code PathCondition} that accepts objects that are rejected by the wrapped component filter.
  */
@@ -45,8 +47,8 @@ public final class IfNot implements PathCondition {
      * @see org.apache.logging.log4j.core.appender.rolling.action.PathCondition#accept(java.nio.file.Path, java.nio.file.Path, java.nio.file.attribute.BasicFileAttributes)
      */
     @Override
-    public boolean accept(final Path baseDir, final Path relativePath, final BasicFileAttributes attrs) {
-        return !negate.accept(baseDir, relativePath, attrs);
+    public boolean accept(final File file, final BasicFileAttributes attrs) {
+        return !negate.accept(file, attrs);
     }
 
     /*

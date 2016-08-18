@@ -16,11 +16,12 @@
  */
 package org.apache.logging.log4j.core.util;
 
+import org.apache.logging.log4j.util.Objects;
+
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.WildcardType;
-import java.util.Objects;
 
 /**
  * Utility class for working with Java {@link Type}s and derivatives. This class is adapted heavily from the

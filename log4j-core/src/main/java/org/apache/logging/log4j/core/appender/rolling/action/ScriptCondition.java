@@ -17,7 +17,6 @@
 
 package org.apache.logging.log4j.core.appender.rolling.action;
 
-import java.nio.file.Path;
 import java.util.List;
 
 import javax.script.SimpleBindings;
@@ -30,6 +29,7 @@ import org.apache.logging.log4j.core.config.plugins.PluginElement;
 import org.apache.logging.log4j.core.config.plugins.PluginFactory;
 import org.apache.logging.log4j.core.script.AbstractScript;
 import org.apache.logging.log4j.core.script.ScriptRef;
+import org.apache.logging.log4j.files.Path;
 import org.apache.logging.log4j.status.StatusLogger;
 import org.apache.logging.log4j.util.Objects;
 

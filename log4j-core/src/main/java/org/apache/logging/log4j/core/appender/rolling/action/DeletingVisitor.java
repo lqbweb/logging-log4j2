@@ -61,9 +61,8 @@ public class DeletingVisitor extends SimpleFileVisitor<Path> {
     @Override
     public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) throws IOException {
         for (final PathCondition pathFilter : pathConditions) {
-            final Path relative = basePath.relativize(file);
-            if (!pathFilter.accept(basePath, relative, attrs)) {
-                LOGGER.trace("Not deleting base={}, relative={}", basePath, relative);
+            if (!pathFilter.accept(file.toFile(), attrs)) {
+                LOGGER.trace("Not deleting {}", file.toFile());
                 return FileVisitResult.CONTINUE;
             }
         }

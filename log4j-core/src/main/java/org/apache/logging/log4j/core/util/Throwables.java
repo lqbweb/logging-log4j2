@@ -45,7 +45,7 @@ public final class Throwables {
      */
     @Deprecated
     public static void addSuppressed(final Throwable throwable, final Throwable suppressedThrowable) {
-        throwable.addSuppressed(suppressedThrowable);
+        //throwable.addSuppressed(suppressedThrowable);
     }
 
     /**
@@ -74,7 +74,7 @@ public final class Throwables {
      */
     @Deprecated
     public static Throwable[] getSuppressed(final Throwable throwable) {
-        return throwable.getSuppressed();
+        return new Throwable[]{};
     }
 
     /**

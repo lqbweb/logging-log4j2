@@ -18,7 +18,6 @@ package org.apache.logging.log4j.core.layout;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.MarkerManager;
@@ -31,6 +30,7 @@ import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.config.ConfigurationFactory;
 import org.apache.logging.log4j.core.impl.Log4jLogEvent;
 import org.apache.logging.log4j.core.lookup.MainMapLookup;
+import org.apache.logging.log4j.core.util.Constants;
 import org.apache.logging.log4j.message.SimpleMessage;
 import org.apache.logging.log4j.util.Strings;
 import org.junit.After;
@@ -395,8 +395,8 @@ public class PatternLayoutTest {
     @Test
     public void testUseSpecifiedCharsetIfExists() throws Exception {
         final PatternLayout layout = PatternLayout.newBuilder().withPattern("%m")
-                .withConfiguration(ctx.getConfiguration()).withCharset(StandardCharsets.UTF_8).build();
-        assertEquals(StandardCharsets.UTF_8, layout.getCharset());
+                .withConfiguration(ctx.getConfiguration()).withCharset(Constants.UTF_8).build();
+        assertEquals(Constants.UTF_8, layout.getCharset());
     }
 
     @Test

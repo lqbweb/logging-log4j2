@@ -23,7 +23,7 @@
     <version>2.6.1</version>
     <relativePath>../</relativePath>
   </parent>
-  <artifactId>log4j-slf4j-impl</artifactId>
+  <artifactId>log4j-slf4j-impl-jdk16</artifactId>
   <packaging>jar</packaging>
   <name>Apache Log4j SLF4J Binding</name>
   <description>The Apache Log4j SLF4J API binding to Log4j 2 Core</description>
@@ -44,11 +44,11 @@
     </dependency>
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-api</artifactId>
+      <artifactId>log4j-api-jdk16</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-api</artifactId>
+      <artifactId>log4j-api-jdk16</artifactId>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
@@ -59,12 +59,12 @@
     </dependency>
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-core</artifactId>
+      <artifactId>log4j-core-jdk16</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-core</artifactId>
+      <artifactId>log4j-core-jdk16</artifactId>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>

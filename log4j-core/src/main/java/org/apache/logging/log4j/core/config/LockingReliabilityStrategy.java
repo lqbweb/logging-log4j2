@@ -17,7 +17,6 @@
 
 package org.apache.logging.log4j.core.config;
 
-import java.util.Objects;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -25,6 +24,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.message.Message;
+import org.apache.logging.log4j.util.Objects;
 import org.apache.logging.log4j.util.Supplier;
 
 /**

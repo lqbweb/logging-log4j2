@@ -72,7 +72,7 @@ public class TimestampMessageTest {
         final List<String> msgs = app.getMessages();
         assertNotNull(msgs);
         assertEquals(1, msgs.size());
-        final String NL = System.lineSeparator();
+        final String NL = System.getProperty("line.separator");
         assertEquals("123456789000 Message with embedded timestamp" + NL, msgs.get(0));
     }
 

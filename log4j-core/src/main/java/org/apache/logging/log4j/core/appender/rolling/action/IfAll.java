@@ -16,14 +16,15 @@
  */
 package org.apache.logging.log4j.core.appender.rolling.action;
 
-import java.nio.file.Path;
-import java.nio.file.attribute.BasicFileAttributes;
+import java.io.File;
 import java.util.Arrays;
-import java.util.Objects;
 
 import org.apache.logging.log4j.core.config.plugins.Plugin;
 import org.apache.logging.log4j.core.config.plugins.PluginElement;
 import org.apache.logging.log4j.core.config.plugins.PluginFactory;
+import org.apache.logging.log4j.files.BasicFileAttributes;
+import org.apache.logging.log4j.files.Path;
+import org.apache.logging.log4j.util.Objects;
 
 /**
  * Composite {@code PathCondition} that only accepts objects that are accepted by <em>all</em> component conditions.
@@ -49,11 +50,11 @@ public final class IfAll implements PathCondition {
      * java.nio.file.Path, java.nio.file.attribute.BasicFileAttributes)
      */
     @Override
-    public boolean accept(final Path baseDir, final Path relativePath, final BasicFileAttributes attrs) {
+    public boolean accept(final File file, final BasicFileAttributes attrs) {
         if (components == null || components.length == 0) {
             return false; // unconditional delete not supported
         }
-        return accept(components, baseDir, relativePath, attrs);
+        return accept(components, file, attrs);
     }
 
     /**
@@ -66,10 +67,10 @@ public final class IfAll implements PathCondition {
      * @return {@code true} if all the specified conditions accept the specified path, {@code false} otherwise
      * @throws NullPointerException if any of the parameters is {@code null}
      */
-    public static boolean accept(final PathCondition[] list, final Path baseDir, final Path relativePath,
-            final BasicFileAttributes attrs) {
+    public static boolean accept(final PathCondition[] list, final File file,
+                                 final BasicFileAttributes attrs) {
         for (final PathCondition component : list) {
-            if (!component.accept(baseDir, relativePath, attrs)) {
+            if (!component.accept(file, attrs)) {
                 return false;
             }
         }

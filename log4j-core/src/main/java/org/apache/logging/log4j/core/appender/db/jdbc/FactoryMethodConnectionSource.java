@@ -124,12 +124,6 @@ public final class FactoryMethodConnectionSource implements ConnectionSource {
                 }
 
                 @Override
-                @SuppressWarnings("unused")
-                public java.util.logging.Logger getParentLogger() {
-                    throw new UnsupportedOperationException();
-                }
-
-                @Override
                 public boolean isWrapperFor(final Class<?> iface) throws SQLException {
                     return false;
                 }

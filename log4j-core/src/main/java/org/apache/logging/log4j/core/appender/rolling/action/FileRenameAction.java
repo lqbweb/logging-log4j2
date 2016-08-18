@@ -115,16 +115,16 @@ public class FileRenameAction extends AbstractAction {
                     return false;
                 }
             }
-            final Path sourcePath = source.toPath();
+            final Path sourcePath = new Path(source);
             try {
-                Files.move(sourcePath, destination.toPath());
+                Files.move(sourcePath, new Path(destination));
                 return true;
             } catch (final Exception ex) {
                 LOGGER.error("Unable to rename {} to {} due to {} - {}", source.toString(), destination.toString(),
                         ex.getClass().getSimpleName(), ex.getMessage());
                 try {
 
-                    Files.copy(sourcePath, destination.toPath());
+                    Files.copy(sourcePath, new Path(destination));
                     Files.delete(sourcePath);
                     return true;
                 } catch (final Exception iex) {
@@ -134,7 +134,7 @@ public class FileRenameAction extends AbstractAction {
             }
         } else {
             try {
-                Files.delete(source.toPath());
+                Files.delete(new Path(source));
             } catch (final Exception ex) {
                 LOGGER.error("Unable to delete empty file " + source.getAbsolutePath());
             }

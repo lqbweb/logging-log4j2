@@ -202,7 +202,7 @@ public interface ConfigurationBuilder<T extends Configuration> extends Builder<T
      * @param pluginName The Plugin type of the component.
      * @return A new ComponentBuilder.
      */
-    <B extends ComponentBuilder<B>> ComponentBuilder<B> newComponent(String pluginName);
+    <B extends ComponentBuilder<?>> ComponentBuilder<?> newComponent(String pluginName);
 
     /**
      * Returns a builder for creating generic components.
@@ -211,7 +211,7 @@ public interface ConfigurationBuilder<T extends Configuration> extends Builder<T
      * @param pluginName The Plugin type of the component.
      * @return A new ComponentBuilder.
      */
-    <B extends ComponentBuilder<B>> ComponentBuilder<B> newComponent(String name, String pluginName);
+    <B extends ComponentBuilder<?>> ComponentBuilder<B> newComponent(String name, String pluginName);
 
     /**
      * Returns a builder for creating generic components.
@@ -221,7 +221,7 @@ public interface ConfigurationBuilder<T extends Configuration> extends Builder<T
      * @param value The value of the component.
      * @return A new ComponentBuilder.
      */
-    <B extends ComponentBuilder<B>> ComponentBuilder<B> newComponent(String name, String pluginName, String value);
+    <B extends ComponentBuilder<?>> ComponentBuilder<B> newComponent(String name, String pluginName, String value);
 
 
     /**

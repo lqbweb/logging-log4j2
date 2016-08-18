@@ -19,8 +19,8 @@ package org.apache.logging.log4j.core.async;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.status.StatusLogger;
+import org.apache.logging.log4j.util.Objects;
 
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**

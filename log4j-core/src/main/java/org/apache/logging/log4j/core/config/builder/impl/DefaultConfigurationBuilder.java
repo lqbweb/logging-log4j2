@@ -37,6 +37,7 @@ import org.apache.logging.log4j.core.config.builder.api.LoggerComponentBuilder;
 import org.apache.logging.log4j.core.config.builder.api.RootLoggerComponentBuilder;
 import org.apache.logging.log4j.core.config.builder.api.ScriptComponentBuilder;
 import org.apache.logging.log4j.core.config.builder.api.ScriptFileComponentBuilder;
+import org.apache.logging.log4j.core.util.Builder;
 
 /**
  * @param <T> The BuiltConfiguration type.
@@ -135,7 +136,8 @@ public class DefaultConfigurationBuilder<T extends BuiltConfiguration> implement
 
     @Override
     public ConfigurationBuilder<T> addProperty(final String key, final String value) {
-        properties.addComponent(newComponent(key, "Property", value).build());
+        ComponentBuilder<? extends ComponentBuilder<?>> res = newComponent(key, "Property", value);
+        properties.addComponent(res.build());
         return this;
     }
 
@@ -251,17 +253,17 @@ public class DefaultConfigurationBuilder<T extends BuiltConfiguration> implement
 
 
     @Override
-    public <B extends ComponentBuilder<B>> ComponentBuilder<B> newComponent(final String type) {
+    public <B extends ComponentBuilder<?>> ComponentBuilder<B> newComponent(final String type) {
         return new DefaultComponentBuilder<B, DefaultConfigurationBuilder<T>>(this, type);
     }
 
     @Override
-    public <B extends ComponentBuilder<B>> ComponentBuilder<B> newComponent(final String name, final String type) {
+    public <B extends ComponentBuilder<?>> ComponentBuilder<B> newComponent(final String name, final String type) {
         return new DefaultComponentBuilder<B, DefaultConfigurationBuilder<T>>(this, name, type);
     }
 
     @Override
-    public <B extends ComponentBuilder<B>> ComponentBuilder<B> newComponent(final String name, final String type,
+    public <B extends ComponentBuilder<?>> ComponentBuilder<B> newComponent(final String name, final String type,
                                                                             final String value) {
         return new DefaultComponentBuilder<B, DefaultConfigurationBuilder<T>>(this, name, type, value);
     }

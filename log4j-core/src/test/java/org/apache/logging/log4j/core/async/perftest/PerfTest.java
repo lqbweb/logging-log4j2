@@ -132,7 +132,7 @@ public class PerfTest {
      * Log some extra bytes to fill the memory mapped buffer to force it to remap.
      */
     private void forceRemap(final int linesPerIteration, final int iterations, final IPerfTestRunner runner) {
-        final int LINESEP = System.lineSeparator().getBytes(Charset.defaultCharset()).length;
+        final int LINESEP = System.getProperty("line.separator").getBytes(Charset.defaultCharset()).length;
         final int bytesPerLine = 0 + IPerfTestRunner.THROUGHPUT_MSG.getBytes().length;
         final int bytesWritten = bytesPerLine * linesPerIteration * iterations;
         final int threshold = 1073741824; // magic number: defined in perf9MMapLocation.xml
@@ -165,7 +165,7 @@ public class PerfTest {
             final FileWriter writer = new FileWriter(file, true);
             try {
                 writer.write(result);
-                writer.write(System.lineSeparator());
+                writer.write(System.getProperty("line.separator"));
             } finally {
                 writer.close();
             }

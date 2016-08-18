@@ -16,16 +16,15 @@
  */
 package org.apache.logging.log4j.junit;
 
+import org.apache.logging.log4j.files.Files;
+import org.apache.logging.log4j.files.Path;
+import org.junit.rules.ExternalResource;
+
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import org.junit.rules.ExternalResource;
-
-import static org.junit.Assert.*;
 
 /**
  * A JUnit test rule to automatically delete certain files after a test is run.
@@ -45,15 +44,11 @@ public class CleanFiles extends ExternalResource {
         }
     }
 
-    private void clean() {
+    private void clean() throws IOException {
         for (final File file : files) {
             for (int i = 0; i < MAX_TRIES; i++) {
                 if (file.exists()) {
-                    try {
-                        FileSystems.getDefault().provider().delete(file.toPath());
-                    } catch (final IOException e) {
-                        fail(e.toString());
-                    }
+                    Files.delete(new Path(file));
                 }
                 try {
                     Thread.sleep(200);
@@ -65,7 +60,11 @@ public class CleanFiles extends ExternalResource {
 
     @Override
     protected void after() {
-        this.clean();
+        try {
+			this.clean();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 
     @Override

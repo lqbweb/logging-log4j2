@@ -25,7 +25,7 @@ import org.apache.logging.log4j.core.util.Builder;
  * @param <T> The ComponentBuilder's own type for fluent APIs.
  * @since 2.4
  */
-public interface ComponentBuilder<T extends ComponentBuilder<T>> extends Builder<Component> {
+public interface ComponentBuilder<T extends ComponentBuilder<?>> extends Builder<Component> {
 
     /**
      * Adds a String attribute.

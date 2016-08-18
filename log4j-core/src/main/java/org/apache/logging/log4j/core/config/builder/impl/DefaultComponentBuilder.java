@@ -33,7 +33,7 @@ import org.apache.logging.log4j.core.config.builder.api.ConfigurationBuilder;
  *
  * @since 2.4
  */
-class DefaultComponentBuilder<T extends ComponentBuilder<T>, CB extends ConfigurationBuilder<? extends Configuration>>
+class DefaultComponentBuilder<T extends ComponentBuilder<?>, CB extends ConfigurationBuilder<? extends Configuration>>
         implements ComponentBuilder<T> {
 
     private final CB builder;

@@ -18,6 +18,8 @@ package org.apache.logging.log4j.core.appender.rolling.action;
 
 import org.apache.logging.log4j.files.Path;
 import org.apache.logging.log4j.files.BasicFileAttributes;
+
+import java.io.File;
 import java.util.Arrays;
 
 import org.apache.logging.log4j.core.config.plugins.Plugin;
@@ -47,9 +49,9 @@ public final class IfAny implements PathCondition {
      * @see org.apache.logging.log4j.core.appender.rolling.action.PathCondition#accept(java.nio.file.Path, java.nio.file.Path, java.nio.file.attribute.BasicFileAttributes)
      */
     @Override
-    public boolean accept(final Path baseDir, final Path relativePath, final BasicFileAttributes attrs) {
+    public boolean accept(final File file, final BasicFileAttributes attrs) {
         for (final PathCondition component : components) {
-            if (component.accept(baseDir, relativePath, attrs)) {
+            if (component.accept(file, attrs)) {
                 return true;
             }
         }
