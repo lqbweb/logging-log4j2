@@ -4,4 +4,6 @@ This is unmaintained, and I do not recommend to use it (although, so far, it wor
 
 Many JUnits have been removed due to the amount of work of adapting them to run on java 6.
 
-Also, I have only tested it with slf4j and some abstract actions, and a rolling appender.
+Also, I have only tested it with slf4j and some abstract actions and conditions (like IfFileName, and IfLastModified), and a rolling appender.
+
+I have replace the use of Java NIO2, with apache commons io 2.5.
